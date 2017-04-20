@@ -1,0 +1,25 @@
+{
+  "name": "flat-embed",
+  "description": "JavaScript Client for Flat REST API (https://flat.io)",
+  "main": "dist/embed.js",
+  "authors": [
+    "Flat Team <developers@flat.io>"
+  ],
+  "license": "Apache-2.0",
+  "keywords": [
+    "Music",
+    "Music notation",
+    "MusicXML",
+    "MIDI",
+    "OpenAPI",
+    "Sheet music",
+    "Music score"
+  ],
+  "homepage": "https://github.com/FlatIO/api-client-js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test"
+  ]
+}

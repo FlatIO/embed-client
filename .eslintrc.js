@@ -1,0 +1,65 @@
+// jscs:disable
+module.exports = {
+    "extends": "eslint:recommended",
+    "env": {
+        "es6": true,
+		"browser": true
+    },
+	"parserOptions": {
+        "sourceType": "module"
+    },
+    "rules": {
+        "indent":                       [0],
+        "linebreak-style":              [2, "unix"],
+        "quotes":                       [2, "single"],
+        "semi":                         [2, "always"],
+        "no-tabs":                      [2],
+        "no-unsafe-negation":           [2],
+        "dot-notation":                 [1],
+        "eqeqeq":                       [2],
+        "no-eval":                      [2],
+        "no-extend-native":             [2],
+        "no-extra-bind":                [1],
+        "no-floating-decimal":          [2],
+        "no-global-assign":             [2],
+        "no-implied-eval":              [2],
+        "no-multi-spaces":              [2],
+        "no-multi-str":                 [2],
+        "no-new-func":                  [2],
+        "no-octal-escape":              [2],
+        "no-proto":                     [2],
+        "no-return-assign":             [2],
+        "no-self-compare":              [2],
+        "no-sequences":                 [2],
+        "no-throw-literal":             [2],
+        "no-unused-expressions":        [2],
+        "no-useless-concat":            [2],
+        "no-useless-escape":            [2],
+        "no-void":                      [1],
+        "no-with":                      [2],
+        "radix":                        [2],
+        "yoda":                         [1],
+
+        "no-catch-shadow":              [2],
+        "no-shadow-restricted-names":   [2],
+        "no-undef-init":                [2],
+        "no-undefined":                 [2],
+
+        "callback-return":              [1],
+        "handle-callback-err":          [1],
+        "no-new-require":               [1],
+
+        "brace-style":                  [1, "stroustrup", { "allowSingleLine": true }],
+        "camelcase":                    [1, { "properties": "always" }],
+        "id-blacklist":                 [1, "test", "test1", "test2", "test3", "tmp", "tmp1", "tmp2", "tmp3"],
+        "new-cap":                      [1],
+        "no-multiple-empty-lines":      [2],
+        "no-nested-ternary":            [2],
+        "no-trailing-spaces":           [2],
+        "no-unneeded-ternary":          [2],
+        "no-whitespace-before-property":[2],
+        "padded-blocks":                [2, "never"],
+        "quote-props":                  [2, "as-needed"],
+        "space-in-parens":              [2, "never"],
+    }
+};
