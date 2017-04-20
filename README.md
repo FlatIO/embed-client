@@ -81,6 +81,7 @@ When instantiating `Flat.Embed`, you can pass options in the second parameter. I
   * [`getZoom`](#getzoom-promisenumber-error): Get the current display zoom
   * [`setZoom`](#setzoomnumber-promisenumber-error): Change the display zoom
 * [Events API](#events-api)
+  * [`cursorPosition`](#event-cursorposition): The cursor position changed
   * [`play`](#event-play): The score is played
   * [`playbackPosition`](#event-playbackposition): The playback slider position changed
 
@@ -250,6 +251,20 @@ embed.setZoom(2).then(function (zoom) {
 ## Events API
 
 Events are broadcasted following actions made by the end user or you with the JavaScript API. You can subscribe to an event using the method [`on`](#onevent-string-callback-function-void), and unsubscribe using [`off`](#onevent-string-callback-function-void). When an event includes some data, this data will be available in the first parameter of the listener callback.
+
+### Event: `cursorPosition`
+
+This event is triggered when the position of the user's cursor changes.
+
+```json
+{
+    "partIdx": 0,
+    "staffIdx": 1,
+    "voiceIdx": 0,
+    "measureIdx": 2,
+    "noteIdx": 1
+}
+```
 
 ### Event: `play`
 
