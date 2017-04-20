@@ -114,25 +114,72 @@ class Embed {
   }
 
   /**
-   * Get the score in Flat JSON format
-   *
-   * @return {ReadyPromise}
-   * @fulfill {object} The Flat data format
-   */
-  getJson() {
-    return this.call('getJson');
-  }
-
-  /**
    * Load a score hosted on Flat
    *
    * @param {string} score The unique identifier of the score
    * @param {string} [revision] The unique identifier of the revision
    * @return {ReadyPromise}
-   * @reject {ApiError} Unable to load the new score
+   * @reject {ApiError} Unable to load the score
    */
   loadFlatScore(score, revision) {
     return this.call('loadFlatScore', {score, revision});
+  }
+
+  /**
+   * Load a MusicXML score
+   *
+   * @param {string} score The MusicXML file
+   * @return {ReadyPromise}
+   * @reject {Error} Unable to load the score
+   */
+  loadMusicXML(score) {
+    return this.call('loadMusicXML', score);
+  }
+
+  /**
+   * Load a Flat JSON score
+   *
+   * @param {object|string} score The JSON of the score
+   * @return {ReadyPromise}
+   * @reject {Error} Unable to load the score
+   */
+  loadJSON(score) {
+    return this.call('loadJSON', score);
+  }
+
+  /**
+   * Get the score in Flat JSON format
+   *
+   * @return {ReadyPromise}
+   * @fulfill {object} The Flat data format
+   */
+  getJSON() {
+    return this.call('getJSON');
+  }
+
+  /**
+   * Convert the displayed score in MusicXML
+   *
+   * @param {object} options Conversion options (`compressed`)
+   * @return {ReadyPromise}
+   * @fullfill {string|Uint8Array} MusicXML File
+   * @reject {Error} Conversion error
+   */
+  getMusicXML(options) {
+    return new Promise((resolve, reject) => {
+      options = options || {};
+      if (typeof options !== 'object') {
+        return reject(new TypeError('Options must be an object'));
+      }
+      this.call('getMusicXML', options).then(function (data) {
+        // Plain XML
+        if (typeof data === 'string') {
+          return resolve(data);
+        }
+        // Compressed, re-create Uint8Array
+        return resolve(new Uint8Array(data.data));
+      }).catch(reject);
+    });
   }
 
   /**

@@ -546,6 +546,415 @@ for(var collections = ['NodeList', 'DOMTokenList', 'MediaList', 'StyleSheetList'
   _iterators[NAME] = _iterators.Array;
 }
 
+var f$1 = _wks;
+
+var _wksExt = {
+	f: f$1
+};
+
+var iterator$2 = _wksExt.f('iterator');
+
+var iterator = createCommonjsModule(function (module) {
+module.exports = { "default": iterator$2, __esModule: true };
+});
+
+var _meta = createCommonjsModule(function (module) {
+var META     = _uid('meta')
+  , setDesc  = _objectDp.f
+  , id       = 0;
+var isExtensible = Object.isExtensible || function(){
+  return true;
+};
+var FREEZE = !_fails(function(){
+  return isExtensible(Object.preventExtensions({}));
+});
+var setMeta = function(it){
+  setDesc(it, META, {value: {
+    i: 'O' + ++id, // object ID
+    w: {}          // weak collections IDs
+  }});
+};
+var fastKey = function(it, create){
+  // return primitive with prefix
+  if(!_isObject(it))return typeof it == 'symbol' ? it : (typeof it == 'string' ? 'S' : 'P') + it;
+  if(!_has(it, META)){
+    // can't set metadata to uncaught frozen object
+    if(!isExtensible(it))return 'F';
+    // not necessary to add metadata
+    if(!create)return 'E';
+    // add missing metadata
+    setMeta(it);
+  // return object ID
+  } return it[META].i;
+};
+var getWeak = function(it, create){
+  if(!_has(it, META)){
+    // can't set metadata to uncaught frozen object
+    if(!isExtensible(it))return true;
+    // not necessary to add metadata
+    if(!create)return false;
+    // add missing metadata
+    setMeta(it);
+  // return hash weak collections IDs
+  } return it[META].w;
+};
+// add metadata on freeze-family methods calling
+var onFreeze = function(it){
+  if(FREEZE && meta.NEED && isExtensible(it) && !_has(it, META))setMeta(it);
+  return it;
+};
+var meta = module.exports = {
+  KEY:      META,
+  NEED:     false,
+  fastKey:  fastKey,
+  getWeak:  getWeak,
+  onFreeze: onFreeze
+};
+});
+
+var defineProperty = _objectDp.f;
+var _wksDefine = function(name){
+  var $Symbol = _core.Symbol || (_core.Symbol = _library ? {} : _global.Symbol || {});
+  if(name.charAt(0) != '_' && !(name in $Symbol))defineProperty($Symbol, name, {value: _wksExt.f(name)});
+};
+
+var _keyof = function(object, el){
+  var O      = _toIobject(object)
+    , keys   = _objectKeys(O)
+    , length = keys.length
+    , index  = 0
+    , key;
+  while(length > index)if(O[key = keys[index++]] === el)return key;
+};
+
+var f$2 = Object.getOwnPropertySymbols;
+
+var _objectGops = {
+	f: f$2
+};
+
+var f$3 = {}.propertyIsEnumerable;
+
+var _objectPie = {
+	f: f$3
+};
+
+// all enumerable object keys, includes symbols
+
+var _enumKeys = function(it){
+  var result     = _objectKeys(it)
+    , getSymbols = _objectGops.f;
+  if(getSymbols){
+    var symbols = getSymbols(it)
+      , isEnum  = _objectPie.f
+      , i       = 0
+      , key;
+    while(symbols.length > i)if(isEnum.call(it, key = symbols[i++]))result.push(key);
+  } return result;
+};
+
+// 7.2.2 IsArray(argument)
+
+var _isArray = Array.isArray || function isArray(arg){
+  return _cof(arg) == 'Array';
+};
+
+// 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
+var hiddenKeys = _enumBugKeys.concat('length', 'prototype');
+
+var f$5 = Object.getOwnPropertyNames || function getOwnPropertyNames(O){
+  return _objectKeysInternal(O, hiddenKeys);
+};
+
+var _objectGopn = {
+	f: f$5
+};
+
+// fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
+var gOPN$1      = _objectGopn.f;
+var toString$1  = {}.toString;
+
+var windowNames = typeof window == 'object' && window && Object.getOwnPropertyNames
+  ? Object.getOwnPropertyNames(window) : [];
+
+var getWindowNames = function(it){
+  try {
+    return gOPN$1(it);
+  } catch(e){
+    return windowNames.slice();
+  }
+};
+
+var f$4 = function getOwnPropertyNames(it){
+  return windowNames && toString$1.call(it) == '[object Window]' ? getWindowNames(it) : gOPN$1(_toIobject(it));
+};
+
+var _objectGopnExt = {
+	f: f$4
+};
+
+var gOPD$1           = Object.getOwnPropertyDescriptor;
+
+var f$6 = _descriptors ? gOPD$1 : function getOwnPropertyDescriptor(O, P){
+  O = _toIobject(O);
+  P = _toPrimitive(P, true);
+  if(_ie8DomDefine)try {
+    return gOPD$1(O, P);
+  } catch(e){ /* empty */ }
+  if(_has(O, P))return _propertyDesc(!_objectPie.f.call(O, P), O[P]);
+};
+
+var _objectGopd = {
+	f: f$6
+};
+
+// ECMAScript 6 symbols shim
+var META           = _meta.KEY;
+var gOPD           = _objectGopd.f;
+var dP$1             = _objectDp.f;
+var gOPN           = _objectGopnExt.f;
+var $Symbol        = _global.Symbol;
+var $JSON          = _global.JSON;
+var _stringify     = $JSON && $JSON.stringify;
+var PROTOTYPE$2      = 'prototype';
+var HIDDEN         = _wks('_hidden');
+var TO_PRIMITIVE   = _wks('toPrimitive');
+var isEnum         = {}.propertyIsEnumerable;
+var SymbolRegistry = _shared('symbol-registry');
+var AllSymbols     = _shared('symbols');
+var OPSymbols      = _shared('op-symbols');
+var ObjectProto$1    = Object[PROTOTYPE$2];
+var USE_NATIVE     = typeof $Symbol == 'function';
+var QObject        = _global.QObject;
+// Don't use setters in Qt Script, https://github.com/zloirock/core-js/issues/173
+var setter = !QObject || !QObject[PROTOTYPE$2] || !QObject[PROTOTYPE$2].findChild;
+
+// fallback for old Android, https://code.google.com/p/v8/issues/detail?id=687
+var setSymbolDesc = _descriptors && _fails(function(){
+  return _objectCreate(dP$1({}, 'a', {
+    get: function(){ return dP$1(this, 'a', {value: 7}).a; }
+  })).a != 7;
+}) ? function(it, key, D){
+  var protoDesc = gOPD(ObjectProto$1, key);
+  if(protoDesc)delete ObjectProto$1[key];
+  dP$1(it, key, D);
+  if(protoDesc && it !== ObjectProto$1)dP$1(ObjectProto$1, key, protoDesc);
+} : dP$1;
+
+var wrap = function(tag){
+  var sym = AllSymbols[tag] = _objectCreate($Symbol[PROTOTYPE$2]);
+  sym._k = tag;
+  return sym;
+};
+
+var isSymbol = USE_NATIVE && typeof $Symbol.iterator == 'symbol' ? function(it){
+  return typeof it == 'symbol';
+} : function(it){
+  return it instanceof $Symbol;
+};
+
+var $defineProperty = function defineProperty(it, key, D){
+  if(it === ObjectProto$1)$defineProperty(OPSymbols, key, D);
+  _anObject(it);
+  key = _toPrimitive(key, true);
+  _anObject(D);
+  if(_has(AllSymbols, key)){
+    if(!D.enumerable){
+      if(!_has(it, HIDDEN))dP$1(it, HIDDEN, _propertyDesc(1, {}));
+      it[HIDDEN][key] = true;
+    } else {
+      if(_has(it, HIDDEN) && it[HIDDEN][key])it[HIDDEN][key] = false;
+      D = _objectCreate(D, {enumerable: _propertyDesc(0, false)});
+    } return setSymbolDesc(it, key, D);
+  } return dP$1(it, key, D);
+};
+var $defineProperties = function defineProperties(it, P){
+  _anObject(it);
+  var keys = _enumKeys(P = _toIobject(P))
+    , i    = 0
+    , l = keys.length
+    , key;
+  while(l > i)$defineProperty(it, key = keys[i++], P[key]);
+  return it;
+};
+var $create = function create(it, P){
+  return P === undefined ? _objectCreate(it) : $defineProperties(_objectCreate(it), P);
+};
+var $propertyIsEnumerable = function propertyIsEnumerable(key){
+  var E = isEnum.call(this, key = _toPrimitive(key, true));
+  if(this === ObjectProto$1 && _has(AllSymbols, key) && !_has(OPSymbols, key))return false;
+  return E || !_has(this, key) || !_has(AllSymbols, key) || _has(this, HIDDEN) && this[HIDDEN][key] ? E : true;
+};
+var $getOwnPropertyDescriptor = function getOwnPropertyDescriptor(it, key){
+  it  = _toIobject(it);
+  key = _toPrimitive(key, true);
+  if(it === ObjectProto$1 && _has(AllSymbols, key) && !_has(OPSymbols, key))return;
+  var D = gOPD(it, key);
+  if(D && _has(AllSymbols, key) && !(_has(it, HIDDEN) && it[HIDDEN][key]))D.enumerable = true;
+  return D;
+};
+var $getOwnPropertyNames = function getOwnPropertyNames(it){
+  var names  = gOPN(_toIobject(it))
+    , result = []
+    , i      = 0
+    , key;
+  while(names.length > i){
+    if(!_has(AllSymbols, key = names[i++]) && key != HIDDEN && key != META)result.push(key);
+  } return result;
+};
+var $getOwnPropertySymbols = function getOwnPropertySymbols(it){
+  var IS_OP  = it === ObjectProto$1
+    , names  = gOPN(IS_OP ? OPSymbols : _toIobject(it))
+    , result = []
+    , i      = 0
+    , key;
+  while(names.length > i){
+    if(_has(AllSymbols, key = names[i++]) && (IS_OP ? _has(ObjectProto$1, key) : true))result.push(AllSymbols[key]);
+  } return result;
+};
+
+// 19.4.1.1 Symbol([description])
+if(!USE_NATIVE){
+  $Symbol = function Symbol(){
+    if(this instanceof $Symbol)throw TypeError('Symbol is not a constructor!');
+    var tag = _uid(arguments.length > 0 ? arguments[0] : undefined);
+    var $set = function(value){
+      if(this === ObjectProto$1)$set.call(OPSymbols, value);
+      if(_has(this, HIDDEN) && _has(this[HIDDEN], tag))this[HIDDEN][tag] = false;
+      setSymbolDesc(this, tag, _propertyDesc(1, value));
+    };
+    if(_descriptors && setter)setSymbolDesc(ObjectProto$1, tag, {configurable: true, set: $set});
+    return wrap(tag);
+  };
+  _redefine($Symbol[PROTOTYPE$2], 'toString', function toString(){
+    return this._k;
+  });
+
+  _objectGopd.f = $getOwnPropertyDescriptor;
+  _objectDp.f   = $defineProperty;
+  _objectGopn.f = _objectGopnExt.f = $getOwnPropertyNames;
+  _objectPie.f  = $propertyIsEnumerable;
+  _objectGops.f = $getOwnPropertySymbols;
+
+  if(_descriptors && !_library){
+    _redefine(ObjectProto$1, 'propertyIsEnumerable', $propertyIsEnumerable, true);
+  }
+
+  _wksExt.f = function(name){
+    return wrap(_wks(name));
+  };
+}
+
+_export(_export.G + _export.W + _export.F * !USE_NATIVE, {Symbol: $Symbol});
+
+for(var symbols = (
+  // 19.4.2.2, 19.4.2.3, 19.4.2.4, 19.4.2.6, 19.4.2.8, 19.4.2.9, 19.4.2.10, 19.4.2.11, 19.4.2.12, 19.4.2.13, 19.4.2.14
+  'hasInstance,isConcatSpreadable,iterator,match,replace,search,species,split,toPrimitive,toStringTag,unscopables'
+).split(','), i$1 = 0; symbols.length > i$1; )_wks(symbols[i$1++]);
+
+for(var symbols = _objectKeys(_wks.store), i$1 = 0; symbols.length > i$1; )_wksDefine(symbols[i$1++]);
+
+_export(_export.S + _export.F * !USE_NATIVE, 'Symbol', {
+  // 19.4.2.1 Symbol.for(key)
+  'for': function(key){
+    return _has(SymbolRegistry, key += '')
+      ? SymbolRegistry[key]
+      : SymbolRegistry[key] = $Symbol(key);
+  },
+  // 19.4.2.5 Symbol.keyFor(sym)
+  keyFor: function keyFor(key){
+    if(isSymbol(key))return _keyof(SymbolRegistry, key);
+    throw TypeError(key + ' is not a symbol!');
+  },
+  useSetter: function(){ setter = true; },
+  useSimple: function(){ setter = false; }
+});
+
+_export(_export.S + _export.F * !USE_NATIVE, 'Object', {
+  // 19.1.2.2 Object.create(O [, Properties])
+  create: $create,
+  // 19.1.2.4 Object.defineProperty(O, P, Attributes)
+  defineProperty: $defineProperty,
+  // 19.1.2.3 Object.defineProperties(O, Properties)
+  defineProperties: $defineProperties,
+  // 19.1.2.6 Object.getOwnPropertyDescriptor(O, P)
+  getOwnPropertyDescriptor: $getOwnPropertyDescriptor,
+  // 19.1.2.7 Object.getOwnPropertyNames(O)
+  getOwnPropertyNames: $getOwnPropertyNames,
+  // 19.1.2.8 Object.getOwnPropertySymbols(O)
+  getOwnPropertySymbols: $getOwnPropertySymbols
+});
+
+// 24.3.2 JSON.stringify(value [, replacer [, space]])
+$JSON && _export(_export.S + _export.F * (!USE_NATIVE || _fails(function(){
+  var S = $Symbol();
+  // MS Edge converts symbol values to JSON as {}
+  // WebKit converts symbol values to JSON as null
+  // V8 throws on boxed symbols
+  return _stringify([S]) != '[null]' || _stringify({a: S}) != '{}' || _stringify(Object(S)) != '{}';
+})), 'JSON', {
+  stringify: function stringify(it){
+    if(it === undefined || isSymbol(it))return; // IE8 returns string on undefined
+    var args = [it]
+      , i    = 1
+      , replacer, $replacer;
+    while(arguments.length > i)args.push(arguments[i++]);
+    replacer = args[1];
+    if(typeof replacer == 'function')$replacer = replacer;
+    if($replacer || !_isArray(replacer))replacer = function(key, value){
+      if($replacer)value = $replacer.call(this, key, value);
+      if(!isSymbol(value))return value;
+    };
+    args[1] = replacer;
+    return _stringify.apply($JSON, args);
+  }
+});
+
+// 19.4.3.4 Symbol.prototype[@@toPrimitive](hint)
+$Symbol[PROTOTYPE$2][TO_PRIMITIVE] || _hide($Symbol[PROTOTYPE$2], TO_PRIMITIVE, $Symbol[PROTOTYPE$2].valueOf);
+// 19.4.3.5 Symbol.prototype[@@toStringTag]
+_setToStringTag($Symbol, 'Symbol');
+// 20.2.1.9 Math[@@toStringTag]
+_setToStringTag(Math, 'Math', true);
+// 24.3.3 JSON[@@toStringTag]
+_setToStringTag(_global.JSON, 'JSON', true);
+
+_wksDefine('asyncIterator');
+
+_wksDefine('observable');
+
+var index = _core.Symbol;
+
+var symbol = createCommonjsModule(function (module) {
+module.exports = { "default": index, __esModule: true };
+});
+
+var _typeof_1 = createCommonjsModule(function (module, exports) {
+"use strict";
+
+exports.__esModule = true;
+
+
+
+var _iterator2 = _interopRequireDefault(iterator);
+
+
+
+var _symbol2 = _interopRequireDefault(symbol);
+
+var _typeof = typeof _symbol2.default === "function" && typeof _iterator2.default === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof _symbol2.default === "function" && obj.constructor === _symbol2.default && obj !== _symbol2.default.prototype ? "symbol" : typeof obj; };
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = typeof _symbol2.default === "function" && _typeof(_iterator2.default) === "symbol" ? function (obj) {
+  return typeof obj === "undefined" ? "undefined" : _typeof(obj);
+} : function (obj) {
+  return obj && typeof _symbol2.default === "function" && obj.constructor === _symbol2.default && obj !== _symbol2.default.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof(obj);
+};
+});
+
+var _typeof = unwrapExports(_typeof_1);
+
 // getting tag from 19.1.3.6 Object.prototype.toString()
 var TAG$1 = _wks('toStringTag');
 var ARG = _cof(function(){ return arguments; }()) == 'Arguments';
@@ -841,7 +1250,7 @@ var Internal;
 var GenericPromiseCapability;
 var Wrapper;
 
-var USE_NATIVE = !!function(){
+var USE_NATIVE$1 = !!function(){
   try {
     // correct subclassing with @@species support
     var promise     = $Promise.resolve(1)
@@ -1002,7 +1411,7 @@ var $resolve = function(value){
 };
 
 // constructor polyfill
-if(!USE_NATIVE){
+if(!USE_NATIVE$1){
   // 25.4.3.1 Promise(executor)
   $Promise = function Promise(executor){
     _anInstance(this, $Promise, PROMISE, '_h');
@@ -1048,13 +1457,13 @@ if(!USE_NATIVE){
   };
 }
 
-_export(_export.G + _export.W + _export.F * !USE_NATIVE, {Promise: $Promise});
+_export(_export.G + _export.W + _export.F * !USE_NATIVE$1, {Promise: $Promise});
 _setToStringTag($Promise, PROMISE);
 _setSpecies(PROMISE);
 Wrapper = _core[PROMISE];
 
 // statics
-_export(_export.S + _export.F * !USE_NATIVE, PROMISE, {
+_export(_export.S + _export.F * !USE_NATIVE$1, PROMISE, {
   // 25.4.4.5 Promise.reject(r)
   reject: function reject(r){
     var capability = newPromiseCapability(this)
@@ -1063,7 +1472,7 @@ _export(_export.S + _export.F * !USE_NATIVE, PROMISE, {
     return capability.promise;
   }
 });
-_export(_export.S + _export.F * (_library || !USE_NATIVE), PROMISE, {
+_export(_export.S + _export.F * (_library || !USE_NATIVE$1), PROMISE, {
   // 25.4.4.6 Promise.resolve(x)
   resolve: function resolve(x){
     // instanceof instead of internal slot check because we should fix it without replacement native Promise core
@@ -1074,7 +1483,7 @@ _export(_export.S + _export.F * (_library || !USE_NATIVE), PROMISE, {
     return capability.promise;
   }
 });
-_export(_export.S + _export.F * !(USE_NATIVE && _iterDetect(function(iter){
+_export(_export.S + _export.F * !(USE_NATIVE$1 && _iterDetect(function(iter){
   $Promise.all(iter)['catch'](empty);
 })), PROMISE, {
   // 25.4.4.1 Promise.all(iterable)
@@ -1145,12 +1554,12 @@ var _classCallCheck = unwrapExports(classCallCheck);
 _export(_export.S + _export.F * !_descriptors, 'Object', {defineProperty: _objectDp.f});
 
 var $Object = _core.Object;
-var defineProperty$2 = function defineProperty(it, key, desc){
+var defineProperty$3 = function defineProperty(it, key, desc){
   return $Object.defineProperty(it, key, desc);
 };
 
-var defineProperty = createCommonjsModule(function (module) {
-module.exports = { "default": defineProperty$2, __esModule: true };
+var defineProperty$1 = createCommonjsModule(function (module) {
+module.exports = { "default": defineProperty$3, __esModule: true };
 });
 
 var createClass = createCommonjsModule(function (module, exports) {
@@ -1160,7 +1569,7 @@ exports.__esModule = true;
 
 
 
-var _defineProperty2 = _interopRequireDefault(defineProperty);
+var _defineProperty2 = _interopRequireDefault(defineProperty$1);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1184,12 +1593,6 @@ exports.default = function () {
 });
 
 var _createClass = unwrapExports(createClass);
-
-// 7.2.2 IsArray(argument)
-
-var _isArray = Array.isArray || function isArray(arg){
-  return _cof(arg) == 'Array';
-};
 
 var SPECIES$2  = _wks('species');
 
@@ -1252,72 +1655,6 @@ var _arrayMethods = function(TYPE, $create){
     }
     return IS_FIND_INDEX ? -1 : IS_SOME || IS_EVERY ? IS_EVERY : result;
   };
-};
-
-var _meta = createCommonjsModule(function (module) {
-var META     = _uid('meta')
-  , setDesc  = _objectDp.f
-  , id       = 0;
-var isExtensible = Object.isExtensible || function(){
-  return true;
-};
-var FREEZE = !_fails(function(){
-  return isExtensible(Object.preventExtensions({}));
-});
-var setMeta = function(it){
-  setDesc(it, META, {value: {
-    i: 'O' + ++id, // object ID
-    w: {}          // weak collections IDs
-  }});
-};
-var fastKey = function(it, create){
-  // return primitive with prefix
-  if(!_isObject(it))return typeof it == 'symbol' ? it : (typeof it == 'string' ? 'S' : 'P') + it;
-  if(!_has(it, META)){
-    // can't set metadata to uncaught frozen object
-    if(!isExtensible(it))return 'F';
-    // not necessary to add metadata
-    if(!create)return 'E';
-    // add missing metadata
-    setMeta(it);
-  // return object ID
-  } return it[META].i;
-};
-var getWeak = function(it, create){
-  if(!_has(it, META)){
-    // can't set metadata to uncaught frozen object
-    if(!isExtensible(it))return true;
-    // not necessary to add metadata
-    if(!create)return false;
-    // add missing metadata
-    setMeta(it);
-  // return hash weak collections IDs
-  } return it[META].w;
-};
-// add metadata on freeze-family methods calling
-var onFreeze = function(it){
-  if(FREEZE && meta.NEED && isExtensible(it) && !_has(it, META))setMeta(it);
-  return it;
-};
-var meta = module.exports = {
-  KEY:      META,
-  NEED:     false,
-  fastKey:  fastKey,
-  getWeak:  getWeak,
-  onFreeze: onFreeze
-};
-});
-
-var f$1 = Object.getOwnPropertySymbols;
-
-var _objectGops = {
-	f: f$1
-};
-
-var f$2 = {}.propertyIsEnumerable;
-
-var _objectPie = {
-	f: f$2
 };
 
 // 19.1.2.1 Object.assign(target, source, ...)
@@ -1424,7 +1761,7 @@ var _collectionWeak = {
   ufstore: uncaughtFrozenStore
 };
 
-var dP$1             = _objectDp.f;
+var dP$2             = _objectDp.f;
 var each           = _arrayMethods(0);
 
 var _collection = function(NAME, wrapper, methods, common, IS_MAP, IS_WEAK){
@@ -1455,7 +1792,7 @@ var _collection = function(NAME, wrapper, methods, common, IS_MAP, IS_WEAK){
         return IS_ADDER ? this : result;
       });
     });
-    if('size' in proto)dP$1(C.prototype, 'size', {
+    if('size' in proto)dP$2(C.prototype, 'size', {
       get: function(){
         return this._c.size;
       }
@@ -1938,6 +2275,49 @@ var Embed = function () {
     }
 
     /**
+     * Load a score hosted on Flat
+     *
+     * @param {string} score The unique identifier of the score
+     * @param {string} [revision] The unique identifier of the revision
+     * @return {ReadyPromise}
+     * @reject {ApiError} Unable to load the score
+     */
+
+  }, {
+    key: 'loadFlatScore',
+    value: function loadFlatScore(score, revision) {
+      return this.call('loadFlatScore', { score: score, revision: revision });
+    }
+
+    /**
+     * Load a MusicXML score
+     *
+     * @param {string} score The MusicXML file
+     * @return {ReadyPromise}
+     * @reject {Error} Unable to load the score
+     */
+
+  }, {
+    key: 'loadMusicXML',
+    value: function loadMusicXML(score) {
+      return this.call('loadMusicXML', score);
+    }
+
+    /**
+     * Load a Flat JSON score
+     *
+     * @param {object|string} score The JSON of the score
+     * @return {ReadyPromise}
+     * @reject {Error} Unable to load the score
+     */
+
+  }, {
+    key: 'loadJSON',
+    value: function loadJSON(score) {
+      return this.call('loadJSON', score);
+    }
+
+    /**
      * Get the score in Flat JSON format
      *
      * @return {ReadyPromise}
@@ -1945,24 +2325,39 @@ var Embed = function () {
      */
 
   }, {
-    key: 'getJson',
-    value: function getJson() {
-      return this.call('getJson');
+    key: 'getJSON',
+    value: function getJSON() {
+      return this.call('getJSON');
     }
 
     /**
-     * Load a score hosted on Flat
+     * Convert the displayed score in MusicXML
      *
-     * @param {string} score The unique identifier of the score
-     * @param {string} [revision] The unique identifier of the revision
+     * @param {object} options Conversion options (`compressed`)
      * @return {ReadyPromise}
-     * @reject {ApiError} Unable to load the new score
+     * @fullfill {string|Uint8Array} MusicXML File
+     * @reject {Error} Conversion error
      */
 
   }, {
-    key: 'loadFlatScore',
-    value: function loadFlatScore(score, revision) {
-      return this.call('loadFlatScore', { score: score, revision: revision });
+    key: 'getMusicXML',
+    value: function getMusicXML(options) {
+      var _this3 = this;
+
+      return new _Promise(function (resolve, reject) {
+        options = options || {};
+        if ((typeof options === 'undefined' ? 'undefined' : _typeof(options)) !== 'object') {
+          return reject(new TypeError('Options must be an object'));
+        }
+        _this3.call('getMusicXML', options).then(function (data) {
+          // Plain XML
+          if (typeof data === 'string') {
+            return resolve(data);
+          }
+          // Compressed, re-create Uint8Array
+          return resolve(new Uint8Array(data.data));
+        }).catch(reject);
+      });
     }
 
     /**

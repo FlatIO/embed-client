@@ -71,7 +71,10 @@ When instantiating `Flat.Embed`, you can pass options in the second parameter. I
   * [`on`](#onevent-string-callback-function-void): Subscribe to events
   * [`off`](#offevent-string-callback-function-void): Unsubscribe from events
   * [`loadFlatScore`](#loadflatscoreid-string-promisevoid-apierror): Load a score hosted on Flat
-  * [`getJson`](#getjson-object): Get the score data in Flat JSON format
+  * [`loadMusicXML`](#loadmusicxmlscore-mixed-promisevoid-error): Load MusicXML file (compressed or not)
+  * [`loadJSON`](#loadjsonscore-object-promisevoid-error): Load Flat JSON file
+  * [`getMusicXML`](#getmusicxmloptions-object-promisestringuint8array-error): Get the score in MusicXML (compressed or not)
+  * [`getJSON`](#getjson-object): Get the score data in Flat JSON format
   * [`getScoreMeta`](#getscoremeta-object): Get the metadata from the current score (for hosted scores)
   * [`fullscreen`](#fullscreenstate-bool-promisevoid-error): Toggle fullscreen mode
   * [`play`](#play-promisevoid-error): Start playback
@@ -158,12 +161,84 @@ embed.loadFlatScore('56ae21579a127715a02901a6').then(function () {
 });
 ```
 
-### `getJson(): object`
+### `loadMusicXML(score: mixed): Promise<void, Error>`
+
+Load a MusicXML score, compressed (MXL) or not (plain XML):
+
+```js
+fetch('https://api.flat.io/v2/scores/56ae21579a127715a02901a6/revisions/last/mxl')
+.then(function (response) {
+  return response.arrayBuffer();
+})
+.then(function (mxl) {
+  return embed.loadMusicXML(mxl);
+})
+.then(function () {
+  // Score loaded in the embed
+})
+.catch(function (error) {
+  // Unable to load the score
+});
+```
+
+### `loadJSON(score: object): Promise<void, Error>`
+
+Load a score using Flat's JSON Format
+
+```js
+fetch('https://api.flat.io/v2/scores/56ae21579a127715a02901a6/revisions/last/json')
+.then(function (response) {
+  return response.json();
+})
+.then(function (json) {
+  return embed.loadJSON(json);
+})
+.then(function () {
+  // Score loaded in the embed
+})
+.catch(function (error) {
+  // Unable to load the score
+});
+```
+
+### `getMusicXML(options: object): Promise<string|Uint8Array, Error>`
+
+Convert the current displayed score into a MusicXML file, compressed (`.mxl`) or not (`.xml`).
+
+```js
+// Uncompressed MusicXML
+embed.getMusicXML().then(function (xml) {
+  // Plain XML file (string)
+  console.log(xml);
+});
+```
+
+Example: Retrieve the score as a compressed MusicXML, then convert it to a Blob and download it:
+```js
+// Uncompressed MusicXML
+embed.getMusicXML({ compressed: true }).then(function (buffer) {
+  // Create a Blob from a compressed MusicXML file (Uint8Array)
+  var blobUrl = window.URL.createObjectURL(new Blob([buffer], {
+    type: 'application/vnd.recordare.musicxml+xml'
+  }));
+
+  // Create a hidden link to download the blob
+  var a = document.createElement('a');
+  a.href = blobUrl;
+  a.download = 'My Music Score.mxl';
+  document.body.appendChild(a);
+  a.style = 'display: none';
+  a.click();
+  a.remove();
+});
+```
+
+### `getJSON(): object`
 
 Get the data of the score in the "Flat JSON" format (a MusicXML-like as a JavaScript object).
 
 ```js
-embed.getJson().then(function (data) {
+embed.getJSON().then(function (data) {
   console.log(data);
 }).catch(function (error) {
   // Unable to get the data
