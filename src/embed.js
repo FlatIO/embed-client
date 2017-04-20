@@ -211,6 +211,27 @@ class Embed {
   setZoom(zoom) {
     return this.call('setZoom', zoom);
   }
+
+  /**
+   * Get the auto-zoom
+   *
+   * @return {ReadyPromise}
+   * @fullfill {boolean} `true` if enabled, `false` if disabled
+   */
+  getAutoZoom() {
+    return this.call('getAutoZoom');
+  }
+
+  /**
+   * Enable or disable the auto-zoom
+   *
+   * @param {boolean} state `true` if enabled, `false` if disabled
+   * @return {ReadyPromise}
+   * @fullfill {boolean} The auto-zoom mode
+   */
+  setAutoZoom(state) {
+    return this.call('setAutoZoom', state);
+  }
 }
 
 export default Embed;

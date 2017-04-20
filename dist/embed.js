@@ -2065,6 +2065,33 @@ var Embed = function () {
     value: function setZoom(zoom) {
       return this.call('setZoom', zoom);
     }
+
+    /**
+     * Get the auto-zoom
+     *
+     * @return {ReadyPromise}
+     * @fullfill {boolean} `true` if enabled, `false` if disabled
+     */
+
+  }, {
+    key: 'getAutoZoom',
+    value: function getAutoZoom() {
+      return this.call('getAutoZoom');
+    }
+
+    /**
+     * Enable or disable the auto-zoom
+     *
+     * @param {boolean} state `true` if enabled, `false` if disabled
+     * @return {ReadyPromise}
+     * @fullfill {boolean} The auto-zoom mode
+     */
+
+  }, {
+    key: 'setAutoZoom',
+    value: function setAutoZoom(state) {
+      return this.call('setAutoZoom', state);
+    }
   }]);
 
   return Embed;

@@ -78,8 +78,10 @@ When instantiating `Flat.Embed`, you can pass options in the second parameter. I
   * [`pause`](#pause-promisevoid-error): Pause playback
   * [`stop`](#stop-promisevoid-error): Stop playback
   * [`print`](#print-promisevoid-error): Print the score
-  * [`getZoom`](#getzoom-promisenumber-error): Get the current display zoom
-  * [`setZoom`](#setzoomnumber-promisenumber-error): Change the display zoom
+  * [`getZoom`](#getzoom-promisenumber-error): Get the current display zoom ratio
+  * [`setZoom`](#setzoomnumber-promisenumber-error): Change the display zoom ratio
+  * [`getAutoZoom`](#getautozoom-promiseboolean-error): Get the state of the auto-zoom mode
+  * [`setAutoZoom`](#setautozoomboolean-promiseboolean-error): Enable or disable the auto-zoom mode
 * [Events API](#events-api)
   * [`scoreLoaded`](#event-scoreLoaded): A new score has been loaded
   * [`cursorPosition`](#event-cursorposition): The cursor position changed
@@ -251,6 +253,30 @@ Set a new zoom ration for the display (between 0.5 and 3).
 embed.setZoom(2).then(function (zoom) {
   // The zoom value applied
   console.log(zoom);
+});
+```
+
+### `getAutoZoom(): Promise(<boolean, Error>)`
+
+Get the state of the auto-zoom mode. Auto-zoom is enabled by default for page mode or when the [URL parameter `zoom`](https://flat.io/developers/docs/embed/url-parameters.html) is set to `auto`.
+
+This getter will return `true` if the auto-zoom is enabled, and `false` when disabled. Setting a zoom value with [`setZoom`](#setzoomnumber-promisenumber-error) will disable this mode.
+
+```js
+embed.getAutoZoom().then(function (state) {
+  // The auto-zoom state
+  console.log(state);
+});
+```
+
+### `setAutoZoom(boolean): Promise(<boolean, Error>)`
+
+Enable (`true`) or disable (`false`) the auto-zoom. Auto-zoom is enabled by default for page mode or when the [URL parameter `zoom`](https://flat.io/developers/docs/embed/url-parameters.html) is set to `auto`. Setting a zoom value with [`setZoom`](#setzoomnumber-promisenumber-error) will disable this mode.
+
+```js
+embed.setAutoZoom(false).then(function (state) {
+  // Auto-zoom mode is disabled
+  console.log(state);
 });
 ```
 
