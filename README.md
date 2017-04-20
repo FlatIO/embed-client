@@ -82,6 +82,7 @@ When instantiating `Flat.Embed`, you can pass options in the second parameter. I
   * [`setZoom`](#setzoomnumber-promisenumber-error): Change the display zoom
 * [Events API](#events-api)
   * [`cursorPosition`](#event-cursorposition): The cursor position changed
+  * [`rangeSelection`](#event-rangeSelection): The range selected changed
   * [`play`](#event-play): The score is played
   * [`playbackPosition`](#event-playbackposition): The playback slider position changed
 
@@ -263,6 +264,29 @@ This event is triggered when the position of the user's cursor changes.
     "voiceIdx": 0,
     "measureIdx": 2,
     "noteIdx": 1
+}
+```
+
+### Event: `rangeSelection`
+
+This event is triggered when a range of notes is selected or the selection changed.
+
+```json
+{
+    "from": {
+        "partIdx": 0,
+        "measureIdx": 1,
+        "staffIdx": 0,
+        "voiceIdx": 0,
+        "noteIdx": 2
+    },
+    "to": {
+        "partIdx": 0,
+        "measureIdx": 3,
+        "staffIdx": 0,
+        "voiceIdx": 0,
+        "noteIdx": 5
+    }
 }
 ```
 
