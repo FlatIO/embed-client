@@ -81,6 +81,7 @@ When instantiating `Flat.Embed`, you can pass options in the second parameter. I
   * [`getZoom`](#getzoom-promisenumber-error): Get the current display zoom
   * [`setZoom`](#setzoomnumber-promisenumber-error): Change the display zoom
 * [Events API](#events-api)
+  * [`scoreLoaded`](#event-scoreLoaded): A new score has been loaded
   * [`cursorPosition`](#event-cursorposition): The cursor position changed
   * [`rangeSelection`](#event-rangeSelection): The range selected changed
   * [`play`](#event-play): The score is played
@@ -252,6 +253,10 @@ embed.setZoom(2).then(function (zoom) {
 ## Events API
 
 Events are broadcasted following actions made by the end user or you with the JavaScript API. You can subscribe to an event using the method [`on`](#onevent-string-callback-function-void), and unsubscribe using [`off`](#onevent-string-callback-function-void). When an event includes some data, this data will be available in the first parameter of the listener callback.
+
+### Event: `scoreLoaded`
+
+This event is triggered once a new score has been loaded. This event doesn't include any data.
 
 ### Event: `cursorPosition`
 
