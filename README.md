@@ -1,6 +1,6 @@
 # Flat Sheet Music Embed Client
 
-[![Build Status](https://travis-ci.org/FlatIO/embed-client.svg?branch=master)](https://travis-ci.org/FlatIO/embed-client.svg)
+[![Build Status](https://travis-ci.org/FlatIO/embed-client.svg?branch=master)](https://travis-ci.org/FlatIO/embed-client)
 
 Use this JavaScript Client to interact and receive events from our [Sheet Music Embed](https://flat.io/developers/embed).
 
