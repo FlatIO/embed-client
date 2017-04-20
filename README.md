@@ -1,6 +1,7 @@
 # Flat Sheet Music Embed Client
 
 [![Build Status](https://travis-ci.org/FlatIO/embed-client.svg?branch=master)](https://travis-ci.org/FlatIO/embed-client)
+[![Greenkeeper badge](https://badges.greenkeeper.io/FlatIO/embed-client.svg?token=cd336afca22e743db5a44a2820f0e220d5e54a95530d1f03cc417ea5f0fbf8f0)](https://greenkeeper.io/)
 
 Use this JavaScript Client to interact and receive events from our [Sheet Music Embed](https://flat.io/developers/embed).
 
