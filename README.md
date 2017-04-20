@@ -85,6 +85,7 @@ When instantiating `Flat.Embed`, you can pass options in the second parameter. I
   * [`cursorPosition`](#event-cursorposition): The cursor position changed
   * [`rangeSelection`](#event-rangeSelection): The range selected changed
   * [`fullscreen`](#event-fullscreen): The fullscreen state changed
+  * [`print`](#event-print): The score was printed
   * [`play`](#event-play): The score playback started
   * [`pause`](#event-pause): The score playback paused
   * [`stop`](#event-stop): The score playback stopped
@@ -302,17 +303,21 @@ This event is triggered when a range of notes is selected or the selection chang
 
 This event is triggered when the state of the fullscreen changed. The callback will take a boolean as the first parameter that will be `true` if the fullscreen mode is enabled, and `false` is the display is back to normal (fullscreen exited).
 
+### Event: `print`
+
+This event is triggered when you or the end-user prints the score. This event doesn't include any data.
+
 ### Event: `play`
 
-This event is triggered when you a the user starts the playback. This event doesn't include any data.
+This event is triggered when you or the end-user starts the playback. This event doesn't include any data.
 
 ### Event: `pause`
 
-This event is triggered when you a the user pauses the playback. This event doesn't include any data.
+This event is triggered when you or the end-user pauses the playback. This event doesn't include any data.
 
 ### Event: `stop`
 
-This event is triggered when you a the user stops the playback. This event doesn't include any data.
+This event is triggered when you or the end-user stops the playback. This event doesn't include any data.
 
 ### Event: `playbackPosition`
 
