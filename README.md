@@ -84,7 +84,9 @@ When instantiating `Flat.Embed`, you can pass options in the second parameter. I
   * [`scoreLoaded`](#event-scoreLoaded): A new score has been loaded
   * [`cursorPosition`](#event-cursorposition): The cursor position changed
   * [`rangeSelection`](#event-rangeSelection): The range selected changed
-  * [`play`](#event-play): The score is played
+  * [`play`](#event-play): The score playback started
+  * [`pause`](#event-pause): The score playback paused
+  * [`stop`](#event-stop): The score playback stopped
   * [`playbackPosition`](#event-playbackposition): The playback slider position changed
 
 ## Methods
@@ -297,7 +299,15 @@ This event is triggered when a range of notes is selected or the selection chang
 
 ### Event: `play`
 
-This event is triggered when you a the user plays the score. This event doesn't include any data.
+This event is triggered when you a the user starts the playback. This event doesn't include any data.
+
+### Event: `pause`
+
+This event is triggered when you a the user pauses the playback. This event doesn't include any data.
+
+### Event: `stop`
+
+This event is triggered when you a the user stops the playback. This event doesn't include any data.
 
 ### Event: `playbackPosition`
 

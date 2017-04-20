@@ -1,8 +1,8 @@
 # Changelog
 
-## v0.2.0
+## v0.2.0 (Not released)
 
-* Add events: `scoreLoaded`, cursorPosition`, 'rangeSelection'
+* Add events: `scoreLoaded`, cursorPosition`, `rangeSelection`, `pause`, `stop`
 
 ## v0.1.0
 
