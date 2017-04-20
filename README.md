@@ -173,7 +173,7 @@ embed.getScoreMeta().then(function (metadata) {
 });
 ```
 
-###  `fullscreen(state: bool): Promise<void, Error>`
+### `fullscreen(state: bool): Promise<void, Error>`
 
 Display the embed in fullscreen (`state = true`) or return to the regular display (`state = false`).
 
@@ -190,16 +190,6 @@ Load the playback and play the score.
 ```js
 embed.play().then(function () {
   // The score is playing
-});
-```
-
-### `pause(): Promise<void, Error>`
-
-Pause the playback
-
-```js
-embed.pause().then(function () {
-  // The playback is paused
 });
 ```
 
