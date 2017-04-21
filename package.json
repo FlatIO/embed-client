@@ -32,8 +32,10 @@
     "clean": "rm build/*",
     "build": "BABEL_ENV=production node rollup.js",
     "build:watch": "npm run build --watch",
-    "eslint": "./node_modules/.bin/eslint src *.js",
-    "test": "./node_modules/.bin/mocha --ui exports --reporter spec --slow 150ms --timeout 30000ms test/unit"
+    "test": "npm run eslint && npm run test:unit && npm run test:karma",
+    "eslint": "./node_modules/.bin/eslint src",
+    "test:unit": "./node_modules/.bin/mocha --ui exports --reporter spec --slow 150ms --timeout 30000ms test/unit",
+    "test:karma": "./node_modules/.bin/karma start --single-run"
   },
   "devDependencies": {
     "babel-core": "^6.24.1",
@@ -44,6 +46,10 @@
     "eslint": "^3.19.0",
     "jquery": "^3.2.1",
     "jsdom": "^9.12.0",
+    "karma": "^1.6.0",
+    "karma-chrome-launcher": "^2.0.0",
+    "karma-mocha": "^1.3.0",
+    "karma-mocha-reporter": "^2.2.3",
     "mocha": "^3.2.0",
     "rollup": "^0.41.6",
     "rollup-plugin-babel": "^2.7.1",
