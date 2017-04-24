@@ -1,4 +1,4 @@
-var jsdom = require('jsdom');
+var jsdom = require('jsdom/lib/old-api.js');
 
 let document = global.document = jsdom.jsdom('<body><div id="container"></div></body>');
 global.window = document.defaultView;

@@ -1,5 +1,5 @@
 var assert = require('assert');
-var jsdom = require('jsdom');
+var jsdom = require('jsdom/lib/old-api.js');
 var document = require('../helpers/node-browser-env');
 var Embed = require('../../dist/embed');
 

@@ -203,7 +203,7 @@ fetch('https://api.flat.io/v2/scores/56ae21579a127715a02901a6/revisions/last/jso
 });
 ```
 
-### `getMusicXML(options: object): Promise<string|Uint8Array, Error>`
+### `getMusicXML(options?: object): Promise<string|Uint8Array, Error>`
 
 Convert the current displayed score into a MusicXML file, compressed (`.mxl`) or not (`.xml`).
 
