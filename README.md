@@ -23,13 +23,19 @@ or
 bower install flat-embed
 ```
 
+or use the latest version hosted on [jsDelivr](https://www.jsdelivr.com/projects/flat-embed):
+
+```html
+<script src="https://cdn.jsdelivr.net/flat-embed/0.2.0/embed.min.js"></script>
+```
+
 ## Getting Started
 
 The simplest way to get started is the pass a DOM element to our embed that will be used as container. By default, this one will completely fit its container:
 
 ```html
 <div id="embed-container"></div>
-<script src="./embed.min.js"></script>
+<script src="https://cdn.jsdelivr.net/flat-embed/0.2.0/embed.min.js"></script>
 <script>
   var container = document.getElementById('embed-container');
   var embed = new Flat.Embed(container, {
