@@ -5,6 +5,8 @@
 [![NPM Version](https://img.shields.io/npm/v/flat-embed.svg?style=flat)](https://www.npmjs.org/package/flat-embed)
 ![Bower Version](https://img.shields.io/bower/v/flat-embed.svg?style=flat)
 
+[![Flat's Sheet Music Embed](https://cloud.githubusercontent.com/assets/396537/25476142/85f22ec0-2b39-11e7-8444-0d7440ce27d7.png)](https://flat.io/developers/embed)
+
 Use this JavaScript Client to interact and receive events from our [Sheet Music Embed](https://flat.io/developers/embed).
 
 This API requires an API Key, [please contact us for more information](mailto:developers@flat.io).
