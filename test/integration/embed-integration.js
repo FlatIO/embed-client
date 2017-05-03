@@ -1,10 +1,10 @@
 var APP_ID = '58fa312bea9bbd061b0ea8f3',
-  BASE_URL = 'http://flat.io/embed',
+  BASE_URL = 'https://flat.io/embed',
   PUBLIC_SCORE = '56ae21579a127715a02901a6';
 
-APP_ID = '58e90082688f3e99d1244f58';
-BASE_URL = 'http://flat.dev:3000/embed';
-PUBLIC_SCORE = '58f93f70874b3f526d3d45e0';
+// APP_ID = '58e90082688f3e99d1244f58';
+// BASE_URL = 'http://flat.dev:3000/embed';
+// PUBLIC_SCORE = '58f93f70874b3f526d3d45e0';
 
 describe('Integration - Embed', () => {
   describe('Loading embed', () => {
@@ -122,6 +122,27 @@ describe('Integration - Embed', () => {
 
       embed.ready().then(() => {
         iframe.parentNode.removeChild(iframe);
+        done();
+      });
+    });
+  });
+
+  describe('Load Platform scores', () => {
+    it('should load a Flat Platform score by id', (done) => {
+      var container = document.createElement('div');
+      document.body.appendChild(container);
+
+      var embed = new Flat.Embed(container, {
+        baseUrl: BASE_URL,
+        score: PUBLIC_SCORE,
+        embedParams: {
+          appId: APP_ID
+        }
+      });
+
+      embed.getJSON().then((json) => {
+        assert.ok(json['score-partwise']);
+        container.parentNode.removeChild(container);
         done();
       });
     });
