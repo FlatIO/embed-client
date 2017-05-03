@@ -98,6 +98,7 @@ When instantiating `Flat.Embed`, you can pass options in the second parameter. I
   * [`setAutoZoom`](#setautozoomboolean-promiseboolean-error): Enable or disable the auto-zoom mode
 * [Editor Methods](#editor-methods)
   * [`setEditorConfig`](#seteditorconfigconfig-object-promiseobject-error): Set the config of the editor
+  * [`edit`](#editoperations-object-promisevoid-error): Make a modification to the document
 * [Events API](#events-api)
   * [`scoreLoaded`](#event-scoreLoaded): A new score has been loaded
   * [`cursorPosition`](#event-cursorposition): The cursor position changed
@@ -108,6 +109,7 @@ When instantiating `Flat.Embed`, you can pass options in the second parameter. I
   * [`pause`](#event-pause): The score playback paused
   * [`stop`](#event-stop): The score playback stopped
   * [`playbackPosition`](#event-playbackposition): The playback slider position changed
+  * [`edit`](#event-edit): An edition has been made to the document
 
 ## Viewer Methods
 
@@ -382,9 +384,20 @@ embed.setAutoZoom(false).then(function (state) {
 
 ## Editor Methods
 
+You can enable the editor mode by setting the `mode` to `edit` when creating the embed:
+
+```js
+var embed = new Flat.Embed(container, {
+  embedParams: {
+    appId: '<your-app-id>',
+    modeL 'edit'
+  }
+});
+```
+
 ### `setEditorConfig(config: object): Promise<object, Error>`
 
-Set a new config for the editor (e.g. the different tools available in the embed).
+Set a new config for the editor (e.g. the different tools available in the embed). This one will be used at the next loading score.
 
 ```js
 // For example: hide the Articulation mode, and only display the durations tools in the Note mode
@@ -396,6 +409,20 @@ embed.setEditorConfig({
 }).then(function (config) {
   // The config of the embed
   console.log(config);
+});
+```
+
+### `edit(operations: object): Promise<void, Error>`
+
+Process some edit operations using one of our internal editing method. Feel free to [contact our developers support](mailto:developers@flat.io) to get more information about the operations available.
+
+```js
+embed.edit([
+  { name: 'action.SetTitle', opts: { title: 'I <3 Flat'} }
+]).then(function () {
+  // The actions have been executed
+}).catch(function (error) {
+  // Error while executing the actions
 });
 ```
 
@@ -476,4 +503,26 @@ This event is triggered when the playback slider moves. It is usually triggered 
     "currentMeasure": 1,
     "timePerMeasure": 2
 }
+```
+
+### Event: `edit`
+
+This event is triggered when one or multiple modifications ave been made to the document. This one will contain a list of operations made:
+
+```json
+[
+    {
+        "name": "action.SetTempo",
+        "opts": {
+            "startMeasureIdx": 0,
+            "stopMeasureIdx": 1,
+            "tempo": {
+                "bpm": 142,
+                "qpm": 142,
+                "durationType": 3,
+                "nbDots": 0
+            }
+        }
+    }
+]
 ```

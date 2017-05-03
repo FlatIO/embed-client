@@ -1,4 +1,4 @@
-/*! flat-embed v0.2.0 | (c) 2017 Tutteo Ltd. (Flat) | Apache-2.0 License | https://github.com/FlatIO/embed-client */
+/*! flat-embed v0.3.0 | (c) 2017 Tutteo Ltd. (Flat) | Apache-2.0 License | https://github.com/FlatIO/embed-client */
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
@@ -2515,6 +2515,18 @@ var Embed = function () {
     key: 'setAutoZoom',
     value: function setAutoZoom(state) {
       return this.call('setAutoZoom', state);
+    }
+
+    /**
+     * Call Flat's internal edit methods
+     *
+     * @param {operations} The operations to process
+     */
+
+  }, {
+    key: 'edit',
+    value: function edit(operations) {
+      return this.call('edit', operations);
     }
   }]);
 

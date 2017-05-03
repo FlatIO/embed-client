@@ -2,7 +2,8 @@
 
 ## v0.3.0 (unreleased)
 
-* Add methods: `getEmbedConfig`, `setEditorConfig`
+* Add methods: `getEmbedConfig`, `setEditorConfig`, `edit`
+* Add events: `edit`
 
 ## v0.2.0
 

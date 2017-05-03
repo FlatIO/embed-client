@@ -302,6 +302,15 @@ class Embed {
   setAutoZoom(state) {
     return this.call('setAutoZoom', state);
   }
+
+  /**
+   * Call Flat's internal edit methods
+   *
+   * @param {operations} The operations to process
+   */
+   edit(operations) {
+     return this.call('edit', operations);
+   }
 }
 
 export default Embed;

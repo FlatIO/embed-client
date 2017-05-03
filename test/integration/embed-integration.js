@@ -165,7 +165,7 @@ describe('Integration - Embed', () => {
       });
     });
 
-    it('should fail to import a non json', function (done) {
+    it('should fail to import a non json', (done) => {
       var container = document.createElement('div');
       document.body.appendChild(container);
 
@@ -338,7 +338,7 @@ describe('Integration - Embed', () => {
       });
     });
 
-    it('should fail to import an invalid MusicXML', function (done) {
+    it('should fail to import an invalid MusicXML', (done) => {
       var container = document.createElement('div');
       document.body.appendChild(container);
 
@@ -566,7 +566,130 @@ describe('Integration - Embed', () => {
         assert.equal(config.noteMode.tuplet, false);
         container.parentNode.removeChild(container);
         done();
+      }).catch(done);
+    });
+  });
+
+  describe('Editor modifications', () => {
+    it('should make a modification, get the event and get the document updated', (done) => {
+      var container = document.createElement('div');
+      document.body.appendChild(container);
+
+      var embed = new Flat.Embed(container, {
+        score: PUBLIC_SCORE,
+        baseUrl: BASE_URL,
+        embedParams: {
+          appId: APP_ID,
+          mode: 'edit'
+        }
       });
+
+      embed.on('edit', (operations) => {
+        assert.equal(operations.length, 1);
+        assert.equal(operations[0].name, 'action.SetTempo');
+        assert.equal(operations[0].opts.startMeasureIdx, 0);
+        assert.equal(operations[0].opts.stopMeasureIdx, 1);
+        assert.deepEqual(operations[0].opts.tempo, {
+          bpm: 142,
+          qpm: 142,
+          durationType: 3,
+          nbDots: 0
+        });
+      });
+
+      embed.edit([
+        {
+          name: 'action.SetTempo',
+          opts: {
+            startMeasureIdx: 0,
+            stopMeasureIdx: 1,
+            tempo: {
+              bpm: 142,
+              qpm: 142,
+              durationType: 3,
+              nbDots: 0
+            }
+          }
+        }
+      ]).then(() => {
+        return embed.getJSON();
+      }).then((json) => {
+        assert.equal(json['score-partwise'].part[0].measure[0].sound.$tempo, 142);
+        container.parentNode.removeChild(container);
+        done();
+      }).catch(done);
+    });
+
+    it('should fail to edit with bad ops arguments (edit error)', (done) => {
+      var container = document.createElement('div');
+      document.body.appendChild(container);
+
+      var embed = new Flat.Embed(container, {
+        score: PUBLIC_SCORE,
+        baseUrl: BASE_URL,
+        embedParams: {
+          appId: APP_ID,
+          mode: 'edit'
+        }
+      });
+
+      embed.edit([
+        {
+          name: 'action.SetTempo',
+          opts: {
+            startMeasureIdx: 0,
+            stopMeasureIdx: 1000000,
+            tempo: {
+              bpm: 142,
+              qpm: 142,
+              durationType: 3,
+              nbDots: 0
+            }
+          }
+        }
+      ]).then(() => {
+        return done('Should have fail');
+      }).catch((error) => {
+        assert.equal(error.code, 'BadMeasureIdxError');
+        assert.equal(error.message, 'There is no measure at the index [1000000<number>].');
+        container.parentNode.removeChild(container);
+        done();
+      })
+    });
+
+    it('should fail to edit with bad ops arguments (bad ops format)', (done) => {
+      var container = document.createElement('div');
+      document.body.appendChild(container);
+
+      var embed = new Flat.Embed(container, {
+        score: PUBLIC_SCORE,
+        baseUrl: BASE_URL,
+        embedParams: {
+          appId: APP_ID,
+          mode: 'edit'
+        }
+      });
+
+      embed.edit({
+        name: 'action.SetTempo',
+        opts: {
+          startMeasureIdx: 0,
+          stopMeasureIdx: 1000000,
+          tempo: {
+            bpm: 142,
+            qpm: 142,
+            durationType: 3,
+            nbDots: 0
+          }
+        }
+      }).then(() => {
+        return done('Should have fail');
+      }).catch((error) => {
+        assert.equal(error.code, 'TypeError');
+        assert.equal(error.message, 'Operations must be an array of operations');
+        container.parentNode.removeChild(container);
+        done();
+      })
     });
   });
 });

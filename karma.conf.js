@@ -5,7 +5,8 @@ module.exports = function(config) {
     frameworks: ['mocha'],
     client: {
       mocha: {
-        timeout: '30000ms'
+        timeout: '30000ms',
+        // grep: 'Editor modifications'
       }
     },
     files: [
