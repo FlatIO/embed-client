@@ -2,9 +2,9 @@ var APP_ID = '58fa312bea9bbd061b0ea8f3',
   BASE_URL = 'http://flat.io/embed',
   PUBLIC_SCORE = '56ae21579a127715a02901a6';
 
-// APP_ID = '58e90082688f3e99d1244f58';
-// BASE_URL = 'http://flat.dev:3000/embed';
-// PUBLIC_SCORE = '58f93f70874b3f526d3d45e0';
+APP_ID = '58e90082688f3e99d1244f58';
+BASE_URL = 'http://flat.dev:3000/embed';
+PUBLIC_SCORE = '58f93f70874b3f526d3d45e0';
 
 describe('Integration - Embed', () => {
   describe('Loading embed', () => {
@@ -511,6 +511,61 @@ describe('Integration - Embed', () => {
 
       embed.play().then(() => {
         embed.stop();
+      });
+    });
+  });
+
+  describe('Editor config', () => {
+    it('should fetch the viewer config', (done) => {
+      var container = document.createElement('div');
+      document.body.appendChild(container);
+
+      var embed = new Flat.Embed(container, {
+        score: PUBLIC_SCORE,
+        baseUrl: BASE_URL,
+        embedParams: {
+          appId: APP_ID,
+          controlsFloating: false,
+          branding: false
+        }
+      });
+
+      embed.getEmbedConfig().then((config) => {
+        assert.equal(config.branding, false);
+        assert.equal(config.controlsPlay, true);
+        assert.equal(config.controlsFloating, false);
+        container.parentNode.removeChild(container);
+        done();
+      });
+    });
+
+    it('should use the edit mode and set a tools config', (done) => {
+      var container = document.createElement('div');
+      document.body.appendChild(container);
+
+      var embed = new Flat.Embed(container, {
+        baseUrl: BASE_URL,
+        embedParams: {
+          appId: APP_ID,
+          mode: 'edit',
+          controlsFloating: false,
+          branding: false
+        }
+      });
+
+      embed.setEditorConfig({
+        noteMode: {
+          durations: true,
+          tuplet: false
+        },
+        articulationMode: false
+      }).then((config) => {
+        assert.ok(config.global);
+        assert.equal(config.articulationMode, false);
+        assert.equal(config.noteMode.durations, true);
+        assert.equal(config.noteMode.tuplet, false);
+        container.parentNode.removeChild(container);
+        done();
       });
     });
   });

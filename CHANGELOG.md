@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.3.0 (unreleased)
+
+* Add methods: `getEmbedConfig`, `setEditorConfig`
+
 ## v0.2.0
 
 * Add methods: `getAutoZoom`, `setAutoZoom`, `loadMusicXML`, `getMusicXML`

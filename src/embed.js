@@ -118,7 +118,7 @@ class Embed {
    *
    * @param {string} score The unique identifier of the score
    * @param {string} [revision] The unique identifier of the revision
-   * @return {ReadyPromise}
+   * @return {Promise}
    * @reject {ApiError} Unable to load the score
    */
   loadFlatScore(score, revision) {
@@ -129,7 +129,7 @@ class Embed {
    * Load a MusicXML score
    *
    * @param {string} score The MusicXML file
-   * @return {ReadyPromise}
+   * @return {Promise}
    * @reject {Error} Unable to load the score
    */
   loadMusicXML(score) {
@@ -140,7 +140,7 @@ class Embed {
    * Load a Flat JSON score
    *
    * @param {object|string} score The JSON of the score
-   * @return {ReadyPromise}
+   * @return {Promise}
    * @reject {Error} Unable to load the score
    */
   loadJSON(score) {
@@ -150,7 +150,7 @@ class Embed {
   /**
    * Get the score in Flat JSON format
    *
-   * @return {ReadyPromise}
+   * @return {Promise}
    * @fulfill {object} The Flat data format
    */
   getJSON() {
@@ -161,7 +161,7 @@ class Embed {
    * Convert the displayed score in MusicXML
    *
    * @param {object} options Conversion options (`compressed`)
-   * @return {ReadyPromise}
+   * @return {Promise}
    * @fullfill {string|Uint8Array} MusicXML File
    * @reject {Error} Conversion error
    */
@@ -185,7 +185,7 @@ class Embed {
   /**
    * Get the metadata of the score (for scores hosted on Flat)
    *
-   * @return {ReadyPromise}
+   * @return {Promise}
    * @fulfill {object} The Flat data format (result from https://flat.io/developers/api/reference/#operation/getScore)
    */
   getFlatScoreMetadata() {
@@ -193,10 +193,33 @@ class Embed {
   }
 
   /**
+   * Get the whole embed config
+   *
+   * @return {Promise}
+   * @fullfill {object} An object containing the config of the embed
+   */
+   getEmbedConfig() {
+     return this.call('getEmbedConfig');
+   }
+
+  /**
+   * Set a config for the embed mode
+   * This config can be fetched with `getEmbed()` (as `editor` value)
+   * This config will be applied at the next score loading
+   *
+   * @param {object} editor The editor config
+   * @return {Promise}
+   * @fullfill {object} An object containing the config of the editor
+   */
+   setEditorConfig(editor) {
+     return this.call('setEditorConfig', editor);
+   }
+
+  /**
    * Toggle fullscreen state
    *
    * @param {boolean} active `true` to switch on fullscreen, `false` to switch off
-   * @return {ReadyPromise} Once the state changed
+   * @return {Promise} Once the state changed
    */
   fullscreen(active) {
     return this.call('fullscreen', active);
@@ -205,7 +228,7 @@ class Embed {
   /**
    * Start the playback
    *
-   * @return {ReadyPromise}
+   * @return {Promise}
    */
   play() {
     return this.call('play');
@@ -214,7 +237,7 @@ class Embed {
   /**
    * Pause the playback
    *
-   * @return {ReadyPromise}
+   * @return {Promise}
    */
   pause() {
     return this.call('pause');
@@ -223,7 +246,7 @@ class Embed {
   /**
    * Stop the playback
    *
-   * @return {ReadyPromise}
+   * @return {Promise}
    */
   stop() {
     return this.call('stop');
@@ -232,7 +255,7 @@ class Embed {
   /**
    * Print the score
    *
-   * @return {ReadyPromise}
+   * @return {Promise}
    */
   print() {
     return this.call('print');
@@ -241,7 +264,7 @@ class Embed {
   /**
    * Get the current zoom ratio
    *
-   * @return {ReadyPromise}
+   * @return {Promise}
    * @fullfill {number} The current scale ratio (0.5 to 3)
    */
   getZoom() {
@@ -252,7 +275,7 @@ class Embed {
    * Set a new zoom ratio (this will disable the zoom auto if set)
    *
    * @param {number} zoom The scale ratio (0.5 to 3)
-   * @return {ReadyPromise}
+   * @return {Promise}
    * @fullfill {number} The scale ratio applied
    */
   setZoom(zoom) {
@@ -262,7 +285,7 @@ class Embed {
   /**
    * Get the auto-zoom
    *
-   * @return {ReadyPromise}
+   * @return {Promise}
    * @fullfill {boolean} `true` if enabled, `false` if disabled
    */
   getAutoZoom() {
@@ -273,7 +296,7 @@ class Embed {
    * Enable or disable the auto-zoom
    *
    * @param {boolean} state `true` if enabled, `false` if disabled
-   * @return {ReadyPromise}
+   * @return {Promise}
    * @fullfill {boolean} The auto-zoom mode
    */
   setAutoZoom(state) {

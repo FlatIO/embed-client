@@ -76,10 +76,11 @@ When instantiating `Flat.Embed`, you can pass options in the second parameter. I
 
 ## JavaScript API
 
-* [Methods](#methods)
+* [Viewer Methods](#viewer-methods)
   * [`ready`](#ready-promisevoid-error): Wait until the JavaScript is ready
   * [`on`](#onevent-string-callback-function-void): Subscribe to events
   * [`off`](#offevent-string-callback-function-void): Unsubscribe from events
+  * [`getEmbedConfig`](#getembedconfig-promiseobject-error): Get the global config of the embed
   * [`loadFlatScore`](#loadflatscoreid-string-promisevoid-apierror): Load a score hosted on Flat
   * [`loadMusicXML`](#loadmusicxmlscore-mixed-promisevoid-error): Load MusicXML file (compressed or not)
   * [`loadJSON`](#loadjsonscore-object-promisevoid-error): Load Flat JSON file
@@ -95,6 +96,8 @@ When instantiating `Flat.Embed`, you can pass options in the second parameter. I
   * [`setZoom`](#setzoomnumber-promisenumber-error): Change the display zoom ratio
   * [`getAutoZoom`](#getautozoom-promiseboolean-error): Get the state of the auto-zoom mode
   * [`setAutoZoom`](#setautozoomboolean-promiseboolean-error): Enable or disable the auto-zoom mode
+* [Editor Methods](#editor-methods)
+  * [`setEditorConfig`](#seteditorconfigconfig-object-promiseobject-error): Set the config of the editor
 * [Events API](#events-api)
   * [`scoreLoaded`](#event-scoreLoaded): A new score has been loaded
   * [`cursorPosition`](#event-cursorposition): The cursor position changed
@@ -106,7 +109,7 @@ When instantiating `Flat.Embed`, you can pass options in the second parameter. I
   * [`stop`](#event-stop): The score playback stopped
   * [`playbackPosition`](#event-playbackposition): The playback slider position changed
 
-## Methods
+## Viewer Methods
 
 You can call the methods using any `Flat.Embed` object. By default, the methods (except `on` and `off`) return a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) that will be resolved once the method is called, the value is set or get:
 
@@ -157,6 +160,17 @@ function positionChanged(position) {
 
 // Subscribe to the event
 embed.on('positionChanged', positionChanged);
+```
+
+### `getEmbedConfig(): Promise<object, Error>`
+
+Fetch the global config of the embed. This will include the [URL parameters](https://flat.io/developers/docs/embed/url-parameters.html), the editor config and the default config set by the embed.
+
+```js
+embed.getEmbedConfig().then(function (config) {
+  // The config of the embed
+  console.log(config);
+});
 ```
 
 ### `loadFlatScore(id: string): Promise<void, ApiError>`
@@ -224,6 +238,7 @@ embed.getMusicXML().then(function (xml) {
 ```
 
 Example: Retrieve the score as a compressed MusicXML, then convert it to a Blob and download it:
+
 ```js
 // Uncompressed MusicXML
 embed.getMusicXML({ compressed: true }).then(function (buffer) {
@@ -362,6 +377,25 @@ Enable (`true`) or disable (`false`) the auto-zoom. Auto-zoom is enabled by defa
 embed.setAutoZoom(false).then(function (state) {
   // Auto-zoom mode is disabled
   console.log(state);
+});
+```
+
+## Editor Methods
+
+### `setEditorConfig(config: object): Promise<object, Error>`
+
+Set a new config for the editor (e.g. the different tools available in the embed).
+
+```js
+// For example: hide the Articulation mode, and only display the durations tools in the Note mode
+embed.setEditorConfig({
+  noteMode: {
+    durations: true
+  },
+  articulationMode: false
+}).then(function (config) {
+  // The config of the embed
+  console.log(config);
 });
 ```
 

@@ -1,4 +1,4 @@
-/*! flat-embed v0.1.0 | (c) 2017 Tutteo Ltd. (Flat) | Apache-2.0 License | https://github.com/FlatIO/embed-client */
+/*! flat-embed v0.2.0 | (c) 2017 Tutteo Ltd. (Flat) | Apache-2.0 License | https://github.com/FlatIO/embed-client */
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
@@ -2279,7 +2279,7 @@ var Embed = function () {
      *
      * @param {string} score The unique identifier of the score
      * @param {string} [revision] The unique identifier of the revision
-     * @return {ReadyPromise}
+     * @return {Promise}
      * @reject {ApiError} Unable to load the score
      */
 
@@ -2293,7 +2293,7 @@ var Embed = function () {
      * Load a MusicXML score
      *
      * @param {string} score The MusicXML file
-     * @return {ReadyPromise}
+     * @return {Promise}
      * @reject {Error} Unable to load the score
      */
 
@@ -2307,7 +2307,7 @@ var Embed = function () {
      * Load a Flat JSON score
      *
      * @param {object|string} score The JSON of the score
-     * @return {ReadyPromise}
+     * @return {Promise}
      * @reject {Error} Unable to load the score
      */
 
@@ -2320,7 +2320,7 @@ var Embed = function () {
     /**
      * Get the score in Flat JSON format
      *
-     * @return {ReadyPromise}
+     * @return {Promise}
      * @fulfill {object} The Flat data format
      */
 
@@ -2334,7 +2334,7 @@ var Embed = function () {
      * Convert the displayed score in MusicXML
      *
      * @param {object} options Conversion options (`compressed`)
-     * @return {ReadyPromise}
+     * @return {Promise}
      * @fullfill {string|Uint8Array} MusicXML File
      * @reject {Error} Conversion error
      */
@@ -2363,7 +2363,7 @@ var Embed = function () {
     /**
      * Get the metadata of the score (for scores hosted on Flat)
      *
-     * @return {ReadyPromise}
+     * @return {Promise}
      * @fulfill {object} The Flat data format (result from https://flat.io/developers/api/reference/#operation/getScore)
      */
 
@@ -2374,10 +2374,39 @@ var Embed = function () {
     }
 
     /**
+     * Get the whole embed config
+     *
+     * @return {Promise}
+     * @fullfill {object} An object containing the config of the embed
+     */
+
+  }, {
+    key: 'getEmbedConfig',
+    value: function getEmbedConfig() {
+      return this.call('getEmbedConfig');
+    }
+
+    /**
+     * Set a config for the embed mode
+     * This config can be fetched with `getEmbed()` (as `editor` value)
+     * This config will be applied at the next score loading
+     *
+     * @param {object} editor The editor config
+     * @return {Promise}
+     * @fullfill {object} An object containing the config of the editor
+     */
+
+  }, {
+    key: 'setEditorConfig',
+    value: function setEditorConfig(editor) {
+      return this.call('setEditorConfig', editor);
+    }
+
+    /**
      * Toggle fullscreen state
      *
      * @param {boolean} active `true` to switch on fullscreen, `false` to switch off
-     * @return {ReadyPromise} Once the state changed
+     * @return {Promise} Once the state changed
      */
 
   }, {
@@ -2389,7 +2418,7 @@ var Embed = function () {
     /**
      * Start the playback
      *
-     * @return {ReadyPromise}
+     * @return {Promise}
      */
 
   }, {
@@ -2401,7 +2430,7 @@ var Embed = function () {
     /**
      * Pause the playback
      *
-     * @return {ReadyPromise}
+     * @return {Promise}
      */
 
   }, {
@@ -2413,7 +2442,7 @@ var Embed = function () {
     /**
      * Stop the playback
      *
-     * @return {ReadyPromise}
+     * @return {Promise}
      */
 
   }, {
@@ -2425,7 +2454,7 @@ var Embed = function () {
     /**
      * Print the score
      *
-     * @return {ReadyPromise}
+     * @return {Promise}
      */
 
   }, {
@@ -2437,7 +2466,7 @@ var Embed = function () {
     /**
      * Get the current zoom ratio
      *
-     * @return {ReadyPromise}
+     * @return {Promise}
      * @fullfill {number} The current scale ratio (0.5 to 3)
      */
 
@@ -2451,7 +2480,7 @@ var Embed = function () {
      * Set a new zoom ratio (this will disable the zoom auto if set)
      *
      * @param {number} zoom The scale ratio (0.5 to 3)
-     * @return {ReadyPromise}
+     * @return {Promise}
      * @fullfill {number} The scale ratio applied
      */
 
@@ -2464,7 +2493,7 @@ var Embed = function () {
     /**
      * Get the auto-zoom
      *
-     * @return {ReadyPromise}
+     * @return {Promise}
      * @fullfill {boolean} `true` if enabled, `false` if disabled
      */
 
@@ -2478,7 +2507,7 @@ var Embed = function () {
      * Enable or disable the auto-zoom
      *
      * @param {boolean} state `true` if enabled, `false` if disabled
-     * @return {ReadyPromise}
+     * @return {Promise}
      * @fullfill {boolean} The auto-zoom mode
      */
 
