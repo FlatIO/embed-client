@@ -9,6 +9,7 @@ const rollup = require('rollup');
 const babel = require('rollup-plugin-babel');
 const resolve = require('rollup-plugin-node-resolve');
 const commonjs = require('rollup-plugin-commonjs');
+const hypothetical = require('rollup-plugin-hypothetical');
 
 // Banner
 const pkg = require('./package.json');
@@ -37,6 +38,12 @@ const build = () => {
   rollup.rollup({
     entry: 'src/embed.js',
     plugins: [
+      hypothetical({
+        allowRealFiles: true,
+        files: {
+          './node_modules/core-js/library/modules/es6.object.to-string.js': 'export default null'
+        }
+      }),
       babel({
         runtimeHelpers: true,
         exclude: 'node_modules/**'
@@ -62,14 +69,15 @@ const build = () => {
     fs.writeFileSync('dist/embed.js.map', map.toString());
 
     const minified = uglifyJs.minify(code, {
-      fromString: true,
-      inSourceMap: map,
-      outSourceMap: 'dist/embed.min.js.map',
+      sourceMap: {
+        content: map,
+        filename: 'dist/embed.min.js.map'
+      },
       output: {
         preamble: banner
       },
       mangle: {
-        except: ['Embed']
+        reserved: ['Embed']
       }
     });
 

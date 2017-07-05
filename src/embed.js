@@ -171,7 +171,7 @@ class Embed {
       if (typeof options !== 'object') {
         return reject(new TypeError('Options must be an object'));
       }
-      this.call('getMusicXML', options).then(function (data) {
+      this.call('getMusicXML', options).then((data) => {
         // Plain XML
         if (typeof data === 'string') {
           return resolve(data);
@@ -181,6 +181,28 @@ class Embed {
       }).catch(reject);
     });
   }
+
+  /**
+   * Convert the displayed score in PNG
+   *
+   * @return {Promise}
+   * @fullfill {Uint8Array} PNG File
+   * @reject {Error} Conversion error
+   */
+   getPNG(options) {
+     return new Promise((resolve, reject) => {
+       options = options || {};
+       if (typeof options !== 'object') {
+         return reject(new TypeError('Options must be an object'));
+       }
+       this.call('getPNG', options).then((data) => {
+         if (typeof data === 'string') {
+           return resolve(data);
+         }
+         return resolve(new Uint8Array(data));
+       }).catch(reject);
+     });
+   }
 
   /**
    * Get the metadata of the score (for scores hosted on Flat)

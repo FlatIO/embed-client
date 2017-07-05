@@ -2361,6 +2361,33 @@ var Embed = function () {
     }
 
     /**
+     * Convert the displayed score in PNG
+     *
+     * @return {Promise}
+     * @fullfill {Uint8Array} PNG File
+     * @reject {Error} Conversion error
+     */
+
+  }, {
+    key: 'getPNG',
+    value: function getPNG(options) {
+      var _this4 = this;
+
+      return new _Promise(function (resolve, reject) {
+        options = options || {};
+        if ((typeof options === 'undefined' ? 'undefined' : _typeof(options)) !== 'object') {
+          return reject(new TypeError('Options must be an object'));
+        }
+        _this4.call('getPNG', options).then(function (data) {
+          if (typeof data === 'string') {
+            return resolve(data);
+          }
+          return resolve(new Uint8Array(data));
+        }).catch(reject);
+      });
+    }
+
+    /**
      * Get the metadata of the score (for scores hosted on Flat)
      *
      * @return {Promise}

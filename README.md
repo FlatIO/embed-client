@@ -86,6 +86,7 @@ When instantiating `Flat.Embed`, you can pass options in the second parameter. I
   * [`loadJSON`](#loadjsonscore-object-promisevoid-error): Load Flat JSON file
   * [`getMusicXML`](#getmusicxmloptions-object-promisestringuint8array-error): Get the score in MusicXML (compressed or not)
   * [`getJSON`](#getjson-object): Get the score data in Flat JSON format
+  * [`getPNG`](#getpngoptions-object-promisestringuint8array-error): Get the score as a PNG file
   * [`getScoreMeta`](#getscoremeta-object): Get the metadata from the current score (for hosted scores)
   * [`fullscreen`](#fullscreenstate-bool-promisevoid-error): Toggle fullscreen mode
   * [`play`](#play-promisevoid-error): Start playback
@@ -269,6 +270,26 @@ embed.getJSON().then(function (data) {
   console.log(data);
 }).catch(function (error) {
   // Unable to get the data
+});
+```
+
+### `getPNG(options?: object): Promise<string|Uint8Array, Error>`
+
+Get the current displayed score as a PNG file
+
+```js
+// PNG
+embed.getPNG().then(function (png) {
+  // PNG file as a Uint8Array
+  console.log(png);
+});
+```
+
+```js
+// PNG
+embed.getPNG({result: 'dataURL'}).then(function (png) {
+  // PNG file as a DataURL
+  console.log(png);
 });
 ```
 

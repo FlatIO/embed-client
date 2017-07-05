@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.4.0
+
+* Add method: `getPNG`
+
 ## v0.3.0
 
 * Add methods: `getEmbedConfig`, `setEditorConfig`, `edit`
