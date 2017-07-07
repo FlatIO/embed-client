@@ -25,10 +25,10 @@ or
 bower install flat-embed
 ```
 
-or use the latest version hosted on [jsDelivr](https://www.jsdelivr.com/projects/flat-embed):
+or use the latest version hosted on jsDelivr:
 
 ```html
-<script src="https://cdn.jsdelivr.net/flat-embed/0.3.0/embed.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flat-embed@v0.5.0/dist/embed.min.js"></script>
 ```
 
 ## Getting Started
@@ -37,7 +37,7 @@ The simplest way to get started is the pass a DOM element to our embed that will
 
 ```html
 <div id="embed-container"></div>
-<script src="https://cdn.jsdelivr.net/flat-embed/0.3.0/embed.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flat-embed@v0.5.0/dist/embed.min.js"></script>
 <script>
   var container = document.getElementById('embed-container');
   var embed = new Flat.Embed(container, {
@@ -406,7 +406,7 @@ embed.setAutoZoom(false).then(function (state) {
 
 ### `focusScore(): Promise(<void, Error>)`
 
-Unlike the web version on https://flat.io, the embed does't catch the focus. This avoids to mess with the parent window, and avoid the browser to do a forced scrolling to the embed iframe.
+Unlike the web version on <https://flat.io>, the embed does't catch the focus. This avoids to mess with the parent window, and avoid the browser to do a forced scrolling to the embed iframe.
 
 If the end-user's goal is the usage of the embed to play or write notation, you can use this method to set the focus on the score and allowing they to use the keyboard bindings.
 
