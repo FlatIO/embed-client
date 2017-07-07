@@ -1,4 +1,4 @@
-/*! flat-embed v0.3.0 | (c) 2017 Tutteo Ltd. (Flat) | Apache-2.0 License | https://github.com/FlatIO/embed-client */
+/*! flat-embed v0.4.0 | (c) 2017 Tutteo Ltd. (Flat) | Apache-2.0 License | https://github.com/FlatIO/embed-client */
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
@@ -2542,6 +2542,18 @@ var Embed = function () {
     key: 'setAutoZoom',
     value: function setAutoZoom(state) {
       return this.call('setAutoZoom', state);
+    }
+
+    /**
+     * Set the focus to the score
+     *
+     * @return {Promise}
+     */
+
+  }, {
+    key: 'focusScore',
+    value: function focusScore() {
+      return this.call('focusScore');
     }
 
     /**

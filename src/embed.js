@@ -326,6 +326,15 @@ class Embed {
   }
 
   /**
+   * Set the focus to the score
+   *
+   * @return {Promise}
+   */
+   focusScore() {
+     return this.call('focusScore');
+   }
+
+  /**
    * Call Flat's internal edit methods
    *
    * @param {operations} The operations to process

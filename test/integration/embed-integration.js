@@ -383,6 +383,33 @@ describe('Integration - Embed', () => {
     });
   });
 
+  describe('Focus score', () => {
+    it('should focus the score', (done) => {
+      var container = document.createElement('div');
+      document.body.appendChild(container);
+
+      var embed = new Flat.Embed(container, {
+        score: PUBLIC_SCORE,
+        baseUrl: BASE_URL,
+        embedParams: {
+          appId: APP_ID,
+          layout: 'page'
+        }
+      });
+
+      embed.ready()
+      .then(() => {
+        assert.equal(document.activeElement.nodeName, 'BODY');
+        return embed.focusScore();
+      })
+      .then(() => {
+        assert.equal(document.activeElement.nodeName, 'IFRAME');
+        container.parentNode.removeChild(container);
+        done();
+      })
+    });
+  });
+
   describe('Zoom', () => {
     it('should load an embed in page mode and have the zoom auto set', (done) => {
       var container = document.createElement('div');
@@ -403,8 +430,8 @@ describe('Integration - Embed', () => {
       })
       .then(() => {
         return embed.getZoom();
-      }).
-      then((zoom) => {
+      })
+      .then((zoom) => {
         assert.ok(Number.isFinite(zoom));
         assert.ok(zoom >= 0.5);
         assert.ok(zoom < 3);

@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.5.0
+
+* Add method: `focusScore`
+
 ## v0.4.0
 
 * Add method: `getPNG`

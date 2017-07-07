@@ -97,6 +97,7 @@ When instantiating `Flat.Embed`, you can pass options in the second parameter. I
   * [`setZoom`](#setzoomnumber-promisenumber-error): Change the display zoom ratio
   * [`getAutoZoom`](#getautozoom-promiseboolean-error): Get the state of the auto-zoom mode
   * [`setAutoZoom`](#setautozoomboolean-promiseboolean-error): Enable or disable the auto-zoom mode
+  * [`focusScore`](#focusscore-promisevoid-error): Set the focus to the score
 * [Editor Methods](#editor-methods)
   * [`setEditorConfig`](#seteditorconfigconfig-object-promiseobject-error): Set the config of the editor
   * [`edit`](#editoperations-object-promisevoid-error): Make a modification to the document
@@ -400,6 +401,18 @@ Enable (`true`) or disable (`false`) the auto-zoom. Auto-zoom is enabled by defa
 embed.setAutoZoom(false).then(function (state) {
   // Auto-zoom mode is disabled
   console.log(state);
+});
+```
+
+### `focusScore(): Promise(<void, Error>)`
+
+Unlike the web version on https://flat.io, the embed does't catch the focus. This avoids to mess with the parent window, and avoid the browser to do a forced scrolling to the embed iframe.
+
+If the end-user's goal is the usage of the embed to play or write notation, you can use this method to set the focus on the score and allowing they to use the keyboard bindings.
+
+```js
+embed.focusScore().then(function () {
+  // Focus is now on the score
 });
 ```
 
