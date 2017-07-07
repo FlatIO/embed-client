@@ -383,6 +383,52 @@ describe('Integration - Embed', () => {
     });
   });
 
+  describe('PNG export', () => {
+    it('should export in PNG (no options)', (done) => {
+      var container = document.createElement('div');
+      document.body.appendChild(container);
+
+      var embed = new Flat.Embed(container, {
+        score: PUBLIC_SCORE,
+        baseUrl: BASE_URL,
+        embedParams: {
+          appId: APP_ID,
+          layout: 'page'
+        }
+      });
+
+      embed.getPNG()
+      .then((png) => {
+        assert.ok(png instanceof Uint8Array);
+        assert.ok(png.length > 0);
+        container.parentNode.removeChild(container);
+        done();
+      });
+    });
+
+    it('should export in PNG (data Url)', (done) => {
+      var container = document.createElement('div');
+      document.body.appendChild(container);
+
+      var embed = new Flat.Embed(container, {
+        score: PUBLIC_SCORE,
+        baseUrl: BASE_URL,
+        embedParams: {
+          appId: APP_ID,
+          layout: 'page'
+        }
+      });
+
+      embed.getPNG({result: 'dataURL'})
+      .then((png) => {
+        assert.equal(typeof png, 'string');
+        assert.equal(png.indexOf('data:image/png;base64,'), 0);
+        container.parentNode.removeChild(container);
+        done();
+      });
+    });
+  });
+
   describe('Focus score', () => {
     it('should focus the score', (done) => {
       var container = document.createElement('div');
