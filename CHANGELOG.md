@@ -3,6 +3,7 @@
 ## v0.5.0
 
 * Add method: `focusScore`
+* New property `defaultMode` in editor config
 
 ## v0.4.0
 

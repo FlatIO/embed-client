@@ -439,7 +439,8 @@ embed.setEditorConfig({
   noteMode: {
     durations: true
   },
-  articulationMode: false
+  articulationMode: false,
+  defaultMode: 'note'
 }).then(function (config) {
   // The config of the embed
   console.log(config);
