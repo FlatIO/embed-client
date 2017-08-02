@@ -98,6 +98,8 @@ When instantiating `Flat.Embed`, you can pass options in the second parameter. I
   * [`getAutoZoom`](#getautozoom-promiseboolean-error): Get the state of the auto-zoom mode
   * [`setAutoZoom`](#setautozoomboolean-promiseboolean-error): Enable or disable the auto-zoom mode
   * [`focusScore`](#focusscore-promisevoid-error): Set the focus to the score
+  * [`getCursorPosition`](#getcursorposition-promiseobject-error): Get the current cursor position of the score
+  * [`setCursorPosition`](#setcursorpositionposition-object-promiseobject-error): Set a new position for the cursor
 * [Editor Methods](#editor-methods)
   * [`setEditorConfig`](#seteditorconfigconfig-object-promiseobject-error): Set the config of the editor
   * [`edit`](#editoperations-object-promisevoid-error): Make a modification to the document
@@ -413,6 +415,44 @@ If the end-user's goal is the usage of the embed to play or write notation, you 
 ```js
 embed.focusScore().then(function () {
   // Focus is now on the score
+});
+```
+
+### `getCursorPosition(): Promise(<object, Error>)`
+
+Return the current position of the cursor (on a specific note).
+
+```js
+embed.getCursorPosition().then(function (position) {
+  // position: {
+  //     "partIdx": 0,
+  //     "staffIdx": 1,
+  //     "voiceIdx": 0,
+  //     "measureIdx": 2,
+  //     "noteIdx": 1
+  // }
+});
+```
+
+### `setCursorPosition(position: object): Promise(<object, Error>)`
+
+Set the current position of the cursor (on a specific note).
+
+```js
+embed.setCursorPosition({
+  partIdx: 0,
+  staffIdx: 1,
+  voiceIdx: 0,
+  measureIdx: 2,
+  noteIdx: 1
+}).then(function (position) {
+  // position: {
+  //     "partIdx": 0,
+  //     "staffIdx": 1,
+  //     "voiceIdx": 0,
+  //     "measureIdx": 2,
+  //     "noteIdx": 1
+  // }
 });
 ```
 

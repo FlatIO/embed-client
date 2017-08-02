@@ -330,18 +330,39 @@ class Embed {
    *
    * @return {Promise}
    */
-   focusScore() {
-     return this.call('focusScore');
-   }
+  focusScore() {
+    return this.call('focusScore');
+  }
+
+  /**
+   * Get cursor position
+   *
+   * @return {Promise}
+   * @fullfill {boolean} Current cursor position
+   */
+  getCursorPosition() {
+    return this.call('getCursorPosition');
+  }
+
+  /**
+   * Set cursor position
+   *
+   * @param {object} position New cursor position
+   * @return {Promise}
+   * @fullfill {boolean} Current cursor position
+   */
+  setCursorPosition(position) {
+    return this.call('setCursorPosition', position);
+  }
 
   /**
    * Call Flat's internal edit methods
    *
    * @param {operations} The operations to process
    */
-   edit(operations) {
-     return this.call('edit', operations);
-   }
+  edit(operations) {
+    return this.call('edit', operations);
+  }
 }
 
 export default Embed;

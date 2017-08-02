@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.6.0
+
+* Add methods: `getCursorPosition` and `setCursorPosition`
+
 ## v0.5.0
 
 * Add method: `focusScore`

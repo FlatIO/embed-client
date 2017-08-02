@@ -429,6 +429,126 @@ describe('Integration - Embed', () => {
     });
   });
 
+  describe('Cursor position', () => {
+    it('should get the cursor position (default: 0)', (done) => {
+      var container = document.createElement('div');
+      document.body.appendChild(container);
+
+      var embed = new Flat.Embed(container, {
+        baseUrl: BASE_URL,
+        score: PUBLIC_SCORE,
+        embedParams: {
+          appId: APP_ID
+        }
+      });
+      embed.getCursorPosition().then((position) => {
+        assert.equal(position.partIdx, 0);
+        assert.equal(position.staffIdx, 0);
+        assert.equal(position.voiceIdx, 0);
+        assert.equal(position.measureIdx, 0);
+        assert.equal(position.noteIdx, 0);
+        container.parentNode.removeChild(container);
+        done();
+      })
+      .catch((error) => {
+        assert.ifError(error);
+      });
+    });
+
+    it('should set the cursor position then get it', (done) => {
+      var container = document.createElement('div');
+      document.body.appendChild(container);
+
+      var embed = new Flat.Embed(container, {
+        baseUrl: BASE_URL,
+        score: PUBLIC_SCORE,
+        embedParams: {
+          appId: APP_ID
+        }
+      });
+
+      embed.setCursorPosition({
+        partIdx: 0,
+        staffIdx: 0,
+        voiceIdx: 0,
+        measureIdx: 2,
+        noteIdx: 1,
+        extra: 'skip'
+      })
+      .then((position) => {
+        assert.equal(position.partIdx, 0);
+        assert.equal(position.staffIdx, 0);
+        assert.equal(position.voiceIdx, 0);
+        assert.equal(position.measureIdx, 2);
+        assert.equal(position.noteIdx, 1);
+        return embed.getCursorPosition();
+      })
+      .then((position) => {
+        assert.equal(position.partIdx, 0);
+        assert.equal(position.staffIdx, 0);
+        assert.equal(position.voiceIdx, 0);
+        assert.equal(position.measureIdx, 2);
+        assert.equal(position.noteIdx, 1);
+        container.parentNode.removeChild(container);
+        done();
+      })
+      .catch((error) => {
+        assert.ifError(error);
+      });
+    });
+
+    it('should fail to set cursor with missing param', (done) => {
+      var container = document.createElement('div');
+      document.body.appendChild(container);
+
+      var embed = new Flat.Embed(container, {
+        baseUrl: BASE_URL,
+        score: PUBLIC_SCORE,
+        embedParams: {
+          appId: APP_ID
+        }
+      });
+
+      embed.setCursorPosition({
+        partIdx: 0,
+        staffIdx: 0,
+        measureIdx: 2,
+        noteIdx: 1
+      })
+      .catch((error) => {
+        assert.equal(error.message, '`voiceIdx` should be an integer');
+        container.parentNode.removeChild(container);
+        done();
+      });
+    });
+
+    it('should set fail to set cursor with bad param value', (done) => {
+      var container = document.createElement('div');
+      document.body.appendChild(container);
+
+      var embed = new Flat.Embed(container, {
+        baseUrl: BASE_URL,
+        score: PUBLIC_SCORE,
+        embedParams: {
+          appId: APP_ID
+        }
+      });
+
+      embed.setCursorPosition({
+        partIdx: 0,
+        staffIdx: 0,
+        measureIdx: 2,
+        noteIdx: 1.1,
+        voiceIdx: 0
+      })
+      .catch((error) => {
+        assert.equal(error.message, '`noteIdx` should be an integer');
+        container.parentNode.removeChild(container);
+        done();
+      });
+    });
+  });
+
   describe('Focus score', () => {
     it('should focus the score', (done) => {
       var container = document.createElement('div');

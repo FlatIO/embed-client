@@ -1,4 +1,4 @@
-/*! flat-embed v0.4.0 | (c) 2017 Tutteo Ltd. (Flat) | Apache-2.0 License | https://github.com/FlatIO/embed-client */
+/*! flat-embed v0.6.0 | (c) 2017 Tutteo Ltd. (Flat) | Apache-2.0 License | https://github.com/FlatIO/embed-client */
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
@@ -2554,6 +2554,33 @@ var Embed = function () {
     key: 'focusScore',
     value: function focusScore() {
       return this.call('focusScore');
+    }
+
+    /**
+     * Get cursor position
+     *
+     * @return {Promise}
+     * @fullfill {boolean} Current cursor position
+     */
+
+  }, {
+    key: 'getCursorPosition',
+    value: function getCursorPosition() {
+      return this.call('getCursorPosition');
+    }
+
+    /**
+     * Set cursor position
+     *
+     * @param {object} position New cursor position
+     * @return {Promise}
+     * @fullfill {boolean} Current cursor position
+     */
+
+  }, {
+    key: 'setCursorPosition',
+    value: function setCursorPosition(position) {
+      return this.call('setCursorPosition', position);
     }
 
     /**
