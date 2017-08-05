@@ -1,4 +1,4 @@
-/*! flat-embed v0.6.0 | (c) 2017 Tutteo Ltd. (Flat) | Apache-2.0 License | https://github.com/FlatIO/embed-client */
+/*! flat-embed v0.7.0 | (c) 2017 Tutteo Ltd. (Flat) | Apache-2.0 License | https://github.com/FlatIO/embed-client */
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
@@ -2593,6 +2593,19 @@ var Embed = function () {
     key: 'edit',
     value: function edit(operations) {
       return this.call('edit', operations);
+    }
+
+    /**
+     * Call Flat's internal setNoteColor method
+     *
+     * @param {noteLocations} position of the notes to changer
+     * @param {color} The color to apply
+     */
+
+  }, {
+    key: 'setNoteColor',
+    value: function setNoteColor(noteLocation, color) {
+      return this.call('setNoteColor', { note: noteLocation, color: color });
     }
   }]);
 

@@ -363,6 +363,16 @@ class Embed {
   edit(operations) {
     return this.call('edit', operations);
   }
+
+  /**
+   * Call Flat's internal setNoteColor method
+   *
+   * @param {noteLocations} position of the notes to changer
+   * @param {color} The color to apply
+   */
+  setNoteColor(noteLocation, color) {
+    return this.call('setNoteColor', { note: noteLocation, color: color });
+  }
 }
 
 export default Embed;
