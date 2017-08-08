@@ -57,35 +57,39 @@ const build = () => {
     ]
   })
   .then((bundle) => {
-    const { code, map } = bundle.generate({
+    return bundle.generate({
       banner,
       moduleName: 'Flat.Embed',
       format: 'umd',
       sourceMap: true,
-      sourceMapFile: 'dist/embed.js.map',
+      sourceMapFile: 'dist/embed.js.map'
+    })
+    .then(({ code, map }) => {
+      fs.writeFileSync('dist/embed.js', `${code}\n//# sourceMappingURL=embed.js.map`);
+      fs.writeFileSync('dist/embed.js.map', map.toString());
+      
+      const minified = uglifyJs.minify(code, {
+        sourceMap: {
+          content: map,
+          filename: 'dist/embed.min.js.map'
+        },
+        output: {
+          preamble: banner
+        },
+        mangle: {
+          reserved: ['Embed']
+        }
+      });
+
+      fs.writeFileSync('dist/embed.min.js', minified.code.replace(/\/\/# sourceMappingURL=\S+/, ''));
+      fs.writeFileSync('dist/embed.min.js.map', minified.map);
+
+      console.log('Build done in dist/');
+      return minified;
+    })
+    .catch((error) => {
+      console.log(error);
     });
-
-    fs.writeFileSync('dist/embed.js', `${code}\n//# sourceMappingURL=embed.js.map`);
-    fs.writeFileSync('dist/embed.js.map', map.toString());
-
-    const minified = uglifyJs.minify(code, {
-      sourceMap: {
-        content: map,
-        filename: 'dist/embed.min.js.map'
-      },
-      output: {
-        preamble: banner
-      },
-      mangle: {
-        reserved: ['Embed']
-      }
-    });
-
-    fs.writeFileSync('dist/embed.min.js', minified.code.replace(/\/\/# sourceMappingURL=\S+/, ''));
-    fs.writeFileSync('dist/embed.min.js.map', minified.map);
-
-    console.log('Build done in dist/');
-    return minified;
   })
   .then(() => {
     building = false;
