@@ -98,6 +98,7 @@ When instantiating `Flat.Embed`, you can pass options in the second parameter. I
   * [`getAutoZoom`](#getautozoom-promiseboolean-error): Get the state of the auto-zoom mode
   * [`setAutoZoom`](#setautozoomboolean-promiseboolean-error): Enable or disable the auto-zoom mode
   * [`focusScore`](#focusscore-promisevoid-error): Set the focus to the score
+  * [`setNoteColor`](#setnotecolor-promisevoid-error): Set the color for the given note
   * [`getCursorPosition`](#getcursorposition-promiseobject-error): Get the current cursor position of the score
   * [`setCursorPosition`](#setcursorpositionposition-object-promiseobject-error): Set a new position for the cursor
 * [Editor Methods](#editor-methods)
@@ -415,6 +416,22 @@ If the end-user's goal is the usage of the embed to play or write notation, you 
 ```js
 embed.focusScore().then(function () {
   // Focus is now on the score
+});
+```
+
+### `setNoteColor(noteLocation: object, color: string): Promise(<object, Error>)`
+
+Set the color of the note at the location `noteLocation` (on a specific note).
+
+```js
+embed.setNoteColor({
+    "partIdx": 0,
+    "voiceIdx": 0,
+    "measureIdx": 2,
+    "noteIdx": 1,
+    "line": 2.5
+}, 'red').then(function () {
+  // Note is now red
 });
 ```
 

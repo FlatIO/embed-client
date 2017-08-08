@@ -365,9 +365,9 @@ class Embed {
   }
 
   /**
-   * Call Flat's internal setNoteColor method
+   * Set note color
    *
-   * @param {noteLocations} position of the notes to changer
+   * @param {noteLocation} position of the note to change
    * @param {color} The color to apply
    */
   setNoteColor(noteLocation, color) {
