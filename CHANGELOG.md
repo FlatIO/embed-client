@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.7.0
+
+* Add method: `setNoteColor`
+
 ## v0.6.0
 
 * Add methods: `getCursorPosition` and `setCursorPosition`

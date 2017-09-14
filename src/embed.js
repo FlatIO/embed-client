@@ -363,6 +363,16 @@ class Embed {
   edit(operations) {
     return this.call('edit', operations);
   }
+
+  /**
+   * Set note color
+   *
+   * @param {noteLocation} position of the note to change
+   * @param {color} The color to apply
+   */
+  setNoteColor(noteLocation, color) {
+    return this.call('setNoteColor', { note: noteLocation, color: color });
+  }
 }
 
 export default Embed;
