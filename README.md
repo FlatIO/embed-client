@@ -9,26 +9,22 @@
 
 Use this JavaScript Client to interact and receive events from our [Sheet Music Embed](https://flat.io/developers/embed).
 
-This API requires an API Key, [please contact us for more information](mailto:developers@flat.io).
+If you have any feedback or questions regarding this product, [please feel free to contact our developers support](mailto:developers@flat.io).
 
 ## Installation
 
-You can install our Embed Client using npm or bower:
+You can install our Embed Client using [npm](https://www.npmjs.com/package/flat-embed), [yarn](https://yarnpkg.com/en/package/flat-embed) or bower:
 
 ```bash
 npm install flat-embed
-```
-
-or
-
-```bash
+yarn add flat-embed
 bower install flat-embed
 ```
 
 or use the latest version hosted on jsDelivr:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/flat-embed@v0.5.0/dist/embed.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flat-embed@v0.7.0/dist/embed.min.js"></script>
 ```
 
 ## Getting Started
@@ -37,7 +33,7 @@ The simplest way to get started is the pass a DOM element to our embed that will
 
 ```html
 <div id="embed-container"></div>
-<script src="https://cdn.jsdelivr.net/npm/flat-embed@v0.5.0/dist/embed.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flat-embed@v0.7.0/dist/embed.min.js"></script>
 <script>
   var container = document.getElementById('embed-container');
   var embed = new Flat.Embed(container, {
@@ -49,6 +45,13 @@ The simplest way to get started is the pass a DOM element to our embed that will
   });
 </script>
 ```
+*[>> Open this demo in JSFiddle](https://jsfiddle.net/gierschv/jr91116y/)*
+
+### App ID
+
+Our Embed JS API requires an App ID (`appId`) to use it:
+* In development, you can try and use this client without limits on `localhost`/`*.localhost`.
+* To use it in production or with a custom domain, [create a new app on our website](flat.io/developers/apps), then go to the *Embed > Settings* and add your domains to the whitelist. Your app ID will also be displayed on this page.
 
 ## Embed construction
 
