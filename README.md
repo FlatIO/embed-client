@@ -51,7 +51,7 @@ The simplest way to get started is the pass a DOM element to our embed that will
 
 Our Embed JS API requires an App ID (`appId`) to use it:
 * In development, you can try and use this client without limits on `localhost`/`*.localhost`.
-* To use it in production or with a custom domain, [create a new app on our website](flat.io/developers/apps), then go to the *Embed > Settings* and add your domains to the whitelist. Your app ID will also be displayed on this page.
+* To use it in production or with a custom domain, [create a new app on our website](https://flat.io/developers/apps), then go to the *Embed > Settings* and add your domains to the whitelist. Your app ID will also be displayed on this page.
 
 ## Embed construction
 
