@@ -9,7 +9,6 @@ const rollup = require('rollup');
 const babel = require('rollup-plugin-babel');
 const resolve = require('rollup-plugin-node-resolve');
 const commonjs = require('rollup-plugin-commonjs');
-const hypothetical = require('rollup-plugin-hypothetical');
 
 // Banner
 const pkg = require('./package.json');
