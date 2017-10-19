@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.8.0
+
+* Switch from babel-preset-es2015 to babel-preset-env
+* Remove rollup-plugin-hypothetical and babel-plugin-transform-runtime
+
 ## v0.7.0
 
 * Add method: `setNoteColor`

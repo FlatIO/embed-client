@@ -36,14 +36,8 @@ const build = () => {
   }
 
   rollup.rollup({
-    entry: 'src/embed.js',
+    input: 'src/embed.js',
     plugins: [
-      hypothetical({
-        allowRealFiles: true,
-        files: {
-          './node_modules/core-js/library/modules/es6.object.to-string.js': 'export default null'
-        }
-      }),
       babel({
         runtimeHelpers: true,
         exclude: 'node_modules/**'
@@ -59,15 +53,15 @@ const build = () => {
   .then((bundle) => {
     return bundle.generate({
       banner,
-      moduleName: 'Flat.Embed',
+      name: 'Flat.Embed',
       format: 'umd',
-      sourceMap: true,
-      sourceMapFile: 'dist/embed.js.map'
+      sourcemap: true,
+      sourcemapFile: 'dist/embed.js.map'
     })
     .then(({ code, map }) => {
       fs.writeFileSync('dist/embed.js', `${code}\n//# sourceMappingURL=embed.js.map`);
       fs.writeFileSync('dist/embed.js.map', map.toString());
-      
+
       const minified = uglifyJs.minify(code, {
         sourceMap: {
           content: map,

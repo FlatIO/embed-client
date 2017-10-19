@@ -24,7 +24,7 @@ bower install flat-embed
 or use the latest version hosted on jsDelivr:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/flat-embed@v0.7.0/dist/embed.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flat-embed@v0.8.0/dist/embed.min.js"></script>
 ```
 
 ## Getting Started
@@ -33,7 +33,7 @@ The simplest way to get started is the pass a DOM element to our embed that will
 
 ```html
 <div id="embed-container"></div>
-<script src="https://cdn.jsdelivr.net/npm/flat-embed@v0.7.0/dist/embed.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flat-embed@v0.8.0/dist/embed.min.js"></script>
 <script>
   var container = document.getElementById('embed-container');
   var embed = new Flat.Embed(container, {
