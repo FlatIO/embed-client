@@ -95,6 +95,7 @@ When instantiating `Flat.Embed`, you can pass options in the second parameter. I
   * [`play`](#play-promisevoid-error): Start playback
   * [`pause`](#pause-promisevoid-error): Pause playback
   * [`stop`](#stop-promisevoid-error): Stop playback
+  * [`mute`](#mute-promisevoid-error): Mute playback
   * [`print`](#print-promisevoid-error): Print the score
   * [`getZoom`](#getzoom-promisenumber-error): Get the current display zoom ratio
   * [`setZoom`](#setzoomnumber-promisenumber-error): Change the display zoom ratio
@@ -349,6 +350,16 @@ Stop the playback
 ```js
 embed.stop().then(function () {
   // The playback is stopped
+});
+```
+
+### `mute(): Promise<void, Error>`
+
+Mute the playback
+
+```js
+embed.mute().then(function () {
+  // The playback is muted
 });
 ```
 

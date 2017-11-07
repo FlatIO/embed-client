@@ -275,6 +275,15 @@ class Embed {
   }
 
   /**
+   * Mute playback
+   *
+   * @return {Promise}
+   */
+  mute() {
+    return this.call('mute');
+  }
+
+  /**
    * Print the score
    *
    * @return {Promise}
