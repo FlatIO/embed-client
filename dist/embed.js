@@ -723,6 +723,18 @@ var Embed = function () {
     }
 
     /**
+     * Mute playback
+     *
+     * @return {Promise}
+     */
+
+  }, {
+    key: 'mute',
+    value: function mute() {
+      return this.call('mute');
+    }
+
+    /**
      * Print the score
      *
      * @return {Promise}
