@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.9.0
+
+* Add method: `mute`
+
 ## v0.8.0
 
 * Switch from babel-preset-es2015 to babel-preset-env
