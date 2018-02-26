@@ -29,7 +29,7 @@ or use the latest version hosted on jsDelivr:
 
 ## Getting Started
 
-The simplest way to get started is the pass a DOM element to our embed that will be used as container. By default, this one will completely fit its container:
+The simplest way to get started is to pass a DOM element to our embed that will be used as container. By default, this one will completely fit its container:
 
 ```html
 <div id="embed-container"></div>
