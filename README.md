@@ -495,7 +495,7 @@ You can enable the editor mode by setting the `mode` to `edit` when creating the
 var embed = new Flat.Embed(container, {
   embedParams: {
     appId: '<your-app-id>',
-    modeL 'edit'
+    mode: 'edit'
   }
 });
 ```
