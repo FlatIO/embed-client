@@ -520,17 +520,8 @@ embed.setEditorConfig({
 
 ### `edit(operations: object): Promise<void, Error>`
 
-Process some edit operations using one of our internal editing method. Feel free to [contact our developers support](mailto:developers@flat.io) to get more information about the operations available.
-
-```js
-embed.edit([
-  { name: 'action.SetTitle', opts: { title: 'I <3 Flat'} }
-]).then(function () {
-  // The actions have been executed
-}).catch(function (error) {
-  // Error while executing the actions
-});
-```
+**NOTE: This method is now deprecated. Dedicated editing methods will be available in the upcoming weeks.
+[Please contact our team](mailto:developers@flat.io) if you are interested in using them.**
 
 ## Events API
 
@@ -612,6 +603,8 @@ This event is triggered when the playback slider moves. It is usually triggered 
 ```
 
 ### Event: `edit`
+
+**NOTE: This event format will change in the upcoming weeks for simpler edit information, the current format is now deprecated. [Please contact our team](mailto:developers@flat.io) if you are interested in using the new format.**
 
 This event is triggered when one or multiple modifications ave been made to the document. This one will contain a list of operations made:
 
