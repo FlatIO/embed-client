@@ -502,17 +502,12 @@ var embed = new Flat.Embed(container, {
 
 ### `setEditorConfig(config: object): Promise<object, Error>`
 
+**NOTE: "Modes" are now deprecated and new options will be available for this method in the upcoming weeks. [Please contact our team](mailto:developers@flat.io) if you are interested in customizing the embed editor.**
+
 Set a new config for the editor (e.g. the different tools available in the embed). This one will be used at the next loading score.
 
 ```js
-// For example: hide the Articulation mode, and only display the durations tools in the Note mode
-embed.setEditorConfig({
-  noteMode: {
-    durations: true
-  },
-  articulationMode: false,
-  defaultMode: 'note'
-}).then(function (config) {
+embed.setEditorConfig({}).then(function (config) {
   // The config of the embed
   console.log(config);
 });
