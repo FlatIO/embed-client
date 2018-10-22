@@ -363,25 +363,6 @@ class Embed {
   setCursorPosition(position) {
     return this.call('setCursorPosition', position);
   }
-
-  /**
-   * Call Flat's internal edit methods
-   *
-   * @param {operations} The operations to process
-   */
-  edit(operations) {
-    return this.call('edit', operations);
-  }
-
-  /**
-   * Set note color
-   *
-   * @param {noteLocation} position of the note to change
-   * @param {color} The color to apply
-   */
-  setNoteColor(noteLocation, color) {
-    return this.call('setNoteColor', { note: noteLocation, color: color });
-  }
 }
 
 export default Embed;

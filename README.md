@@ -102,23 +102,19 @@ When instantiating `Flat.Embed`, you can pass options in the second parameter. I
   * [`getAutoZoom`](#getautozoom-promiseboolean-error): Get the state of the auto-zoom mode
   * [`setAutoZoom`](#setautozoomboolean-promiseboolean-error): Enable or disable the auto-zoom mode
   * [`focusScore`](#focusscore-promisevoid-error): Set the focus to the score
-  * [`setNoteColor`](#setnotecolornotelocation-object-color-string-promiseobject-error): Set the color for the given note
   * [`getCursorPosition`](#getcursorposition-promiseobject-error): Get the current cursor position of the score
   * [`setCursorPosition`](#setcursorpositionposition-object-promiseobject-error): Set a new position for the cursor
 * [Editor Methods](#editor-methods)
   * [`setEditorConfig`](#seteditorconfigconfig-object-promiseobject-error): Set the config of the editor
-  * [`edit`](#editoperations-object-promisevoid-error): Make a modification to the document
 * [Events API](#events-api)
   * [`scoreLoaded`](#event-scoreLoaded): A new score has been loaded
   * [`cursorPosition`](#event-cursorposition): The cursor position changed
   * [`rangeSelection`](#event-rangeSelection): The range selected changed
   * [`fullscreen`](#event-fullscreen): The fullscreen state changed
-  * [`print`](#event-print): The score was printed
   * [`play`](#event-play): The score playback started
   * [`pause`](#event-pause): The score playback paused
   * [`stop`](#event-stop): The score playback stopped
   * [`playbackPosition`](#event-playbackposition): The playback slider position changed
-  * [`edit`](#event-edit): An edition has been made to the document
 
 ## Viewer Methods
 
@@ -433,22 +429,6 @@ embed.focusScore().then(function () {
 });
 ```
 
-### `setNoteColor(noteLocation: object, color: string): Promise(<object, Error>)`
-
-Set the color of the note at the location `noteLocation` (on a specific note).
-
-```js
-embed.setNoteColor({
-    "partIdx": 0,
-    "voiceIdx": 0,
-    "measureIdx": 2,
-    "noteIdx": 1,
-    "line": 2.5
-}, 'red').then(function () {
-  // Note is now red
-});
-```
-
 ### `getCursorPosition(): Promise(<object, Error>)`
 
 Return the current position of the cursor (on a specific note).
@@ -513,11 +493,6 @@ embed.setEditorConfig({}).then(function (config) {
 });
 ```
 
-### `edit(operations: object): Promise<void, Error>`
-
-**NOTE: This method is now deprecated. Dedicated editing methods will be available in the upcoming weeks.
-[Please contact our team](mailto:developers@flat.io) if you are interested in using them.**
-
 ## Events API
 
 Events are broadcasted following actions made by the end user or you with the JavaScript API. You can subscribe to an event using the method [`on`](#onevent-string-callback-function-void), and unsubscribe using [`off`](#onevent-string-callback-function-void). When an event includes some data, this data will be available in the first parameter of the listener callback.
@@ -567,10 +542,6 @@ This event is triggered when a range of notes is selected or the selection chang
 
 This event is triggered when the state of the fullscreen changed. The callback will take a boolean as the first parameter that will be `true` if the fullscreen mode is enabled, and `false` is the display is back to normal (fullscreen exited).
 
-### Event: `print`
-
-This event is triggered when you or the end-user prints the score. This event doesn't include any data.
-
 ### Event: `play`
 
 This event is triggered when you or the end-user starts the playback. This event doesn't include any data.
@@ -595,28 +566,4 @@ This event is triggered when the playback slider moves. It is usually triggered 
     "currentMeasure": 1,
     "timePerMeasure": 2
 }
-```
-
-### Event: `edit`
-
-**NOTE: This event format will change in the upcoming weeks for simpler edit information, the current format is now deprecated. [Please contact our team](mailto:developers@flat.io) if you are interested in using the new format.**
-
-This event is triggered when one or multiple modifications ave been made to the document. This one will contain a list of operations made:
-
-```json
-[
-    {
-        "name": "action.SetTempo",
-        "opts": {
-            "startMeasureIdx": 0,
-            "stopMeasureIdx": 1,
-            "tempo": {
-                "bpm": 142,
-                "qpm": 142,
-                "durationType": 3,
-                "nbDots": 0
-            }
-        }
-    }
-]
 ```

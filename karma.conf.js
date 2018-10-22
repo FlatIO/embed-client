@@ -6,7 +6,7 @@ module.exports = function(config) {
     client: {
       mocha: {
         timeout: '30000ms',
-        // grep: 'Editor modifications'
+        // grep: 'GREP'
       }
     },
     files: [
@@ -29,7 +29,7 @@ module.exports = function(config) {
     },
     singleRun: false,
     concurrency: Infinity,
-    browserNoActivityTimeout: 30000
+    browserNoActivityTimeout: 60000
   };
 
   if (process.env.TRAVIS) {

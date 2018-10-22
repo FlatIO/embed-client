@@ -4,7 +4,7 @@
  * @param {object} parameters
  */
 export function buildIframeUrl(parameters) {
-  let url = (parameters.baseUrl || 'https://flat.io/embed');
+  let url = (parameters.baseUrl || 'https://flat-embed.com');
 
   // Score id or blank embed
   url += '/' + (parameters.score || 'blank');

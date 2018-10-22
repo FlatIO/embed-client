@@ -34,8 +34,9 @@
     "build:watch": "npm run build --watch",
     "test": "npm run eslint && npm run test:unit && npm run test:karma",
     "eslint": "./node_modules/.bin/eslint src",
-    "test:unit": "./node_modules/.bin/mocha --ui exports --reporter spec --slow 150ms --timeout 30000ms test/unit",
-    "test:karma": "./node_modules/.bin/karma start --single-run"
+    "test:unit": "./node_modules/.bin/mocha --ui exports --reporter spec --slow 150ms --timeout 30000ms test/unit --exit",
+    "test:karma": "./node_modules/.bin/karma start --single-run",
+    "test:karma-watch": "./node_modules/.bin/karma start --single-run=false --auto-watch"
   },
   "devDependencies": {
     "babel-core": "^6.24.1",

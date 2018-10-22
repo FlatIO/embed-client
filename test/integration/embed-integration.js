@@ -1,10 +1,10 @@
 var APP_ID = '58fa312bea9bbd061b0ea8f3',
-  BASE_URL = 'https://flat.io/embed',
+  BASE_URL = 'https://flat-embed.com',
   PUBLIC_SCORE = '56ae21579a127715a02901a6';
 
 // APP_ID = '58e90082688f3e99d1244f58';
-// BASE_URL = 'http://flat.dev:3000/embed';
-// PUBLIC_SCORE = '58f93f70874b3f526d3d45e0';
+// BASE_URL = 'http://vincent.ovh:3000/embed';
+// PUBLIC_SCORE = '5bcc8e5b32023d903fb5fb26';
 
 describe('Integration - Embed', () => {
   describe('Loading embed', () => {
@@ -115,7 +115,8 @@ describe('Integration - Embed', () => {
 
     it('should plug into an existing iframe', (done) => {
       var iframe = document.createElement('iframe');
-      iframe.setAttribute('src', BASE_URL + '/' + PUBLIC_SCORE + '?jsapi=true&appId=' + APP_ID);
+      var baseUrl = BASE_URL || 'https://flat-embed.com';
+      iframe.setAttribute('src', baseUrl + '/' + PUBLIC_SCORE + '?jsapi=true&appId=' + APP_ID);
       document.body.appendChild(iframe);
 
       var embed = new Flat.Embed(iframe);
@@ -142,6 +143,10 @@ describe('Integration - Embed', () => {
 
       embed.getJSON().then((json) => {
         assert.ok(json['score-partwise']);
+        return embed.getFlatScoreMetadata();
+      })
+      .then((meta) => {
+        assert.equal(meta.title, 'House of the Rising Sun');
         container.parentNode.removeChild(container);
         done();
       });
@@ -447,6 +452,10 @@ describe('Integration - Embed', () => {
         assert.equal(position.voiceIdx, 0);
         assert.equal(position.measureIdx, 0);
         assert.equal(position.noteIdx, 0);
+        assert.ok(position.partUuid);
+        assert.ok(position.staffUuid);
+        assert.ok(position.measureUuid);
+        assert.ok(position.voiceUuid);
         container.parentNode.removeChild(container);
         done();
       })
@@ -510,13 +519,11 @@ describe('Integration - Embed', () => {
       });
 
       embed.setCursorPosition({
-        partIdx: 0,
-        staffIdx: 0,
-        measureIdx: 2,
         noteIdx: 1
       })
       .catch((error) => {
-        assert.equal(error.message, '`voiceIdx` should be an integer');
+        assert.equal(error.code, 'BadPartIdxError');
+        assert.equal(error.message, 'There is no part at the index [undefined<undefined>].');
         container.parentNode.removeChild(container);
         done();
       });
@@ -537,12 +544,12 @@ describe('Integration - Embed', () => {
       embed.setCursorPosition({
         partIdx: 0,
         staffIdx: 0,
-        measureIdx: 2,
-        noteIdx: 1.1,
+        measureIdx: true,
+        noteIdx: 0,
         voiceIdx: 0
       })
       .catch((error) => {
-        assert.equal(error.message, '`noteIdx` should be an integer');
+        assert.equal(error.message, 'Parameter measureIdx should be a number, not boolean');
         container.parentNode.removeChild(container);
         done();
       });
@@ -601,6 +608,18 @@ describe('Integration - Embed', () => {
         assert.ok(Number.isFinite(zoom));
         assert.ok(zoom >= 0.5);
         assert.ok(zoom < 3);
+        return embed.getAutoZoom();
+      })
+      .then((autoZoom) => {
+        assert.ok(autoZoom);
+        return embed.setAutoZoom(false);
+      })
+      .then((autoZoom) => {
+        assert.ok(!autoZoom);
+        return embed.getAutoZoom();
+      })
+      .then((autoZoom) => {
+        assert.ok(!autoZoom);
         container.parentNode.removeChild(container);
         done();
       });
@@ -620,7 +639,7 @@ describe('Integration - Embed', () => {
       });
 
       embed.setZoom(2, (zoom) => {
-        assert.equal(zoo, 2);
+        assert.equal(zoom, 2);
         done();
       })
       .then(() => {
@@ -672,11 +691,7 @@ describe('Integration - Embed', () => {
       });
 
       embed.on('playbackPosition', (pos) => {
-        assert.equal(pos.beat, 4);
-        assert.equal(pos.beatType, 4);
-        assert.ok(pos.tempo >= 60);
-        assert.ok(pos.timePerMeasure >= 1);
-        assert.ok(pos.currentMeasure >= 1); // 1 or 2? Event should be sent for first measure?
+        assert.ok(pos.currentMeasure >= 0, 'currentMeasure');
         container.parentNode.removeChild(container);
         done();
       });
@@ -729,181 +744,58 @@ describe('Integration - Embed', () => {
     });
   });
 
-  describe('Editor config', () => {
-    it('should fetch the viewer config', (done) => {
-      var container = document.createElement('div');
-      document.body.appendChild(container);
+  // describe('Editor config', () => {
+  //   it('should fetch the viewer config', (done) => {
+  //     var container = document.createElement('div');
+  //     document.body.appendChild(container);
 
-      var embed = new Flat.Embed(container, {
-        score: PUBLIC_SCORE,
-        baseUrl: BASE_URL,
-        embedParams: {
-          appId: APP_ID,
-          controlsFloating: false,
-          branding: false
-        }
-      });
+  //     var embed = new Flat.Embed(container, {
+  //       score: PUBLIC_SCORE,
+  //       baseUrl: BASE_URL,
+  //       embedParams: {
+  //         appId: APP_ID,
+  //         controlsFloating: false,
+  //         branding: false
+  //       }
+  //     });
 
-      embed.getEmbedConfig().then((config) => {
-        assert.equal(config.branding, false);
-        assert.equal(config.controlsPlay, true);
-        assert.equal(config.controlsFloating, false);
-        container.parentNode.removeChild(container);
-        done();
-      });
-    });
+  //     embed.getEmbedConfig().then((config) => {
+  //       assert.equal(config.branding, false);
+  //       assert.equal(config.controlsPlay, true);
+  //       assert.equal(config.controlsFloating, false);
+  //       container.parentNode.removeChild(container);
+  //       done();
+  //     });
+  //   });
 
-    it('should use the edit mode and set a tools config', (done) => {
-      var container = document.createElement('div');
-      document.body.appendChild(container);
+  //   it('should use the edit mode and set a tools config', (done) => {
+  //     var container = document.createElement('div');
+  //     document.body.appendChild(container);
 
-      var embed = new Flat.Embed(container, {
-        baseUrl: BASE_URL,
-        embedParams: {
-          appId: APP_ID,
-          mode: 'edit',
-          controlsFloating: false,
-          branding: false
-        }
-      });
+  //     var embed = new Flat.Embed(container, {
+  //       baseUrl: BASE_URL,
+  //       embedParams: {
+  //         appId: APP_ID,
+  //         mode: 'edit',
+  //         controlsFloating: false,
+  //         branding: false
+  //       }
+  //     });
 
-      embed.setEditorConfig({
-        noteMode: {
-          durations: true,
-          tuplet: false
-        },
-        articulationMode: false
-      }).then((config) => {
-        assert.ok(config.global);
-        assert.equal(config.articulationMode, false);
-        assert.equal(config.noteMode.durations, true);
-        assert.equal(config.noteMode.tuplet, false);
-        container.parentNode.removeChild(container);
-        done();
-      }).catch(done);
-    });
-  });
-
-  describe('Editor modifications', () => {
-    it('should make a modification, get the event and get the document updated', (done) => {
-      var container = document.createElement('div');
-      document.body.appendChild(container);
-
-      var embed = new Flat.Embed(container, {
-        score: PUBLIC_SCORE,
-        baseUrl: BASE_URL,
-        embedParams: {
-          appId: APP_ID,
-          mode: 'edit'
-        }
-      });
-
-      embed.on('edit', (operations) => {
-        assert.equal(operations.length, 1);
-        assert.equal(operations[0].name, 'action.SetTempo');
-        assert.equal(operations[0].opts.startMeasureIdx, 0);
-        assert.equal(operations[0].opts.stopMeasureIdx, 1);
-        assert.deepEqual(operations[0].opts.tempo, {
-          bpm: 142,
-          qpm: 142,
-          durationType: 3,
-          nbDots: 0
-        });
-      });
-
-      embed.edit([
-        {
-          name: 'action.SetTempo',
-          opts: {
-            startMeasureIdx: 0,
-            stopMeasureIdx: 1,
-            tempo: {
-              bpm: 142,
-              qpm: 142,
-              durationType: 3,
-              nbDots: 0
-            }
-          }
-        }
-      ]).then(() => {
-        return embed.getJSON();
-      }).then((json) => {
-        assert.equal(json['score-partwise'].part[0].measure[0].sound.$tempo, 142);
-        container.parentNode.removeChild(container);
-        done();
-      }).catch(done);
-    });
-
-    it('should fail to edit with bad ops arguments (edit error)', (done) => {
-      var container = document.createElement('div');
-      document.body.appendChild(container);
-
-      var embed = new Flat.Embed(container, {
-        score: PUBLIC_SCORE,
-        baseUrl: BASE_URL,
-        embedParams: {
-          appId: APP_ID,
-          mode: 'edit'
-        }
-      });
-
-      embed.edit([
-        {
-          name: 'action.SetTempo',
-          opts: {
-            startMeasureIdx: 0,
-            stopMeasureIdx: 1000000,
-            tempo: {
-              bpm: 142,
-              qpm: 142,
-              durationType: 3,
-              nbDots: 0
-            }
-          }
-        }
-      ]).then(() => {
-        return done('Should have fail');
-      }).catch((error) => {
-        assert.equal(error.code, 'BadMeasureIdxError');
-        assert.equal(error.message, 'There is no measure at the index [1000000<number>].');
-        container.parentNode.removeChild(container);
-        done();
-      })
-    });
-
-    it('should fail to edit with bad ops arguments (bad ops format)', (done) => {
-      var container = document.createElement('div');
-      document.body.appendChild(container);
-
-      var embed = new Flat.Embed(container, {
-        score: PUBLIC_SCORE,
-        baseUrl: BASE_URL,
-        embedParams: {
-          appId: APP_ID,
-          mode: 'edit'
-        }
-      });
-
-      embed.edit({
-        name: 'action.SetTempo',
-        opts: {
-          startMeasureIdx: 0,
-          stopMeasureIdx: 1000000,
-          tempo: {
-            bpm: 142,
-            qpm: 142,
-            durationType: 3,
-            nbDots: 0
-          }
-        }
-      }).then(() => {
-        return done('Should have fail');
-      }).catch((error) => {
-        assert.equal(error.code, 'TypeError');
-        assert.equal(error.message, 'Operations must be an array of operations');
-        container.parentNode.removeChild(container);
-        done();
-      })
-    });
-  });
+  //     embed.setEditorConfig({
+  //       noteMode: {
+  //         durations: true,
+  //         tuplet: false
+  //       },
+  //       articulationMode: false
+  //     }).then((config) => {
+  //       assert.ok(config.global);
+  //       assert.equal(config.articulationMode, false);
+  //       assert.equal(config.noteMode.durations, true);
+  //       assert.equal(config.noteMode.tuplet, false);
+  //       container.parentNode.removeChild(container);
+  //       done();
+  //     }).catch(done);
+  //   });
+  // });
 });
