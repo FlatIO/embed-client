@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.10.0
+
+* Update for the embed release
+* Use new CDN endpoint `flat-embed.com` by default
+* Remove deprecated `edit` action & event
+* Remove `setNoteColor` method
+
 ## v0.9.0
 
 * Add method: `mute`
