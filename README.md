@@ -4,7 +4,7 @@
 [![Greenkeeper badge](https://badges.greenkeeper.io/FlatIO/embed-client.svg?token=cd336afca22e743db5a44a2820f0e220d5e54a95530d1f03cc417ea5f0fbf8f0)](https://greenkeeper.io/)
 [![NPM Version](https://img.shields.io/npm/v/flat-embed.svg?style=flat)](https://www.npmjs.org/package/flat-embed)
 
-[![Flat's Sheet Music Embed](https://cloud.githubusercontent.com/assets/396537/25476654/26c46c40-2b3b-11e7-9966-1516196ca89b.png)](https://flat.io/developers/embed)
+[![Flat's Sheet Music Embed](https://user-images.githubusercontent.com/396537/47357635-99aeb600-d6c7-11e8-9ea0-441eaa2d4908.png)](https://flat.io/developers/embed)
 
 Use this JavaScript Client to interact and receive events from our [Sheet Music Embed](https://flat.io/developers/embed).
 
