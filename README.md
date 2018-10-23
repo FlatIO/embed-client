@@ -3,7 +3,6 @@
 [![Build Status](https://travis-ci.org/FlatIO/embed-client.svg?branch=master)](https://travis-ci.org/FlatIO/embed-client)
 [![Greenkeeper badge](https://badges.greenkeeper.io/FlatIO/embed-client.svg?token=cd336afca22e743db5a44a2820f0e220d5e54a95530d1f03cc417ea5f0fbf8f0)](https://greenkeeper.io/)
 [![NPM Version](https://img.shields.io/npm/v/flat-embed.svg?style=flat)](https://www.npmjs.org/package/flat-embed)
-![Bower Version](https://img.shields.io/bower/v/flat-embed.svg?style=flat)
 
 [![Flat's Sheet Music Embed](https://cloud.githubusercontent.com/assets/396537/25476654/26c46c40-2b3b-11e7-9966-1516196ca89b.png)](https://flat.io/developers/embed)
 
@@ -13,12 +12,11 @@ If you have any feedback or questions regarding this product, [please feel free 
 
 ## Installation
 
-You can install our Embed Client using [npm](https://www.npmjs.com/package/flat-embed), [yarn](https://yarnpkg.com/en/package/flat-embed) or bower:
+You can install our Embed Client using [npm](https://www.npmjs.com/package/flat-embed) or [yarn](https://yarnpkg.com/en/package/flat-embed):
 
 ```bash
 npm install flat-embed
 yarn add flat-embed
-bower install flat-embed
 ```
 
 or use the latest version hosted on jsDelivr:
