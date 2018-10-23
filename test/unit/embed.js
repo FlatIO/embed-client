@@ -8,7 +8,7 @@ describe('Unit - Embed tests', () => {
     it('should instance an Embed using a container', () => {
       const container = document.getElementById('container');
       const embed = new Embed(container);
-      assert.equal(embed.element.getAttribute('src'), 'https://flat.io/embed/blank?jsapi=true');
+      assert.equal(embed.element.getAttribute('src'), 'https://flat-embed.com/blank?jsapi=true');
       assert.equal(container.childNodes.length, 1);
       assert.equal(container.childNodes[0], embed.element);
       container.removeChild(embed.element);
@@ -17,7 +17,7 @@ describe('Unit - Embed tests', () => {
     it('should instance an Embed using a jQuery selector', () => {
       const container = $('#container');
       const embed = new Embed(container);
-      assert.equal(embed.element.getAttribute('src'), 'https://flat.io/embed/blank?jsapi=true');
+      assert.equal(embed.element.getAttribute('src'), 'https://flat-embed.com/blank?jsapi=true');
       assert.equal(container[0].childNodes.length, 1);
       assert.equal(container[0].childNodes[0], embed.element);
       container[0].removeChild(embed.element);
@@ -61,7 +61,7 @@ describe('Unit - Embed tests', () => {
     it('should pass an existing iframe', () => {
       const container = document.getElementById('container');
       const iframe = document.createElement('iframe');
-      iframe.setAttribute('src', 'https://flat.io/embed/1234');
+      iframe.setAttribute('src', 'https://flat-embed.com/1234');
       container.appendChild(iframe);
 
       const embed = new Embed(iframe);
@@ -114,7 +114,7 @@ describe('Unit - Embed tests', () => {
       const embed = new Embed(container, {
         score: '1234'
       });
-      assert.equal(embed.element.getAttribute('src'), 'https://flat.io/embed/1234?jsapi=true');
+      assert.equal(embed.element.getAttribute('src'), 'https://flat-embed.com/1234?jsapi=true');
       container.removeChild(embed.element);
     });
 
@@ -127,7 +127,7 @@ describe('Unit - Embed tests', () => {
           foo: 42
         }
       });
-      assert.equal(embed.element.getAttribute('src'), 'https://flat.io/embed/1234?jsapi=true&controlsFloating=false&foo=42');
+      assert.equal(embed.element.getAttribute('src'), 'https://flat-embed.com/1234?jsapi=true&controlsFloating=false&foo=42');
       container.removeChild(embed.element);
     });
 
@@ -141,7 +141,7 @@ describe('Unit - Embed tests', () => {
           themeCursorV0: '#E53935'
         }
       });
-      assert.equal(embed.element.getAttribute('src'), 'https://flat.io/embed/1234?jsapi=true&controlsFloating=false&themeIconsPrimary=%23E53935&themeCursorV0=%23E53935');
+      assert.equal(embed.element.getAttribute('src'), 'https://flat-embed.com/1234?jsapi=true&controlsFloating=false&themeIconsPrimary=%23E53935&themeCursorV0=%23E53935');
       assert.equal(embed.element.getAttribute('width'), '100%');
       assert.equal(embed.element.getAttribute('height'), '100%');
       container.removeChild(embed.element);
@@ -157,7 +157,7 @@ describe('Unit - Embed tests', () => {
           controlsFloating: false
         }
       });
-      assert.equal(embed.element.getAttribute('src'), 'https://flat.io/embed/1234?jsapi=true&controlsFloating=false');
+      assert.equal(embed.element.getAttribute('src'), 'https://flat-embed.com/1234?jsapi=true&controlsFloating=false');
       assert.equal(embed.element.getAttribute('width'), '800');
       assert.equal(embed.element.getAttribute('height'), '450');
       assert.equal(embed.element.getAttribute('allowfullscreen'), 'true');
