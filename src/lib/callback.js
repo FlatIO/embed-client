@@ -73,6 +73,9 @@ class EmbedCallback {
    * @param {object} data The data received from postMessage
    */
   processMethodResponse(data) {
+    if (!this.promises[data.method]) {
+      return;
+    }
     var promise = this.promises[data.method].shift();
     if (!promise) {
       return;
