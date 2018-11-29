@@ -205,6 +205,17 @@ class Embed {
    }
 
   /**
+   * Convert the displayed score in MIDI
+   *
+   * @return {Promise}
+   * @fullfill {Uint8Array} MIDI File
+   * @reject {Error} Conversion error
+   */
+  getMIDI() {
+    return this.call('getMIDI').then(data => new Uint8Array(data));
+  }
+
+  /**
    * Get the metadata of the score (for scores hosted on Flat)
    *
    * @return {Promise}
