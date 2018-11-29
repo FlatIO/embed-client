@@ -88,6 +88,7 @@ When instantiating `Flat.Embed`, you can pass options in the second parameter. I
   * [`getMusicXML`](#getmusicxmloptions-object-promisestringuint8array-error): Get the score in MusicXML (compressed or not)
   * [`getJSON`](#getjson-object): Get the score data in Flat JSON format
   * [`getPNG`](#getpngoptions-object-promisestringuint8array-error): Get the score as a PNG file
+  * [`getMIDI`](#getmidi-promiseuint8array-error): Get the score as a MIDI file
   * [`getScoreMeta`](#getscoremeta-object): Get the metadata from the current score (for hosted scores)
   * [`fullscreen`](#fullscreenstate-bool-promisevoid-error): Toggle fullscreen mode
   * [`play`](#play-promisevoid-error): Start playback
@@ -284,6 +285,25 @@ Get the current displayed score as a PNG file
 embed.getPNG().then(function (png) {
   // PNG file as a Uint8Array
   console.log(png);
+});
+```
+
+```js
+// PNG
+embed.getPNG({result: 'dataURL'}).then(function (png) {
+  // PNG file as a DataURL
+  console.log(png);
+});
+```
+
+### `getMIDI(): Promise<Uint8Array, Error>`
+
+Get the current displayed score as a MIDI file
+
+```js
+embed.getMIDI().then(function (midi) {
+  // MIDI file as a Uint8Array
+  console.log(midi);
 });
 ```
 

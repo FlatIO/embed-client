@@ -434,6 +434,30 @@ describe('Integration - Embed', () => {
     });
   });
 
+  describe('MIDI export', () => {
+    it('should export in MIDI', (done) => {
+      var container = document.createElement('div');
+      document.body.appendChild(container);
+
+      var embed = new Flat.Embed(container, {
+        score: PUBLIC_SCORE,
+        baseUrl: BASE_URL,
+        embedParams: {
+          appId: APP_ID,
+          layout: 'page'
+        }
+      });
+
+      embed.getMIDI()
+      .then((midi) => {
+        assert.ok(midi instanceof Uint8Array);
+        assert.ok(midi.length > 0);
+        container.parentNode.removeChild(container);
+        done();
+      });
+    });
+  });
+
   describe('Cursor position', () => {
     it('should get the cursor position (default: 0)', (done) => {
       var container = document.createElement('div');
