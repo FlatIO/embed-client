@@ -22,7 +22,7 @@ yarn add flat-embed
 or use the latest version hosted on jsDelivr:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/flat-embed@v0.10.0/dist/embed.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flat-embed@v0.11.0/dist/embed.min.js"></script>
 ```
 
 ## Getting Started
@@ -31,7 +31,7 @@ The simplest way to get started is to pass a DOM element to our embed that will 
 
 ```html
 <div id="embed-container"></div>
-<script src="https://cdn.jsdelivr.net/npm/flat-embed@v0.10.0/dist/embed.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flat-embed@v0.11.0/dist/embed.min.js"></script>
 <script>
   var container = document.getElementById('embed-container');
   var embed = new Flat.Embed(container, {
@@ -304,14 +304,6 @@ Get the current displayed score as a MIDI file
 embed.getMIDI().then(function (midi) {
   // MIDI file as a Uint8Array
   console.log(midi);
-});
-```
-
-```js
-// PNG
-embed.getPNG({result: 'dataURL'}).then(function (png) {
-  // PNG file as a DataURL
-  console.log(png);
 });
 ```
 
