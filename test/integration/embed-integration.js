@@ -716,8 +716,11 @@ describe('Integration - Embed', () => {
 
       embed.on('playbackPosition', (pos) => {
         assert.ok(pos.currentMeasure >= 0, 'currentMeasure');
-        container.parentNode.removeChild(container);
-        done();
+        if (container) {
+          container.parentNode.removeChild(container);
+          container = null;
+          done();
+        }
       });
 
       embed.play();
