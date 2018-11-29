@@ -456,7 +456,7 @@ embed.getCursorPosition().then(function (position) {
   // position: {
   //     "partIdx": 0,
   //     "staffIdx": 1,
-  //     "voiceIdx": 0,
+  //     "voiceIdxInStaff": 0,
   //     "measureIdx": 2,
   //     "noteIdx": 1
   // }
@@ -478,7 +478,7 @@ embed.setCursorPosition({
   // position: {
   //     "partIdx": 0,
   //     "staffIdx": 1,
-  //     "voiceIdx": 0,
+  //     "voiceIdxInStaff": 0,
   //     "measureIdx": 2,
   //     "noteIdx": 1
   // }

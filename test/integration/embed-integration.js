@@ -7,6 +7,16 @@ var APP_ID = '58fa312bea9bbd061b0ea8f3',
 // PUBLIC_SCORE = '5bcc8e5b32023d903fb5fb26';
 
 describe('Integration - Embed', () => {
+  // On failure, clean dom
+  afterEach(() => {
+    try {
+      [...document.querySelectorAll('div,iframe')].forEach(el => document.body.removeChild(el));
+    }
+    catch (err) {
+      // console.debug(err);
+    }
+  });
+
   describe('Loading embed', () => {
     it('should instance an Embed using a container', (done) => {
       var container = document.createElement('div');
@@ -473,7 +483,7 @@ describe('Integration - Embed', () => {
       embed.getCursorPosition().then((position) => {
         assert.equal(position.partIdx, 0);
         assert.equal(position.staffIdx, 0);
-        assert.equal(position.voiceIdx, 0);
+        assert.equal(position.voiceIdxInStaff, 0);
         assert.equal(position.measureIdx, 0);
         assert.equal(position.noteIdx, 0);
         assert.ok(position.partUuid);
@@ -503,7 +513,7 @@ describe('Integration - Embed', () => {
       embed.setCursorPosition({
         partIdx: 0,
         staffIdx: 0,
-        voiceIdx: 0,
+        voiceIdxInStaff: 0,
         measureIdx: 2,
         noteIdx: 1,
         extra: 'skip'
@@ -511,7 +521,7 @@ describe('Integration - Embed', () => {
       .then((position) => {
         assert.equal(position.partIdx, 0);
         assert.equal(position.staffIdx, 0);
-        assert.equal(position.voiceIdx, 0);
+        assert.equal(position.voiceIdxInStaff, 0);
         assert.equal(position.measureIdx, 2);
         assert.equal(position.noteIdx, 1);
         return embed.getCursorPosition();
@@ -519,7 +529,7 @@ describe('Integration - Embed', () => {
       .then((position) => {
         assert.equal(position.partIdx, 0);
         assert.equal(position.staffIdx, 0);
-        assert.equal(position.voiceIdx, 0);
+        assert.equal(position.voiceIdxInStaff, 0);
         assert.equal(position.measureIdx, 2);
         assert.equal(position.noteIdx, 1);
         container.parentNode.removeChild(container);
@@ -570,7 +580,7 @@ describe('Integration - Embed', () => {
         staffIdx: 0,
         measureIdx: true,
         noteIdx: 0,
-        voiceIdx: 0
+        voiceIdxInStaff: 0
       })
       .catch((error) => {
         assert.equal(error.message, 'Parameter measureIdx should be a number, not boolean');
