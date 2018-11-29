@@ -481,7 +481,7 @@
               return resolve(data);
             }
             // Compressed, re-create Uint8Array
-            return resolve(new Uint8Array(data.data));
+            return resolve(new Uint8Array(data));
           }).catch(reject);
         });
       }

@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.11.0
+
+* Add `getMIDI` update
+* Update `getMusicXML` to support new returned Uint8Array format (no more `.data`, response is at top level)
+
 ## v0.10.0
 
 * Update for the embed release
