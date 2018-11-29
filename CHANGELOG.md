@@ -4,6 +4,7 @@
 
 * Add `getMIDI` update
 * Update `getMusicXML` to support new returned Uint8Array format (no more `.data`, response is at top level)
+* Update cursor: `voiceIdx` is now `voiceIdxInStaff`
 
 ## v0.10.0
 
