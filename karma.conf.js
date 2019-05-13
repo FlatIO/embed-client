@@ -12,8 +12,9 @@ module.exports = function(config) {
     files: [
       'node_modules/jquery/dist/jquery.min.js',
       'dist/embed.js',
+      'test/unit/*.js',
       'test/integration/lib/*.js',
-      'test/integration/*.js'
+      'test/integration/*.js',
     ],
     reporters: ['mocha'],
     port: 9876,

@@ -1,13 +1,22 @@
-var assert = require('assert');
-var jsdom = require('jsdom/lib/old-api.js');
-var document = require('../helpers/node-browser-env');
-var Embed = require('../../dist/embed');
-
 describe('Unit - Embed tests', () => {
+  beforeEach(() => {
+    const container = document.createElement('div');
+    container.setAttribute('id', 'container');
+    document.body.appendChild(container);
+  });
+  afterEach(() => {
+    try {
+      [...document.querySelectorAll('div,iframe')].forEach(el => document.body.removeChild(el));
+    }
+    catch (err) {
+      // console.debug(err);
+    }
+  });
+
   describe('DOM', () => {
     it('should instance an Embed using a container', () => {
       const container = document.getElementById('container');
-      const embed = new Embed(container);
+      const embed = new Flat.Embed(container);
       assert.equal(embed.element.getAttribute('src'), 'https://flat-embed.com/blank?jsapi=true');
       assert.equal(container.childNodes.length, 1);
       assert.equal(container.childNodes[0], embed.element);
@@ -16,7 +25,7 @@ describe('Unit - Embed tests', () => {
 
     it('should instance an Embed using a jQuery selector', () => {
       const container = $('#container');
-      const embed = new Embed(container);
+      const embed = new Flat.Embed(container);
       assert.equal(embed.element.getAttribute('src'), 'https://flat-embed.com/blank?jsapi=true');
       assert.equal(container[0].childNodes.length, 1);
       assert.equal(container[0].childNodes[0], embed.element);
@@ -25,7 +34,7 @@ describe('Unit - Embed tests', () => {
 
     it('should instance an Embed using an id', () => {
       const container = document.getElementById('container');
-      const embed = new Embed('container');
+      const embed = new Flat.Embed('container');
       assert.equal(container.childNodes.length, 1);
       assert.equal(container.childNodes[0], embed.element);
       container.removeChild(embed.element);
@@ -33,16 +42,16 @@ describe('Unit - Embed tests', () => {
 
     it('should return the same instance when passing the same container', () => {
       const container = document.getElementById('container');
-      const embed = new Embed(container);
-      const embed2 = new Embed(container);
+      const embed = new Flat.Embed(container);
+      const embed2 = new Flat.Embed(container);
       assert.equal(embed, embed2);
       container.removeChild(embed.element);
     });
 
     it('should create a single container when passing the same container', () => {
       const container = document.getElementById('container');
-      const embed = new Embed(container);
-      const embed2 = new Embed(container);
+      const embed = new Flat.Embed(container);
+      const embed2 = new Flat.Embed(container);
       assert.equal(container.childNodes.length, 1);
       assert.equal(container.childNodes[0], embed.element);
       container.removeChild(embed.element);
@@ -50,8 +59,8 @@ describe('Unit - Embed tests', () => {
 
     it('should create a single container when passing the iframe', () => {
       const container = document.getElementById('container');
-      const embed = new Embed(container);
-      const embed2 = new Embed(embed.element);
+      const embed = new Flat.Embed(container);
+      const embed2 = new Flat.Embed(embed.element);
       assert.equal(embed, embed2);
       assert.equal(container.childNodes.length, 1);
       assert.equal(container.childNodes[0], embed.element);
@@ -64,13 +73,13 @@ describe('Unit - Embed tests', () => {
       iframe.setAttribute('src', 'https://flat-embed.com/1234');
       container.appendChild(iframe);
 
-      const embed = new Embed(iframe);
+      const embed = new Flat.Embed(iframe);
 
       // Has a single node
       assert.equal(container.childNodes.length, 1);
       assert.equal(container.childNodes[0], embed.element);
 
-      const embed2 = new Embed(iframe);
+      const embed2 = new Flat.Embed(iframe);
 
       // Single instance
       assert.equal(embed, embed2);
@@ -83,7 +92,7 @@ describe('Unit - Embed tests', () => {
     it('should throw with a non existing DOM element (string)', () => {
       assert.throws(
         () => {
-          new Embed('container-not-found');
+          new Flat.Embed('container-not-found');
         },
         TypeError
       );
@@ -92,7 +101,7 @@ describe('Unit - Embed tests', () => {
     it('should throw with a non existing DOM element (null)', () => {
       assert.throws(
         () => {
-          new Embed(null);
+          new Flat.Embed(null);
         },
         TypeError
       );
@@ -101,7 +110,7 @@ describe('Unit - Embed tests', () => {
     it('should throw with a non existing DOM element (object)', () => {
       assert.throws(
         () => {
-          new Embed({});
+          new Flat.Embed({});
         },
         TypeError
       );
@@ -111,7 +120,7 @@ describe('Unit - Embed tests', () => {
   describe('iframe URLs and Embed options', () => {
     it('should pass a score id', () => {
       const container = document.getElementById('container');
-      const embed = new Embed(container, {
+      const embed = new Flat.Embed(container, {
         score: '1234'
       });
       assert.equal(embed.element.getAttribute('src'), 'https://flat-embed.com/1234?jsapi=true');
@@ -120,7 +129,7 @@ describe('Unit - Embed tests', () => {
 
     it('should pass some embed options', () => {
       const container = document.getElementById('container');
-      const embed = new Embed(container, {
+      const embed = new Flat.Embed(container, {
         score: '1234',
         embedParams: {
           controlsFloating: false,
@@ -133,7 +142,7 @@ describe('Unit - Embed tests', () => {
 
     it('should correctly encode the options', () => {
       const container = document.getElementById('container');
-      const embed = new Embed(container, {
+      const embed = new Flat.Embed(container, {
         score: '1234',
         embedParams: {
           controlsFloating: false,
@@ -149,7 +158,7 @@ describe('Unit - Embed tests', () => {
 
     it('should use custom iframe size & correct default attributes', () => {
       const container = document.getElementById('container');
-      const embed = new Embed(container, {
+      const embed = new Flat.Embed(container, {
         score: '1234',
         width: '800',
         height: '450',
