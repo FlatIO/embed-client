@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.0.0
+
+* Host on our CDN (`https://prod.flat-cdn.com/embed-js/${VERSION}/embed.min.js`)
+
 ## v0.11.0
 
 * Add `getMIDI` update
