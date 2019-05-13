@@ -46,7 +46,6 @@ release_s3:
   only:
   - tags
   script:
-  - npm install -d
   - GIT_TAG=$(git describe --tags)
   - s3cmd -c /root/.s3cfg.prod-static sync --no-mime-magic --guess-mime-type --no-preserve dist/ s3://flat-prod-static/embed-js/${GIT_TAG}/
 
@@ -55,5 +54,5 @@ release_do:
   only:
   - tags
   script:
-  - npm install -d
+  - GIT_TAG=$(git describe --tags)
   - s3cmd -c /root/.s3cfg.prod-static sync --no-mime-magic --guess-mime-type --no-preserve dist/ s3://flat-prod-static/embed-js/${GIT_TAG}/
