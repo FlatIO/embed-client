@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.1.0
+
+* Support for MIDI Output
+
 ## v1.0.0
 
 * Host on our CDN (`https://prod.flat-cdn.com/embed-js/${VERSION}/embed.min.js`)

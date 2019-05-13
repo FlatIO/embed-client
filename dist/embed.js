@@ -1,4 +1,4 @@
-/*! flat-embed v1.0.0 | (c) 2019 Tutteo Ltd. (Flat) | Apache-2.0 License | https://github.com/FlatIO/embed-client */
+/*! flat-embed v1.1.0 | (c) 2019 Tutteo Ltd. (Flat) | Apache-2.0 License | https://github.com/FlatIO/embed-client */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
@@ -111,6 +111,7 @@
     iframe.setAttribute('width', parameters.width || '100%');
     iframe.setAttribute('height', parameters.height || '100%');
     iframe.setAttribute('allowfullscreen', true);
+    iframe.setAttribute('allow', 'midi');
     iframe.setAttribute('frameborder', '0');
     element.appendChild(iframe);
     return iframe;
