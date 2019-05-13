@@ -1,0 +1,59 @@
+stages:
+  - Build
+  - QA
+  - Test
+  - Release
+
+build:
+  stage: Build
+  artifacts:
+    name: "$CI_PIPELINE_ID-$CI_COMMIT_SHA"
+    paths:
+      - node_modules/
+      - package-lock.json
+    expire_in: 2 days
+  script:
+    - npm install -d
+
+eslint:
+  stage: QA
+  script:
+    - npm run eslint
+
+npm_dependencies:
+  stage: QA
+  allow_failure: true
+  dependencies: []
+  script:
+    - hash ncu || npm install -g npm-check-updates > /dev/null 2>&1
+    - ncu -e 2
+
+audit:
+  stage: QA
+  script:
+    - npm audit
+
+chrome_stable:
+  stage: Test
+  image: flat/chrome-stable
+  script:
+    - node -v
+    - google-chrome --version
+    - npm test
+
+release_s3:
+  stage: Release
+  only:
+  - tags
+  script:
+  - npm install -d
+  - GIT_TAG=$(git describe --tags)
+  - s3cmd -c /root/.s3cfg.prod-static sync --no-mime-magic --guess-mime-type --no-preserve dist/ s3://flat-prod-static/embed-js/${GIT_TAG}/
+
+release_do:
+  stage: Release
+  only:
+  - tags
+  script:
+  - npm install -d
+  - s3cmd -c /root/.s3cfg.prod-static sync --no-mime-magic --guess-mime-type --no-preserve dist/ s3://flat-prod-static/embed-js/${GIT_TAG}/

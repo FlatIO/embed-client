@@ -20,12 +20,12 @@ module.exports = function(config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome'],
+    browsers: ['ChromeNoGPU'],
     customLaunchers: {
-      Chrome_travis_ci: {
-        base: 'Chrome',
-        flags: ['--no-sandbox']
-      }
+      ChromeNoGPU: {
+        base: 'ChromeHeadless',
+        flags: ['--no-sandbox', '--autoplay-policy=no-user-gesture-required'],
+      },
     },
     singleRun: false,
     concurrency: Infinity,
@@ -33,7 +33,7 @@ module.exports = function(config) {
   };
 
   if (process.env.TRAVIS) {
-    configuration.browsers = ['Chrome_travis_ci'];
+    configuration.customLaunchers.ChromeNoGPU.flags.push('--disable-gpu');
   }
 
   config.set(configuration);
