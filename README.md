@@ -4,9 +4,9 @@
 [![Greenkeeper badge](https://badges.greenkeeper.io/FlatIO/embed-client.svg?token=cd336afca22e743db5a44a2820f0e220d5e54a95530d1f03cc417ea5f0fbf8f0)](https://greenkeeper.io/)
 [![NPM Version](https://img.shields.io/npm/v/flat-embed.svg?style=flat)](https://www.npmjs.org/package/flat-embed)
 
-[![Flat's Sheet Music Embed](https://user-images.githubusercontent.com/396537/47357635-99aeb600-d6c7-11e8-9ea0-441eaa2d4908.png)](https://flat.io/developers/embed)
+[![Flat's Sheet Music Embed](https://user-images.githubusercontent.com/396537/47357635-99aeb600-d6c7-11e8-9ea0-441eaa2d4908.png)](https://flat.io/embed)
 
-Use this JavaScript Client to interact and receive events from our [Sheet Music Embed](https://flat.io/developers/embed).
+Use this JavaScript Client to interact and receive events from our [Sheet Music Embed](https://flat.io/embed).
 
 If you have any feedback or questions regarding this product, [please feel free to contact our developers support](mailto:developers@flat.io).
 
@@ -77,7 +77,7 @@ When instantiating `Flat.Embed`, you can pass options in the second parameter. I
 
 ## JavaScript API
 
-* [Viewer Methods](#viewer-methods)
+* [Viewer API](#viewer-api)
   * [`ready`](#ready-promisevoid-error): Wait until the JavaScript is ready
   * [`on`](#onevent-string-callback-function-void): Subscribe to events
   * [`off`](#offevent-string-callback-function-void): Unsubscribe from events
@@ -103,6 +103,7 @@ When instantiating `Flat.Embed`, you can pass options in the second parameter. I
   * [`focusScore`](#focusscore-promisevoid-error): Set the focus to the score
   * [`getCursorPosition`](#getcursorposition-promiseobject-error): Get the current cursor position of the score
   * [`setCursorPosition`](#setcursorpositionposition-object-promiseobject-error): Set a new position for the cursor
+* [Editor API](#editor-api)
 * [Events API](#events-api)
   * [`scoreLoaded`](#event-scoreLoaded): A new score has been loaded
   * [`cursorPosition`](#event-cursorposition): The cursor position changed
@@ -113,7 +114,7 @@ When instantiating `Flat.Embed`, you can pass options in the second parameter. I
   * [`stop`](#event-stop): The score playback stopped
   * [`playbackPosition`](#event-playbackposition): The playback slider position changed
 
-## Viewer Methods
+## Viewer API
 
 You can call the methods using any `Flat.Embed` object. By default, the methods (except `on` and `off`) return a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) that will be resolved once the method is called, the value is set or get:
 
@@ -475,7 +476,7 @@ embed.setCursorPosition({
 });
 ```
 
-## Editor Methods
+## Editor API
 
 You can enable the editor mode by setting the `mode` to `edit` when creating the embed:
 
@@ -487,6 +488,8 @@ var embed = new Flat.Embed(container, {
   }
 });
 ```
+
+[Check out an implementation example of the editor](https://flat.io/developers/docs/embed/javascript-editor.html).
 
 ## Events API
 
