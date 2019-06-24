@@ -41,7 +41,7 @@
     "@babel/core": "^7.4.4",
     "@babel/preset-env": "^7.4.4",
     "chokidar": "^3.0.0",
-    "eslint": "^5.16.0",
+    "eslint": "^6.0.0",
     "jquery": "^3.4.1",
     "karma": "^4.1.0",
     "karma-chrome-launcher": "^2.2.0",
