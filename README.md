@@ -42,6 +42,22 @@ The simplest way to get started is to pass a DOM element to our embed that will 
   });
 </script>
 ```
+
+If you are using our embed in an ES6 project:
+
+```js
+import Embed from 'flat-embed';
+
+const container = document.getElementById('embed-container');
+const embed = new Embed(container, {
+  score: '<score-id-you-want-to-load>',
+  embedParams: {
+    appId: '<your-app-id>',
+    controlsPosition: 'bottom',
+  }
+});
+```
+
 *[>> Open this demo in JSFiddle](https://jsfiddle.net/gierschv/jr91116y/)*
 
 ### App ID
