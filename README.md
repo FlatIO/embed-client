@@ -43,7 +43,7 @@ The simplest way to get started is to pass a DOM element to our embed that will 
 </script>
 ```
 
-If you are using our embed in an ES6 project:
+Otherwise, if you are using our embed in an ES6 project:
 
 ```js
 import Embed from 'flat-embed';
