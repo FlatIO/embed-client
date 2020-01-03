@@ -374,6 +374,36 @@ class Embed {
   setCursorPosition(position) {
     return this.call('setCursorPosition', position);
   }
+
+  /**
+   * Get all the parts information
+   *
+   * @return {Promise}
+   * @fullfill {array} List of the parts
+   */
+  getParts() {
+    return this.call('getParts');
+  }
+
+  /**
+   * Get the displayed parts
+   *
+   * @return {Promise}
+   * @fullfill {array} List of the displayed parts
+   */
+  getDisplayedParts() {
+    return this.call('getDisplayedParts');
+  }
+
+  /**
+   * Choose the parts to display
+   *
+   * @param {array} parts List of the parts to display (UUIDs, indexes/idx, names or abbv)
+   * @return {Promise}
+   */
+  setDisplayedParts(parts) {
+    return this.call('setDisplayedParts', parts);
+  }
 }
 
 export default Embed;

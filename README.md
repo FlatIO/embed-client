@@ -21,7 +21,7 @@ yarn add flat-embed
 Or use the latest version hosted on our CDN:
 
 ```html
-<script src="https://prod.flat-cdn.com/embed-js/v1.1.0/embed.min.js"></script>
+<script src="https://prod.flat-cdn.com/embed-js/v1.2.0/embed.min.js"></script>
 ```
 
 ## Getting Started
@@ -30,7 +30,7 @@ The simplest way to get started is to pass a DOM element to our embed that will 
 
 ```html
 <div id="embed-container"></div>
-<script src="https://prod.flat-cdn.com/embed-js/v1.1.0/embed.min.js"></script>
+<script src="https://prod.flat-cdn.com/embed-js/v1.2.0/embed.min.js"></script>
 <script>
   var container = document.getElementById('embed-container');
   var embed = new Flat.Embed(container, {
@@ -118,6 +118,9 @@ When instantiating `Flat.Embed`, you can pass options in the second parameter. I
   * [`focusScore`](#focusscore-promisevoid-error): Set the focus to the score
   * [`getCursorPosition`](#getcursorposition-promiseobject-error): Get the current cursor position of the score
   * [`setCursorPosition`](#setcursorpositionposition-object-promiseobject-error): Set a new position for the cursor
+  * [`getParts`](#getparts-promisearray-error): Get the list of all the parts
+  * [`getDisplayedParts`](#getdisplayedparts-promisearray-error): Get the displayed parts
+  * [`setDisplayedParts`](#setdisplayedpartsparts-promisevoid-error): Choose the parts to display
 * [Editor API](#editor-api)
 * [Events API](#events-api)
   * [`scoreLoaded`](#event-scoreLoaded): A new score has been loaded
@@ -488,6 +491,59 @@ embed.setCursorPosition({
   //     "measureIdx": 2,
   //     "noteIdx": 1
   // }
+});
+```
+
+### `getParts(): Promise(<Array, Error>)`
+
+Get the list of all the parts of the current score.
+
+```js
+embed.getParts().then(function (parts) {
+ // parts: [
+ //  {
+ //    idx: 0
+ //    uuid: "ff78f481-2658-a94e-b3b2-c81f6d83bff0"
+ //    name: "Grand Piano"
+ //    abbreviation: "Pno."
+ //    isTransposing: false
+ //  },
+ //  {
+ //    idx: 1
+ //    uuid: "ab0ec60f-13ca-765d-34c6-0f181e58a672"
+ //    name: "Drum Set"
+ //    abbreviation: "Drs."
+ //    isTransposing: false
+ //  }
+ //]
+});
+```
+
+### `getDisplayedParts(): Promise(<Array, Error>)`
+
+Get the list of the displayed parts. You can update the displayed parts with [`setDisplayedParts()`](#setdisplayedpartsparts-promisevoid-error).
+
+```js
+embed.getDisplayedParts().then(function (parts) {
+ // parts: [
+ //  {
+ //    idx: 0
+ //    uuid: "ff78f481-2658-a94e-b3b2-c81f6d83bff0"
+ //    name: "Grand Piano"
+ //    abbreviation: "Pno."
+ //    isTransposing: false
+ //  }
+ //]
+});
+```
+
+### `setDisplayedParts(parts): Promise(<void, Error>)`
+
+Set the list of the parts to display. This list (array) can either contain the UUIDs of the parts to display, their indexes (idx) starting from 0, the names of the parts or their abbreviations.
+
+```js
+embed.setDisplayedParts(['Violin', 'Viola']).then(function () {
+  // display update queued
 });
 ```
 

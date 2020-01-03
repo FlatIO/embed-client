@@ -1,4 +1,4 @@
-/*! flat-embed v1.1.0 | (c) 2019 Tutteo Ltd. (Flat) | Apache-2.0 License | https://github.com/FlatIO/embed-client */
+/*! flat-embed v1.2.0 | (c) 2020 Tutteo Ltd. (Flat) | Apache-2.0 License | https://github.com/FlatIO/embed-client */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
@@ -726,6 +726,42 @@
       key: "setCursorPosition",
       value: function setCursorPosition(position) {
         return this.call('setCursorPosition', position);
+      }
+      /**
+       * Get all the parts information
+       *
+       * @return {Promise}
+       * @fullfill {array} List of the parts
+       */
+
+    }, {
+      key: "getParts",
+      value: function getParts() {
+        return this.call('getParts');
+      }
+      /**
+       * Get the displayed parts
+       *
+       * @return {Promise}
+       * @fullfill {array} List of the displayed parts
+       */
+
+    }, {
+      key: "getDisplayedParts",
+      value: function getDisplayedParts() {
+        return this.call('getDisplayedParts');
+      }
+      /**
+       * Choose the parts to display
+       *
+       * @param {array} parts List of the parts to display (UUIDs, indexes/idx, names or abbv)
+       * @return {Promise}
+       */
+
+    }, {
+      key: "setDisplayedParts",
+      value: function setDisplayedParts(parts) {
+        return this.call('setDisplayedParts', parts);
       }
     }]);
 

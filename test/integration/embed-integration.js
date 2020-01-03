@@ -1,6 +1,7 @@
-var APP_ID = '58fa312bea9bbd061b0ea8f3',
-  BASE_URL = 'https://flat-embed.com',
-  PUBLIC_SCORE = '56ae21579a127715a02901a6';
+let APP_ID = '58fa312bea9bbd061b0ea8f3';
+let BASE_URL = 'https://flat-embed.com';
+let PUBLIC_SCORE = '56ae21579a127715a02901a6';
+let QUARTET_SCORE = '5e1348dd6d09386a2b178b58';
 
 // APP_ID = '58e90082688f3e99d1244f58';
 // BASE_URL = 'http://vincent.ovh:3000/embed';
@@ -778,6 +779,137 @@ describe('Integration - Embed', () => {
       embed.play().then(() => {
         embed.stop();
       });
+    });
+  });
+
+  describe('Parts display', () => {
+    it('should get all the parts by default', async () => {
+      var container = document.createElement('div');
+      document.body.appendChild(container);
+
+      var embed = new Flat.Embed(container, {
+        baseUrl: BASE_URL,
+        score: QUARTET_SCORE,
+        embedParams: {
+          appId: APP_ID
+        }
+      });
+
+      const allParts = await embed.getParts();
+      
+      assert.equal(allParts.length, 4);
+      assert.equal(allParts[0].idx, 0);
+      assert.equal(allParts[0].name, 'Violin');
+      assert.equal(allParts[0].abbreviation, 'Vln.');
+      assert.equal(allParts[0].isTransposing, false);
+      assert.ok(allParts[0].uuid);
+
+      assert.equal(allParts[1].idx, 1);
+      assert.equal(allParts[1].name, 'Viola');
+      assert.equal(allParts[1].abbreviation, 'Vla.');
+      assert.equal(allParts[1].isTransposing, false);
+      assert.ok(allParts[1].uuid);
+
+      assert.equal(allParts[2].idx, 2);
+      assert.equal(allParts[2].name, 'Cello');
+      assert.equal(allParts[2].abbreviation, 'Vc.');
+      assert.equal(allParts[2].isTransposing, false);
+      assert.ok(allParts[2].uuid);
+
+      assert.equal(allParts[3].idx, 3);
+      assert.equal(allParts[3].name, 'Contrabass');
+      assert.equal(allParts[3].abbreviation, 'Cb.');
+      assert.equal(allParts[3].isTransposing, false);
+      assert.ok(allParts[3].uuid);
+
+      const parts = await embed.getDisplayedParts();
+      assert.deepEqual(parts, allParts);
+    });
+
+    it('should only display the parts from qs ?parts (name)', async () => {
+      var container = document.createElement('div');
+      document.body.appendChild(container);
+
+      var embed = new Flat.Embed(container, {
+        baseUrl: BASE_URL,
+        score: QUARTET_SCORE,
+        embedParams: {
+          appId: APP_ID,
+          parts: 'Viola,Cello',
+        }
+      });
+
+      const allParts = await embed.getParts();
+      assert.equal(allParts.length, 4);
+
+      const parts = await embed.getDisplayedParts();
+      assert.equal(parts.length, 2);
+      assert.equal(parts[0].idx, 1);
+      assert.equal(parts[0].name, 'Viola');
+      assert.equal(parts[1].idx, 2);
+      assert.equal(parts[1].name, 'Cello');
+    });
+
+    it('should only display the parts from qs ?parts (idx)', async () => {
+      var container = document.createElement('div');
+      document.body.appendChild(container);
+
+      var embed = new Flat.Embed(container, {
+        baseUrl: BASE_URL,
+        score: QUARTET_SCORE,
+        embedParams: {
+          appId: APP_ID,
+          parts: '0,2',
+        }
+      });
+
+      const allParts = await embed.getParts();
+      assert.equal(allParts.length, 4);
+
+      const parts = await embed.getDisplayedParts();
+      assert.equal(parts.length, 2);
+      assert.equal(parts[0].idx, 0);
+      assert.equal(parts[0].name, 'Violin');
+      assert.equal(parts[1].idx, 2);
+      assert.equal(parts[1].name, 'Cello');
+    });
+
+    it('should update the displayed part using setDisplayedParts()', async () => {
+      var container = document.createElement('div');
+      document.body.appendChild(container);
+
+      var embed = new Flat.Embed(container, {
+        baseUrl: BASE_URL,
+        score: QUARTET_SCORE,
+        embedParams: {
+          appId: APP_ID,
+          parts: '0,2',
+        }
+      });
+
+      const allParts = await embed.getParts();
+      assert.equal(allParts.length, 4);
+
+      let parts = await embed.getDisplayedParts();
+      assert.equal(parts.length, 2);
+      assert.equal(parts[0].idx, 0);
+      assert.equal(parts[0].name, 'Violin');
+      assert.equal(parts[1].idx, 2);
+      assert.equal(parts[1].name, 'Cello');
+
+      await embed.setDisplayedParts({ parts: ['Violin'] });
+      parts = await embed.getDisplayedParts();
+      assert.equal(parts.length, 1);
+      assert.equal(parts[0].idx, 0);
+      assert.equal(parts[0].name, 'Violin');
+
+      await embed.setDisplayedParts({ parts: ['2', '3'] });
+      parts = await embed.getDisplayedParts();
+      assert.equal(parts.length, 2);
+      assert.equal(parts[0].idx, 2);
+      assert.equal(parts[0].name, 'Cello');
+      assert.equal(parts[1].idx, 3);
+      assert.equal(parts[1].name, 'Contrabass');
     });
   });
 

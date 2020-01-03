@@ -1,9 +1,9 @@
 {
   "name": "flat-embed",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Interact and get events from Flat's Sheet Music Embed",
   "license": "Apache-2.0",
-  "author": "Flat Team <team@flat.io>",
+  "author": "Flat Team <developers@flat.io>",
   "main": "dist/embed.js",
   "jsnext:main": "src/embed.js",
   "repository": "FlatIO/embed-client",
