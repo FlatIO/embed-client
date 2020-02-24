@@ -1,4 +1,4 @@
-/*! flat-embed v1.2.0 | (c) 2020 Tutteo Ltd. (Flat) | Apache-2.0 License | https://github.com/FlatIO/embed-client */
+/*! flat-embed v1.3.0 | (c) 2020 Tutteo Ltd. (Flat) | Apache-2.0 License | https://github.com/FlatIO/embed-client */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
@@ -631,6 +631,127 @@
         return this.call('mute');
       }
       /**
+       * Get the current master volume
+       *
+       * @return {Promise}
+       */
+
+    }, {
+      key: "getMasterVolume",
+      value: function getMasterVolume() {
+        return this.call('getMasterVolume');
+      }
+      /**
+       * Get the current master volume
+       *
+       * @return {Promise}
+       */
+
+    }, {
+      key: "setMasterVolume",
+      value: function setMasterVolume(parameters) {
+        return this.call('getMasterVolume', parameters);
+      }
+      /**
+       * Get the volume of a part
+       *
+       * @return {Promise}
+       */
+
+    }, {
+      key: "getPartVolume",
+      value: function getPartVolume(parameters) {
+        return this.call('getPartVolume', parameters);
+      }
+      /**
+       * Set the volume of a part
+       *
+       * @return {Promise}
+       */
+
+    }, {
+      key: "setPartVolume",
+      value: function setPartVolume(parameters) {
+        return this.call('setPartVolume', parameters);
+      }
+      /**
+       * Mute a part
+       *
+       * @return {Promise}
+       */
+
+    }, {
+      key: "mutePart",
+      value: function mutePart(parameters) {
+        return this.call('mutePart', parameters);
+      }
+      /**
+       * Mute a part
+       *
+       * @return {Promise}
+       */
+
+    }, {
+      key: "unmutePart",
+      value: function unmutePart(parameters) {
+        return this.call('unmutePart', parameters);
+      }
+      /**
+       * Enable the solo mode for a part
+       *
+       * @return {Promise}
+       */
+
+    }, {
+      key: "setPartSoloMode",
+      value: function setPartSoloMode(parameters) {
+        return this.call('setPartSoloMode', parameters);
+      }
+      /**
+       * Disable the solo mode for a part
+       *
+       * @return {Promise}
+       */
+
+    }, {
+      key: "unsetPartSoloMode",
+      value: function unsetPartSoloMode(parameters) {
+        return this.call('unsetPartSoloMode', parameters);
+      }
+      /**
+       * Get the state of the solo mode of a part
+       *
+       * @return {Promise}
+       */
+
+    }, {
+      key: "getPartSoloMode",
+      value: function getPartSoloMode(parameters) {
+        return this.call('getPartSoloMode', parameters);
+      }
+      /**
+       * Get the volume of a part
+       *
+       * @return {Promise}
+       */
+
+    }, {
+      key: "getPartReverb",
+      value: function getPartReverb(parameters) {
+        return this.call('getPartReverb', parameters);
+      }
+      /**
+       * Set the volume of a part
+       *
+       * @return {Promise}
+       */
+
+    }, {
+      key: "setPartReverb",
+      value: function setPartReverb(parameters) {
+        return this.call('setPartReverb', parameters);
+      }
+      /**
        * Print the score
        *
        * @return {Promise}
@@ -762,6 +883,30 @@
       key: "setDisplayedParts",
       value: function setDisplayedParts(parts) {
         return this.call('setDisplayedParts', parts);
+      }
+      /**
+       * Get all the parts information
+       *
+       * @return {Promise}
+       * @fullfill {array} List of the parts
+       */
+
+    }, {
+      key: "getMeasureDetails",
+      value: function getMeasureDetails() {
+        return this.call('getMeasureDetails');
+      }
+      /**
+       * Get all the parts information
+       *
+       * @return {Promise}
+       * @fullfill {array} List of the parts
+       */
+
+    }, {
+      key: "getNoteDetails",
+      value: function getNoteDetails() {
+        return this.call('getNoteDetails');
       }
     }]);
 

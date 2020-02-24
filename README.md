@@ -7,7 +7,7 @@
 
 Use this JavaScript Client to interact and receive events from our [Sheet Music Embed](https://flat.io/embed).
 
-If you have any feedback or questions regarding this product, [please feel free to contact our developers support](mailto:developers@flat.io).
+If you have any feedback or questions regarding this product, [please feel free to contact our developers' support](mailto:developers@flat.io).
 
 ## Installation
 
@@ -21,7 +21,7 @@ yarn add flat-embed
 Or use the latest version hosted on our CDN:
 
 ```html
-<script src="https://prod.flat-cdn.com/embed-js/v1.2.0/embed.min.js"></script>
+<script src="https://prod.flat-cdn.com/embed-js/v1.3.0/embed.min.js"></script>
 ```
 
 ## Getting Started
@@ -30,7 +30,7 @@ The simplest way to get started is to pass a DOM element to our embed that will 
 
 ```html
 <div id="embed-container"></div>
-<script src="https://prod.flat-cdn.com/embed-js/v1.2.0/embed.min.js"></script>
+<script src="https://prod.flat-cdn.com/embed-js/v1.3.0/embed.min.js"></script>
 <script>
   var container = document.getElementById('embed-container');
   var embed = new Flat.Embed(container, {
@@ -77,11 +77,11 @@ When instantiating `Flat.Embed`, the first argument will always refer to a DOM e
 * A jQuery element (e.g. selected using `$('#embed-container')`). If multiple elements match the selection, the client will take the first one selected.
 * An existing embed iframe element. In this case, this one will need to have our JS API loaded using the query string [`jsapi=true`](https://flat.io/developers/docs/embed/url-parameters.html).
 
-If you instance different `Flat.Embed` for the same element, you will always get the same instance of the object.
+If you instance a different `Flat.Embed` for the same element, you will always get the same instance of the object.
 
 ### Options and URL parameters
 
-When instantiating `Flat.Embed`, you can pass options in the second parameter. In order to use the different methods available and events subscriptions, you will need to pass at least `embedParams.appId`.
+When instantiating `Flat.Embed`, you can pass options in the second parameter. To use the different methods available and events subscriptions, you will need to pass at least `embedParams.appId`.
 
 | Option | Description | Values | Default |
 |:-------|:------------|:-------|:-------|
@@ -110,6 +110,17 @@ When instantiating `Flat.Embed`, you can pass options in the second parameter. I
   * [`pause`](#pause-promisevoid-error): Pause playback
   * [`stop`](#stop-promisevoid-error): Stop playback
   * [`mute`](#mute-promisevoid-error): Mute playback
+  * [`getMasterVolume`](#getmastervolume-promisenumber-error): Get the master volume
+  * [`setMasterVolume`](#setmastervolume-volume-number-promisevoid-error): Set the master volume
+  * [`getPartVolume`](#getpartvolume-partuuid-string-promisenumber-error): Get a part volume
+  * [`setPartVolume`](#setpartvolume-partuuid-string-volume-number-promisevoid-error): Set a part volume
+  * [`mutePart`](#mutepart-partuuid-string-promisevoid-error): Mute a part
+  * [`unmutePart`](#unmutepart-partuuid-string-promisevoid-error): Unmute a part
+  * [`setPartSoloMode`](#setpartsolomode-partuuid-string-promisevoid-error): Enable the solo mode for a part
+  * [`unsetPartSoloMode`](#unsetpartsolomode-partuuid-string-promisevoid-error): Disable the solo mode for a part
+  * [`getPartSoloMode`](#getpartsolomode-partuuid-string-promiseboolean-error): Get the state of the solo mode of a part
+  * [`getPartReverb`](#getpartreverb-partuuid-string-promisenumber-error): Get a part reverberation
+  * [`setPartReverb`](#setpartreverb-partuuid-string-reverberation-number-promisevoid-error): Set a part reverberation
   * [`print`](#print-promisevoid-error): Print the score
   * [`getZoom`](#getzoom-promisenumber-error): Get the current display zoom ratio
   * [`setZoom`](#setzoomnumber-promisenumber-error): Change the display zoom ratio
@@ -121,10 +132,15 @@ When instantiating `Flat.Embed`, you can pass options in the second parameter. I
   * [`getParts`](#getparts-promisearray-error): Get the list of all the parts
   * [`getDisplayedParts`](#getdisplayedparts-promisearray-error): Get the displayed parts
   * [`setDisplayedParts`](#setdisplayedpartsparts-promisevoid-error): Choose the parts to display
+  * [`getMeasureDetails`](#getmeasuredetails-promiseobject-error): Get details about the current measure
+  * [`getNoteDetails`](#getnotedetails-promiseobject-error): Get details about the current note
 * [Editor API](#editor-api)
 * [Events API](#events-api)
   * [`scoreLoaded`](#event-scoreLoaded): A new score has been loaded
   * [`cursorPosition`](#event-cursorposition): The cursor position changed
+  * [`cursorContext`](#event-cursorcontext): Additional context about current cursor
+  * [`measureDetails`](#event-measuredetails): Details about current measure changed
+  * [`noteDetails`](#event-notedetails): Details about current note changed
   * [`rangeSelection`](#event-rangeSelection): The range selected changed
   * [`fullscreen`](#event-fullscreen): The fullscreen state changed
   * [`play`](#event-play): The score playback started
@@ -147,7 +163,7 @@ embed.loadFlatScore('12234').then(function () {
 
 ### `ready(): Promise<void, Error>`
 
-Promises resolved when the embed is loaded and the JavaScript API is ready to use. All the methods will implicitly use this method, so you don't have to worry about waiting the loading before calling the different methods.
+Promises resolved when the embed is loaded and the JavaScript API is ready to use. All the methods will implicitly use this method, so you don't have to worry about waiting for the loading before calling the different methods.
 
 ```js
 embed.ready().then(function() {
@@ -157,7 +173,7 @@ embed.ready().then(function() {
 
 ### `on(event: string, callback: function): void`
 
-Add an event listener for the specified event. When receiving the event, the client will call the specified function with zero or one parameters depending of the [event received](#events-api).
+Add an event listener for the specified event. When receiving the event, the client will call the specified function with zero or one parameter depending on the [event received](#events-api).
 
 ```js
 embed.on('playbackPosition', function (position) {
@@ -167,7 +183,7 @@ embed.on('playbackPosition', function (position) {
 
 ### `off(event: string, callback?: function): void`
 
-Remove an event listener for the specified event. If no `callback` is specified, all the listener for the event will be removed.
+Remove an event listener for the specified event. If no `callback` is specified, all the listeners for the event will be removed.
 
 ```js
 function positionChanged(position) {
@@ -250,7 +266,7 @@ fetch('https://api.flat.io/v2/scores/56ae21579a127715a02901a6/revisions/last/jso
 
 ### `getMusicXML(options?: object): Promise<string|Uint8Array, Error>`
 
-Convert the current displayed score into a MusicXML file, compressed (`.mxl`) or not (`.xml`).
+Convert the currently displayed score into a MusicXML file, compressed (`.mxl`) or not (`.xml`).
 
 ```js
 // Uncompressed MusicXML
@@ -295,7 +311,7 @@ embed.getJSON().then(function (data) {
 
 ### `getPNG(options?: object): Promise<string|Uint8Array, Error>`
 
-Get the current displayed score as a PNG file
+Get the currently displayed score as a PNG file
 
 ```js
 // PNG
@@ -315,7 +331,7 @@ embed.getPNG({result: 'dataURL'}).then(function (png) {
 
 ### `getMIDI(): Promise<Uint8Array, Error>`
 
-Get the current displayed score as a MIDI file
+Get the currently displayed score as a MIDI file
 
 ```js
 embed.getMIDI().then(function (midi) {
@@ -386,7 +402,121 @@ embed.mute().then(function () {
 });
 ```
 
-### `print(): Promise<void, Error>`
+### `getMasterVolume(): Promise<Number, Error>`
+
+Get the master volume
+
+```js
+embed.getMasterVolume().then(function (volume) {
+  // The volume value
+  console.log(volume);
+});
+```
+
+### `setMasterVolume({ volume: number }): Promise<void, Error>`
+
+Set the master volume (`volume` between 0 and 100)
+
+```js
+embed.setMasterVolume({ volume: 50 }).then(function () {
+  // The volume is set
+});
+```
+
+### `getPartVolume({ partUuid: string }): Promise<Number, Error>`
+
+Get a part volume (`partUuid` can be retrieved with `getParts`)
+
+```js
+embed.getPartVolume({ partUuid: 'c86be847-a7a1-54fb-44fc-a6564d7eb75c' }).then(function (volume) {
+  // The volume value
+  console.log(volume);
+});
+```
+
+### `setPartVolume({ partUuid: string, volume: number }): Promise<void, Error>`
+
+Set a part volume (`volume` between 0 and 100, `partUuid` can be retrieved with `getParts`)
+
+```js
+embed.getPartVolume({ partUuid: 'c86be847-a7a1-54fb-44fc-a6564d7eb75c', volume: 50 }).then(function () {
+  // The volume is set
+});
+```
+
+## `mutePart({ partUuid: string }): Promise<void, Error>`
+
+Mute a part
+
+```js
+embed.mutePart({ partUuid: 'c86be847-a7a1-54fb-44fc-a6564d7eb75c' }).then(function () {
+  // The part is muted
+});
+```
+
+## `unmutePart({ partUuid: string }): Promise<void, Error>`
+
+Unmute a part
+
+```js
+embed.unmutePart({ partUuid: 'c86be847-a7a1-54fb-44fc-a6564d7eb75c' }).then(function () {
+  // The part is unmuted
+});
+```
+
+## `setPartSoloMode({ partUuid: string }): Promise<void, Error>`
+
+Enable the solo mode for a part
+
+```js
+embed.setPartSoloMode({ partUuid: 'c86be847-a7a1-54fb-44fc-a6564d7eb75c' }).then(function () {
+  // The part is now playing solo
+});
+```
+
+## `unsetPartSoloMode({ partUuid: string }): Promise<void, Error>`
+
+Disable the solo mode for a part
+
+```js
+embed.unsetPartSoloMode({ partUuid: 'c86be847-a7a1-54fb-44fc-a6564d7eb75c' }).then(function () {
+  // All the parts are now playing
+});
+```
+
+### `getPartSoloMode({ partUuid: string }): Promise<Boolean, Error>`
+
+Get the state of the solo mode of a part (`partUuid` can be retrieved with `getParts`)
+
+```js
+embed.getPartSoloMode({ partUuid: 'c86be847-a7a1-54fb-44fc-a6564d7eb75c' }).then(function (isSolo) {
+  // The solo state
+  console.log(isSolo);
+});
+```
+
+### `getPartReverb({ partUuid: string }): Promise<Number, Error>`
+
+Get a part reverberation (`partUuid` can be retrieved with `getParts`)
+
+```js
+embed.getPartReverb({ partUuid: 'c86be847-a7a1-54fb-44fc-a6564d7eb75c' }).then(function (reverb) {
+  // The reverberation value
+  console.log(reverb);
+});
+```
+
+### `setPartReverb({ partUuid: string, reverberation: number }): Promise<void, Error>`
+
+Set a part reverberation (`reverberation` between 0 and 100, `partUuid` can be retrieved with `getParts`)
+
+```js
+embed.setPartReverb({ partUuid: 'c86be847-a7a1-54fb-44fc-a6564d7eb75c', reverberation: 50 }).then(function () {
+  // The reverberation is set
+});
+```
+
+### `print(): Promise<void, Error>
 
 Print the score
 
@@ -446,9 +576,9 @@ embed.setAutoZoom(false).then(function (state) {
 
 ### `focusScore(): Promise(<void, Error>)`
 
-Unlike the web version on <https://flat.io>, the embed does't catch the focus. This avoids to mess with the parent window, and avoid the browser to do a forced scrolling to the embed iframe.
+Unlike the web version on <https://flat.io>, the embed doesn't catch the focus. This avoids to mess with the parent window, and avoid the browser to do a forced scrolling to the embed iframe.
 
-If the end-user's goal is the usage of the embed to play or write notation, you can use this method to set the focus on the score and allowing they to use the keyboard bindings.
+If the end-users' goal is the usage of the embed to play or write notation, you can use this method to set the focus on the score and allowing them to use the keyboard bindings.
 
 ```js
 embed.focusScore().then(function () {
@@ -547,6 +677,87 @@ embed.setDisplayedParts(['Violin', 'Viola']).then(function () {
 });
 ```
 
+### `getMeasureDetails(): Promise(<object, Error>)`
+
+Retrieve details about the current measure. You can listen to the [`measureDetails`](#event-measuredetails) event to get the same details returned every time the cursor is moved or the measure is modified.
+
+```js
+embed.getMeasureDetails().then(function (measure) {
+  // {
+  //     "clef": {
+  //         "sign": "G",
+  //         "line": 2,
+  //         "clef-octave-change": -1
+  //     },
+  //     "key": {
+  //         "fifths": 0
+  //     },
+  //     "time": {
+  //         "beats": 4,
+  //         "beat-type": 4
+  //     },
+  //     "displayedTime": {
+  //         "beats": 4,
+  //         "beat-type": 4
+  //     },
+  //     "transpose": {
+  //         "chromatic": "0"
+  //     },
+  //     "voicesData": {
+  //         "voices": [
+  //             0
+  //         ],
+  //         "mainVoiceIdx": 0
+  //     }
+  // }
+});
+```
+
+### `getNoteDetails(): Promise(<object, Error>)`
+
+Retrieve details about the current note. You can listen to the [`noteDetails`](#event-notedetails) event to get the same details returned every time the cursor is moved or the note is modified.
+
+```js
+embed.getNoteDetails().then(function (measure) {
+  // {
+  //     "articulations": [],
+  //     "classicHarmony": null,
+  //     "dynamicStyle": null,
+  //     "ghostNotes": [
+  //         false
+  //     ],
+  //     "hammerOnPullOffs": [
+  //         false
+  //     ],
+  //     "harmony": null,
+  //     "hasArpeggio": false,
+  //     "hasGlissando": false,
+  //     "isChord": false,
+  //     "isInSlur": false,
+  //     "isRest": false,
+  //     "isTied": false,
+  //     "lines": [
+  //         -2.5
+  //     ],
+  //     "lyrics": [],
+  //     "nbDots": 0,
+  //     "nbGraces": 0,
+  //     "ornaments": [],
+  //     "pitches": [
+  //         {
+  //             "step": "E",
+  //             "octave": 2,
+  //             "alter": 0
+  //         }
+  //     ],
+  //     "technical": [],
+  //     "tupletType": null,
+  //     "wedgeType": null,
+  //     "durationType": "eighth"
+  // }
+});
+```
+
 ## Editor API
 
 You can enable the editor mode by setting the `mode` to `edit` when creating the embed:
@@ -564,7 +775,7 @@ var embed = new Flat.Embed(container, {
 
 ## Events API
 
-Events are broadcasted following actions made by the end user or you with the JavaScript API. You can subscribe to an event using the method [`on`](#onevent-string-callback-function-void), and unsubscribe using [`off`](#onevent-string-callback-function-void). When an event includes some data, this data will be available in the first parameter of the listener callback.
+Events are broadcasted following actions made by the end-user or you with the JavaScript API. You can subscribe to an event using the method [`on`](#onevent-string-callback-function-void), and unsubscribe using [`off`](#onevent-string-callback-function-void). When an event includes some data, this data will be available in the first parameter of the listener callback.
 
 ### Event: `scoreLoaded`
 
@@ -581,6 +792,111 @@ This event is triggered when the position of the user's cursor changes.
     "voiceIdx": 0,
     "measureIdx": 2,
     "noteIdx": 1
+}
+```
+
+### Event: `cursorContext`
+
+This event is triggered when the position or context of the user's cursor changes.
+
+```json
+{
+    "isRest": false,
+    "isGrace": false,
+    "isUnpitchedPart": false,
+    "isPitchedPart": true,
+    "isPitched": true,
+    "isChord": true,
+    "isTab": false,
+    "hasTab": true,
+    "hasTabFrame": false,
+    "isEndOfScore": false,
+    "isSameLineThanNextNote": false,
+    "hasSlashInConnection": false,
+    "canTieWithNextNote": false,
+    "canSwitchEnharmonic": false,
+    "isNextRest": false,
+    "hasTie": false,
+    "isHeadTied": false
+}
+```
+
+### Event: `measureDetails`
+
+This event is triggered when the position or context of the user's cursor changes.
+The payload of this event is the same as the returned value from [`getMeasureDetails`](#getmeasuredetails-promiseobject-error).
+
+```json
+{
+    "clef": {
+        "sign": "G",
+        "line": 2,
+        "clef-octave-change": -1
+    },
+    "key": {
+        "fifths": 0
+    },
+    "time": {
+        "beats": 4,
+        "beat-type": 4
+    },
+    "displayedTime": {
+        "beats": 4,
+        "beat-type": 4
+    },
+    "transpose": {
+        "chromatic": "0"
+    },
+    "voicesData": {
+        "voices": [
+            0
+        ],
+        "mainVoiceIdx": 0
+    }
+}
+```
+
+### Event: `noteDetails`
+
+This event is triggered when the position or context of the user's cursor changes.
+The payload of this event is the same as the returned value from [`getNoteDetails`](#getnotedetails-promiseobject-error).
+
+```json
+{
+    "articulations": [],
+    "classicHarmony": null,
+    "dynamicStyle": null,
+    "ghostNotes": [
+        false
+    ],
+    "hammerOnPullOffs": [
+        false
+    ],
+    "harmony": null,
+    "hasArpeggio": false,
+    "hasGlissando": false,
+    "isChord": false,
+    "isInSlur": false,
+    "isRest": false,
+    "isTied": false,
+    "lines": [
+        -2.5
+    ],
+    "lyrics": [],
+    "nbDots": 0,
+    "nbGraces": 0,
+    "ornaments": [],
+    "pitches": [
+        {
+            "step": "E",
+            "octave": 2,
+            "alter": 0
+        }
+    ],
+    "technical": [],
+    "tupletType": null,
+    "wedgeType": null,
+    "durationType": "eighth"
 }
 ```
 

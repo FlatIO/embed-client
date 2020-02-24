@@ -295,6 +295,105 @@ class Embed {
   }
 
   /**
+   * Get the current master volume
+   *
+   * @return {Promise}
+   */
+  getMasterVolume() {
+    return this.call('getMasterVolume');
+  }
+
+  /**
+   * Get the current master volume
+   *
+   * @return {Promise}
+   */
+  setMasterVolume(parameters) {
+    return this.call('getMasterVolume', parameters);
+  }
+
+  /**
+   * Get the volume of a part
+   *
+   * @return {Promise}
+   */
+  getPartVolume(parameters) {
+    return this.call('getPartVolume', parameters);
+  }
+
+  /**
+   * Set the volume of a part
+   *
+   * @return {Promise}
+   */
+  setPartVolume(parameters) {
+    return this.call('setPartVolume', parameters);
+  }
+
+  /**
+   * Mute a part
+   *
+   * @return {Promise}
+   */
+  mutePart(parameters) {
+    return this.call('mutePart', parameters);
+  }
+
+  /**
+   * Mute a part
+   *
+   * @return {Promise}
+   */
+  unmutePart(parameters) {
+    return this.call('unmutePart', parameters);
+  }
+
+  /**
+   * Enable the solo mode for a part
+   *
+   * @return {Promise}
+   */
+  setPartSoloMode(parameters) {
+    return this.call('setPartSoloMode', parameters);
+  }
+
+  /**
+   * Disable the solo mode for a part
+   *
+   * @return {Promise}
+   */
+  unsetPartSoloMode(parameters) {
+    return this.call('unsetPartSoloMode', parameters);
+  }
+
+  /**
+   * Get the state of the solo mode of a part
+   *
+   * @return {Promise}
+   */
+  getPartSoloMode(parameters) {
+    return this.call('getPartSoloMode', parameters);
+  }
+
+  /**
+   * Get the volume of a part
+   *
+   * @return {Promise}
+   */
+  getPartReverb(parameters) {
+    return this.call('getPartReverb', parameters);
+  }
+
+  /**
+   * Set the volume of a part
+   *
+   * @return {Promise}
+   */
+  setPartReverb(parameters) {
+    return this.call('setPartReverb', parameters);
+  }
+
+  /**
    * Print the score
    *
    * @return {Promise}
@@ -403,6 +502,26 @@ class Embed {
    */
   setDisplayedParts(parts) {
     return this.call('setDisplayedParts', parts);
+  }
+
+  /**
+   * Get all the parts information
+   *
+   * @return {Promise}
+   * @fullfill {array} List of the parts
+   */
+  getMeasureDetails() {
+    return this.call('getMeasureDetails');
+  }
+
+  /**
+   * Get all the parts information
+   *
+   * @return {Promise}
+   * @fullfill {array} List of the parts
+   */
+  getNoteDetails() {
+    return this.call('getNoteDetails');
   }
 }
 

@@ -1,5 +1,26 @@
 # Changelog
 
+## v1.3.0
+
+* Add methods:
+  * `getMasterVolume`
+  * `setMasterVolume`
+  * `getPartVolume`
+  * `setPartVolume`
+  * `mutePart`
+  * `unmutePart`
+  * `setPartSoloMode`
+  * `unsetPartSoloMode`
+  * `getPartSoloMode`
+  * `getPartReverb`
+  * `setPartReverb`
+  * `getMeasureDetails`
+  * `getNoteDetails`
+* Add events:
+  * `noteDetails`
+  * `measureDetails`
+  * `cursorContext`
+
 ## v1.2.0
 
 * Add methods: `getParts`, `getDisplayedParts` and `setDisplayedParts`
