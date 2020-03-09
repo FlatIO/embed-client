@@ -111,7 +111,7 @@ When instantiating `Flat.Embed`, you can pass options in the second parameter. T
   * [`stop`](#stop-promisevoid-error): Stop playback
   * [`mute`](#mute-promisevoid-error): Mute playback
   * [`getMasterVolume`](#getmastervolume-promisenumber-error): Get the master volume
-  * [`setMasterVolume`](#setmastervolume-volume-number-promisevoid-error): Set the master volume
+  * [`setMasterVolume`](#setmastervolume-volume-number--promisevoid-error): Set the master volume
   * [`getPartVolume`](#getpartvolume-partuuid-string-promisenumber-error): Get a part volume
   * [`setPartVolume`](#setpartvolume-partuuid-string-volume-number--promisevoid-error): Set a part volume
   * [`mutePart`](#mutepart-partuuid-string-promisevoid-error): Mute a part
