@@ -113,7 +113,7 @@ When instantiating `Flat.Embed`, you can pass options in the second parameter. T
   * [`getMasterVolume`](#getmastervolume-promisenumber-error): Get the master volume
   * [`setMasterVolume`](#setmastervolume-volume-number-promisevoid-error): Set the master volume
   * [`getPartVolume`](#getpartvolume-partuuid-string-promisenumber-error): Get a part volume
-  * [`setPartVolume`](#setpartvolume-partuuid-string-volume-number-promisevoid-error): Set a part volume
+  * [`setPartVolume`](#setpartvolume-partuuid-string-volume-number--promisevoid-error): Set a part volume
   * [`mutePart`](#mutepart-partuuid-string-promisevoid-error): Mute a part
   * [`unmutePart`](#unmutepart-partuuid-string-promisevoid-error): Unmute a part
   * [`setPartSoloMode`](#setpartsolomode-partuuid-string-promisevoid-error): Enable the solo mode for a part
