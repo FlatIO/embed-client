@@ -3,9 +3,11 @@
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
   (global = global || self, (global.Flat = global.Flat || {}, global.Flat.Embed = factory()));
-}(this, function () { 'use strict';
+}(this, (function () { 'use strict';
 
   function _typeof(obj) {
+    "@babel/helpers - typeof";
+
     if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
       _typeof = function (obj) {
         return typeof obj;
@@ -150,9 +152,7 @@
     return data;
   }
 
-  var EmbedCallback =
-  /*#__PURE__*/
-  function () {
+  var EmbedCallback = /*#__PURE__*/function () {
     function EmbedCallback(embed) {
       _classCallCheck(this, EmbedCallback);
 
@@ -283,9 +283,7 @@
   var embeds = new WeakMap();
   var embedsReady = new WeakMap();
 
-  var Embed =
-  /*#__PURE__*/
-  function () {
+  var Embed = /*#__PURE__*/function () {
     /**
      * Create a new Flat Embed
      *
@@ -915,6 +913,6 @@
 
   return Embed;
 
-}));
+})));
 
 //# sourceMappingURL=embed.js.map

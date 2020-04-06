@@ -17,6 +17,7 @@ build:
 
 eslint:
   stage: QA
+  allow_failure: true
   script:
     - npm run eslint
 
