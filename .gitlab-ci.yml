@@ -50,4 +50,4 @@ release_s3:
   script:
   - GIT_TAG=$(git describe --tags)
   - s3cmd -c /root/.s3cfg.prod-static sync --no-mime-magic --guess-mime-type --no-preserve dist/ s3://flat-prod-static/embed-js/${GIT_TAG}/
-  - s3cmd -c /root/.s3cfg.prod-static-do sync --no-mime-magic --guess-mime-type --no-preserve dist/ s3://flat-prod-static/embed-js/${GIT_TAG}/
+  - s3cmd -c /root/.s3cfg.prod-static-do sync --acl-public --no-mime-magic --guess-mime-type --no-preserve dist/ s3://flat-prod-static/embed-js/${GIT_TAG}/
