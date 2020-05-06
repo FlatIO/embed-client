@@ -311,7 +311,11 @@ embed.getJSON().then(function (data) {
 
 ### `getPNG(options?: object): Promise<string|Uint8Array, Error>`
 
-Get the currently displayed score as a PNG file
+Get the currently displayed score as a PNG file. This API method accepts the following options:
+
+* `result`: Choose how the PNG file is returned, either `dataURL` or `Uint8Array`. Default value is `Uint8Array`.
+* `layout`: The score can either exported as one horizontal system (`track`), or the first page (`page`). Default value is `track`
+* `dpi`: The dpi used to export the PNG, between `50` and `300`. Default value is `150`.
 
 ```js
 // PNG
@@ -323,8 +327,12 @@ embed.getPNG().then(function (png) {
 
 ```js
 // PNG
-embed.getPNG({result: 'dataURL'}).then(function (png) {
-  // PNG file as a DataURL
+embed.getPNG({
+  result: 'dataURL',
+  layout: 'layout',
+  dpi: 300
+}).then(function (png) {
+  // 300 DPI PNG with the score as a page, returned as a DataURL
   console.log(png);
 });
 ```
