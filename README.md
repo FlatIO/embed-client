@@ -254,7 +254,7 @@ Example to load a plain XML file:
 // Loading any plain XML file here, for a file example from a public Flat score
 fetch('https://api.flat.io/v2/scores/56ae21579a127715a02901a6/revisions/last/xml')
 .then(function (response) {
-  return response.toString();
+  return response.text();
 })
 .then(function (mxl) {
   // Got the plain XML score as an `String`, load it in the embed
