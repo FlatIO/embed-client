@@ -226,14 +226,38 @@ embed.loadFlatScore('56ae21579a127715a02901a6').then(function () {
 
 ### `loadMusicXML(score: mixed): Promise<void, Error>`
 
-Load a MusicXML score, compressed (MXL) or not (plain XML):
+Load a MusicXML score, compressed (MXL) or not (plain XML). The compressed files (.mxl) must be passed as `ArrayBuffer`, and the plain XML (.xml/.musicxml) as `String`.
+
+Example to load a compressed MXL file:
 
 ```js
+// Loading any MXL file here, for example a file from a public Flat score
 fetch('https://api.flat.io/v2/scores/56ae21579a127715a02901a6/revisions/last/mxl')
 .then(function (response) {
   return response.arrayBuffer();
 })
 .then(function (mxl) {
+  // Got the compressed score as an `ArrayBuffer`, load it in the embed
+  return embed.loadMusicXML(mxl);
+})
+.then(function () {
+  // Score loaded in the embed
+})
+.catch(function (error) {
+  // Unable to load the score
+});
+```
+
+Example to load a plain MXL file:
+
+```js
+// Loading any plain XML file here, for a file example from a public Flat score
+fetch('https://api.flat.io/v2/scores/56ae21579a127715a02901a6/revisions/last/xml')
+.then(function (response) {
+  return response.toString();
+})
+.then(function (mxl) {
+  // Got the plain XML score as an `String`, load it in the embed
   return embed.loadMusicXML(mxl);
 })
 .then(function () {
