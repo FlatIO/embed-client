@@ -248,7 +248,7 @@ fetch('https://api.flat.io/v2/scores/56ae21579a127715a02901a6/revisions/last/mxl
 });
 ```
 
-Example to load a plain MXL file:
+Example to load a plain XML file:
 
 ```js
 // Loading any plain XML file here, for a file example from a public Flat score
