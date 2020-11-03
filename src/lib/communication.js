@@ -7,7 +7,7 @@
  */
 export function postMessage(embed, method, parameters) {
   if (!embed.element.contentWindow || !embed.element.contentWindow.postMessage) {
-    throw new Error('No `contentWindow` or `contentWindow.postMessage` avaialble on the element');
+    throw new Error('No `contentWindow` or `contentWindow.postMessage` available on the element');
   }
 
   let message = {
