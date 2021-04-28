@@ -752,6 +752,17 @@
         return this.call('setPartReverb', parameters);
       }
       /**
+       * Configure a new audio or video track
+       *
+       * @return {Promise}
+       */
+
+    }, {
+      key: "setTrack",
+      value: function setTrack(parameters) {
+        return this.call('setTrack', parameters);
+      }
+      /**
        * Print the score
        *
        * @return {Promise}

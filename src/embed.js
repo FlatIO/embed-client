@@ -396,6 +396,15 @@ class Embed {
   }
 
   /**
+   * Configure a new audio or video track
+   *
+   * @return {Promise}
+   */
+  setTrack(parameters) {
+    return this.call('setTrack', parameters);
+  }
+
+  /**
    * Print the score
    *
    * @return {Promise}
