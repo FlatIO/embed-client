@@ -2,7 +2,7 @@
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
-  (global = global || self, (global.Flat = global.Flat || {}, global.Flat.Embed = factory()));
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, (global.Flat = global.Flat || {}, global.Flat.Embed = factory()));
 }(this, (function () { 'use strict';
 
   function _typeof(obj) {

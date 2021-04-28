@@ -3,7 +3,10 @@
     ["@babel/env", {
       "modules": false,
       "targets": {
-        "browsers": [">1%"]
+        "edge": "17",
+        "firefox": "31",
+        "chrome": "67",
+        "safari": "7.1"
       }
     }]
   ]
