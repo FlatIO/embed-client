@@ -3,6 +3,7 @@
 ## 2021-04-28: v1.4.0
 
 * Update `loadFlatScore` to support `sharingKey`
+* Add methods to dynamically set audio tracks: `setTrack`, `useTrack` and `seekTrackTo`
 
 ## 2020-05-06: Available with all previous SDKs since 0.4.0
 

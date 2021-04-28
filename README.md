@@ -60,6 +60,10 @@ const embed = new Embed(container, {
 
 *[>> Open this demo in JSFiddle](https://jsfiddle.net/gierschv/jr91116y/)*
 
+### ✨ Demos
+
+**Some demos of this Embed API are available in a dedicated repository: [https://github.com/FlatIO/embed-examples](https://github.com/FlatIO/embed-examples).**
+
 ### App ID
 
 Our Embed JS API requires an App ID (`appId`) to use it:
@@ -121,6 +125,9 @@ When instantiating `Flat.Embed`, you can pass options in the second parameter. T
   * [`getPartSoloMode`](#getpartsolomode-partuuid-string--promiseboolean-error): Get the state of the solo mode of a part
   * [`getPartReverb`](#getpartreverb-partuuid-string--promisenumber-error): Get a part reverberation
   * [`setPartReverb`](#setpartreverb-partuuid-string-reverberation-number--promisevoid-error): Set a part reverberation
+  * [`setTrack`](#settrackobject-promisevoid-error): Configure an part audio track to use
+  * [`useTrack`](#usetrack-id--promisevoid-error): Use a configured audio track
+  * [`seekTrackTo`](#seektrackto-time--promisevoid-error): Seek the audio track to a specified duration
   * [`print`](#print-promisevoid-error): Print the score
   * [`getZoom`](#getzoom-promisenumber-error): Get the current display zoom ratio
   * [`setZoom`](#setzoomnumber-promisenumber-error): Change the display zoom ratio
@@ -561,7 +568,67 @@ embed.setPartReverb({ partUuid: 'c86be847-a7a1-54fb-44fc-a6564d7eb75c', reverber
 });
 ```
 
-### `print(): Promise<void, Error>
+### `setTrack(object): Promise<void, Error>`
+
+Configure a new video or audio track for the current embedded score. This method uses the same system as [our audio tracks manager in our editor app](https://flat.io/help/en/music-notation-software/synchronize-external-recording.html), but allows you to dynamically configure any track or connect an external player to an embedded score. 
+
+This method takes the following options:
+
+* `id` **(required)**: An unique identifier for the configuration, that can be used later for the method [`useTrack`](#usetrack-id--promisevoid-error).
+* `type` **(required)**: The type of track to configure, using one of the following types: `youtube`, `soundcloud`, `vimeo`, `audio`, `external`
+* `url` **(required for `soundcloud` and `audio`)**: the URL of the Souncloud or the audio file to load
+* `mediaId` **(required for `youtube`, `vimeo`)**: the video identifier to embed
+* `totalTime` **(required for `external`)**: the total time of the media played
+* `synchronizationPoints` **(required)**: the list of synchronization points to use. Each point can have the following information:
+  * `type`: `measure` or `end` of the score
+  * `time` in seconds, the position of the synchronization point
+  * `location.measureIdx`: for `measure` point, the index of the score where the point is located.
+
+Once a track is configured, you must call the method [`useTrack`](#usetrack-id--promisevoid-error) to enable it.
+
+Two implementation examples are available in our example repository:
+* [📺 YouTube synced player with a MusicXML loaded locally](https://github.com/FlatIO/embed-examples#-youtube-synced-player-with-a-musicxml-loaded-locally)
+* [🎧 External player with a MusicXML loaded locally](https://github.com/FlatIO/embed-examples#-external-player-with-a-musicxml-loaded-locally)
+
+The `synchronizationPoints` also use the same formats as our REST API. If you previously configured some tracks using our web editor, [you can fetch their configuration using our REST API](https://flat.io/developers/api/reference/#operation/getScoreTrack).
+
+```js
+embed.setTrack({
+  id: 'yt-cucaracha',
+  type: 'youtube',
+  mediaId: 'jp9vFhyhNd8',
+  synchronizationPoints: [
+    { type: 'measure', time: 0, location: { measureIdx: 0 }},
+    { type: 'end', time: 19 }
+  ],
+}).then(function () {
+  // The track is configured
+});
+```
+
+### `useTrack({ id }): Promise<void, Error>`
+
+Enable a previously configured audio or video track. The `id` can be an identifier chosen from a track configured using [`setTrack`](#settrackobject-promisevoid-error) or from [Flat's REST API](https://flat.io/developers/api/reference/#operation/getScoreTrack).
+
+```js
+embed.useTrack({
+  id: 'yt-cucaracha',
+}).then(function () {
+  // The track is enabled
+});
+```
+
+### `seekTrackTo({ time }): Promise<void, Error>`
+
+Seek the current played track to a provided `time`, in seconds.
+
+```js
+embed.useTrack({
+  time: 5
+});
+```
+
+### `print(): Promise<void, Error>`
 
 Print the score
 
