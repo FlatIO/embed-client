@@ -405,6 +405,24 @@ class Embed {
   }
 
   /**
+   * Enabled a previously configured track
+   *
+   * @return {Promise}
+   */
+  useTrack(parameters) {
+    return this.call('useTrack', parameters);
+  }
+
+  /**
+   * Seek the audio track to a specified duration
+   *
+   * @return {Promise}
+   */
+  seekTrackTo(parameters) {
+    return this.call('seekTrackTo', parameters);
+  }
+
+  /**
    * Print the score
    *
    * @return {Promise}

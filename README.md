@@ -125,7 +125,7 @@ When instantiating `Flat.Embed`, you can pass options in the second parameter. T
   * [`getPartSoloMode`](#getpartsolomode-partuuid-string--promiseboolean-error): Get the state of the solo mode of a part
   * [`getPartReverb`](#getpartreverb-partuuid-string--promisenumber-error): Get a part reverberation
   * [`setPartReverb`](#setpartreverb-partuuid-string-reverberation-number--promisevoid-error): Set a part reverberation
-  * [`setTrack`](#settrackobject-promisevoid-error): Configure an part audio track to use
+  * [`setTrack`](#settrackobject-promisevoid-error): Configure an new audio track to use
   * [`useTrack`](#usetrack-id--promisevoid-error): Use a configured audio track
   * [`seekTrackTo`](#seektrackto-time--promisevoid-error): Seek the audio track to a specified duration
   * [`print`](#print-promisevoid-error): Print the score

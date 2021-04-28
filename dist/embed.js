@@ -763,6 +763,28 @@
         return this.call('setTrack', parameters);
       }
       /**
+       * Enabled a previously configured track
+       *
+       * @return {Promise}
+       */
+
+    }, {
+      key: "useTrack",
+      value: function useTrack(parameters) {
+        return this.call('useTrack', parameters);
+      }
+      /**
+       * Seek the audio track to a specified duration
+       *
+       * @return {Promise}
+       */
+
+    }, {
+      key: "seekTrackTo",
+      value: function seekTrackTo(parameters) {
+        return this.call('seekTrackTo', parameters);
+      }
+      /**
        * Print the score
        *
        * @return {Promise}
