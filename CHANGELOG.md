@@ -1,5 +1,9 @@
 # Changelog
 
+## 2021-04-28: v1.4.0
+
+* Update `loadFlatScore` to support `sharingKey`
+
 ## 2020-05-06: Available with all previous SDKs since 0.4.0
 
 * new options for `getPNG`

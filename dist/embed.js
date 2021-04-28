@@ -1,4 +1,4 @@
-/*! flat-embed v1.3.0 | (c) 2020 Tutteo Ltd. (Flat) | Apache-2.0 License | https://github.com/FlatIO/embed-client */
+/*! flat-embed v1.3.0 | (c) 2021 Tutteo Ltd. (Flat) | Apache-2.0 License | https://github.com/FlatIO/embed-client */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
@@ -128,7 +128,7 @@
    */
   function postMessage(embed, method, parameters) {
     if (!embed.element.contentWindow || !embed.element.contentWindow.postMessage) {
-      throw new Error('No `contentWindow` or `contentWindow.postMessage` avaialble on the element');
+      throw new Error('No `contentWindow` or `contentWindow.postMessage` available on the element');
     }
 
     var message = {
@@ -405,19 +405,21 @@
       /**
        * Load a score hosted on Flat
        *
-       * @param {string} score The unique identifier of the score
-       * @param {string} [revision] The unique identifier of the revision
+       * @param {string|object} score The unique identifier of the score or an object with { score, sharingKey }
        * @return {Promise}
        * @reject {ApiError} Unable to load the score
        */
 
     }, {
       key: "loadFlatScore",
-      value: function loadFlatScore(score, revision) {
-        return this.call('loadFlatScore', {
-          score: score,
-          revision: revision
-        });
+      value: function loadFlatScore(score) {
+        if (typeof score === 'string') {
+          score = {
+            score: score
+          };
+        }
+
+        return this.call('loadFlatScore', score);
       }
       /**
        * Load a MusicXML score

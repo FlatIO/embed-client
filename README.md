@@ -97,7 +97,7 @@ When instantiating `Flat.Embed`, you can pass options in the second parameter. T
   * [`on`](#onevent-string-callback-function-void): Subscribe to events
   * [`off`](#offevent-string-callback-function-void): Unsubscribe from events
   * [`getEmbedConfig`](#getembedconfig-promiseobject-error): Get the global config of the embed
-  * [`loadFlatScore`](#loadflatscoreid-string-promisevoid-apierror): Load a score hosted on Flat
+  * [`loadFlatScore`](#loadflatscorescore-mixed-promisevoid-apierror): Load a score hosted on Flat
   * [`loadMusicXML`](#loadmusicxmlscore-mixed-promisevoid-error): Load MusicXML file (compressed or not)
   * [`loadJSON`](#loadjsonscore-object-promisevoid-error): Load Flat JSON file
   * [`getMusicXML`](#getmusicxmloptions-object-promisestringuint8array-error): Get the score in MusicXML (compressed or not)
@@ -212,12 +212,25 @@ embed.getEmbedConfig().then(function (config) {
 });
 ```
 
-### `loadFlatScore(id: string): Promise<void, ApiError>`
+### `loadFlatScore(score: mixed): Promise<void, ApiError>`
 
 Load a score hosted on Flat using its identifier. For example to load `https://flat.io/score/56ae21579a127715a02901a6-house-of-the-rising-sun`, you can call:
 
 ```js
 embed.loadFlatScore('56ae21579a127715a02901a6').then(function () {
+  // Score loaded in the embed
+}).catch(function (error) {
+  // Unable to load the score
+});
+```
+
+If the score has a private sharing link ([`privateLink`](https://flat.io/developers/api/reference/#operation/editScore)), you can pass an object with the `sharingKey` property:
+
+```js
+embed.loadFlatScore({
+  score: '5ce56f7c019fd41f5b17b72d',
+  sharingKey: '3f70cc5ecf5e4248055bbe7502a9514cfe619c53b4e248144e470bb5f08c5ecf880cf3eda5679c6b19f646a98ec0bd06d892ee1fd6896e20de0365ed0a42fc00'
+}).then(function () {
   // Score loaded in the embed
 }).catch(function (error) {
   // Unable to load the score

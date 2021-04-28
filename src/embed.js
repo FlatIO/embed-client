@@ -116,13 +116,15 @@ class Embed {
   /**
    * Load a score hosted on Flat
    *
-   * @param {string} score The unique identifier of the score
-   * @param {string} [revision] The unique identifier of the revision
+   * @param {string|object} score The unique identifier of the score or an object with { score, sharingKey }
    * @return {Promise}
    * @reject {ApiError} Unable to load the score
    */
-  loadFlatScore(score, revision) {
-    return this.call('loadFlatScore', {score, revision});
+  loadFlatScore(score) {
+    if (typeof score === 'string') {
+      score = { score };
+    }
+    return this.call('loadFlatScore', score);
   }
 
   /**

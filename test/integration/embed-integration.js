@@ -2,6 +2,8 @@ let APP_ID = '58fa312bea9bbd061b0ea8f3';
 let BASE_URL = 'https://flat-embed.com';
 let PUBLIC_SCORE = '56ae21579a127715a02901a6';
 let QUARTET_SCORE = '5e1348dd6d09386a2b178b58';
+let PRIVATE_LINK_SCORE = '5ce56f7c019fd41f5b17b72d';
+let PRIVATE_LINK_SHARING_KEY = '3f70cc5ecf5e4248055bbe7502a9514cfe619c53b4e248144e470bb5f08c5ecf880cf3eda5679c6b19f646a98ec0bd06d892ee1fd6896e20de0365ed0a42fc00';
 
 // APP_ID = '58e90082688f3e99d1244f58';
 // BASE_URL = 'http://vincent.ovh:3000/embed';
@@ -396,6 +398,45 @@ describe('Integration - Embed', () => {
         container.parentNode.removeChild(container);
         done();
       });
+    });
+  });
+
+  describe('Load Flat score', () => {
+    it('should load a public score using loadFlatScore()', async () => {
+      const container = document.createElement('div');
+      document.body.appendChild(container);
+
+      const embed = new Flat.Embed(container, {
+        baseUrl: BASE_URL,
+        embedParams: {
+          appId: APP_ID,
+        }
+      });
+      await embed.loadFlatScore(PUBLIC_SCORE);
+      const meta = await embed.getFlatScoreMetadata();
+      assert.equal(meta.title, 'House of the Rising Sun');
+
+      container.parentNode.removeChild(container);
+    });
+
+    it('should load a privateLink score using loadFlatScore()', async () => {
+      const container = document.createElement('div');
+      document.body.appendChild(container);
+
+      const embed = new Flat.Embed(container, {
+        baseUrl: BASE_URL,
+        embedParams: {
+          appId: APP_ID,
+        }
+      });
+      await embed.loadFlatScore({
+        score: PRIVATE_LINK_SCORE,
+        sharingKey: PRIVATE_LINK_SHARING_KEY,
+      });
+      const meta = await embed.getFlatScoreMetadata();
+      assert.equal(meta.title, 'House of the Rising Sun (Private link test Embed)');
+
+      container.parentNode.removeChild(container);
     });
   });
 
