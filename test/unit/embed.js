@@ -146,11 +146,11 @@ describe('Unit - Embed tests', () => {
         score: '1234',
         embedParams: {
           controlsFloating: false,
-          themeIconsPrimary: '#E53935',
+          themePrimary: '#E53935',
           themeCursorV0: '#E53935'
         }
       });
-      assert.equal(embed.element.getAttribute('src'), 'https://flat-embed.com/1234?jsapi=true&controlsFloating=false&themeIconsPrimary=%23E53935&themeCursorV0=%23E53935');
+      assert.equal(embed.element.getAttribute('src'), 'https://flat-embed.com/1234?jsapi=true&controlsFloating=false&themePrimary=%23E53935&themeCursorV0=%23E53935');
       assert.equal(embed.element.getAttribute('width'), '100%');
       assert.equal(embed.element.getAttribute('height'), '100%');
       container.removeChild(embed.element);
