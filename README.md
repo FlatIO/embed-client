@@ -3,7 +3,7 @@
 [![Build Status](https://github.com/FlatIO/embed-client/actions/workflows/tests.yml/badge.svg)](https://github.com/FlatIO/embed-client/actions)
 [![NPM Version](https://img.shields.io/npm/v/flat-embed.svg?style=flat)](https://www.npmjs.org/package/flat-embed)
 
-[![Flat's Sheet Music Embed](https://user-images.githubusercontent.com/396537/47357635-99aeb600-d6c7-11e8-9ea0-441eaa2d4908.png)](https://flat.io/embed)
+[![Flat's Sheet Music Embed](https://user-images.githubusercontent.com/396537/156041576-a5f68279-c291-49db-87e9-f8c9105c08a7.png)](https://flat.io/embed)
 
 Use this JavaScript Client to interact and receive events from our [Sheet Music Embed](https://flat.io/embed).
 
