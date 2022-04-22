@@ -62,13 +62,13 @@ class Embed {
     });
 
     embeds.set(this.element, this);
-    embedsReady.set(this, onReady);
+    embedsReady.set(this.element, onReady);
 
     return this;
   }
 
   ready() {
-    return Promise.resolve(embedsReady.get(this));
+    return embedsReady.get(this.element);
   }
 
   call(method, parameters={}) {
