@@ -1,4 +1,4 @@
-/*! flat-embed v1.4.0 | (c) 2022 Tutteo Ltd. (Flat) | Apache-2.0 License | https://github.com/FlatIO/embed-client */
+/*! flat-embed v1.4.1 | (c) 2022 Tutteo Ltd. (Flat) | Apache-2.0 License | https://github.com/FlatIO/embed-client */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
@@ -336,14 +336,14 @@
         postMessage(_this, 'ping');
       });
       embeds.set(this.element, this);
-      embedsReady.set(this, onReady);
+      embedsReady.set(this.element, onReady);
       return this;
     }
 
     _createClass(Embed, [{
       key: "ready",
       value: function ready() {
-        return Promise.resolve(embedsReady.get(this));
+        return embedsReady.get(this.element);
       }
     }, {
       key: "call",
