@@ -240,7 +240,7 @@ describe('Integration - Embed', () => {
         }
       });
 
-      fetch('https://api.flat.io/v2/scores/56ae21579a127715a02901a6/revisions/last/xml')
+      fetch('/base/test/integration/fixtures/flat-house-of-the-rising-sun.musicxml')
       .then((response) => {
         return response.text();
       })
@@ -277,7 +277,7 @@ describe('Integration - Embed', () => {
         }
       });
 
-      fetch('https://api.flat.io/v2/scores/56ae21579a127715a02901a6/revisions/last/mxl')
+      fetch('/base/test/integration/fixtures/flat-house-of-the-rising-sun.mxl')
       .then((response) => {
         return response.arrayBuffer();
       })
@@ -314,7 +314,7 @@ describe('Integration - Embed', () => {
         }
       });
 
-      fetch('https://api.flat.io/v2/scores/56ae21579a127715a02901a6/revisions/last/mxl')
+      fetch('/base/test/integration/fixtures/flat-house-of-the-rising-sun.mxl')
       .then((response) => {
         return response.arrayBuffer();
       })
@@ -325,7 +325,7 @@ describe('Integration - Embed', () => {
         return embed.getMusicXML();
       })
       .then((xml) => {
-        assert.ok(xml.includes('<work><work-title>House of the Rising Sun</work-title></work>'));
+        assert.ok(xml.includes('<work-title>House of the Rising Sun</work-title>'));
         container.parentNode.removeChild(container);
         done();
       })
@@ -345,7 +345,7 @@ describe('Integration - Embed', () => {
         }
       });
 
-      fetch('https://api.flat.io/v2/scores/56ae21579a127715a02901a6/revisions/last/mxl')
+      fetch('/base/test/integration/fixtures/flat-house-of-the-rising-sun.mxl')
       .then((response) => {
         return response.arrayBuffer();
       })

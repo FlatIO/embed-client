@@ -15,6 +15,12 @@ module.exports = function(config) {
       'test/unit/*.js',
       'test/integration/lib/*.js',
       'test/integration/*.js',
+      {
+        pattern: 'test/integration/fixtures/*',
+        watched: false,
+        served: true,
+        included: false,
+      },
     ],
     reporters: ['mocha'],
     port: 9876,
@@ -25,6 +31,7 @@ module.exports = function(config) {
     customLaunchers: {
       ChromeNoGPU: {
         base: 'ChromeHeadless',
+        // base: 'Chrome',
         flags: ['--no-sandbox', '--autoplay-policy=no-user-gesture-required'],
       },
     },
