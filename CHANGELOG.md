@@ -1,5 +1,9 @@
 # Changelog
 
+## 2021-04-22: v1.4.1
+
+* Fixed compatibility with Vue 3
+
 ## 2021-04-28: v1.4.0
 
 * Update `loadFlatScore` to support `sharingKey`
