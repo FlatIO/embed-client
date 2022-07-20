@@ -45,6 +45,7 @@ chrome_stable:
 
 release_s3:
   stage: Release
+  tags: ['docker-with-flat-configs']
   only:
   - tags
   script:

@@ -1,6 +1,6 @@
 # Changelog
 
-## 2021-04-22: v1.4.1
+## 2022-04-22: v1.4.1
 
 * Fixed compatibility with Vue 3
 
