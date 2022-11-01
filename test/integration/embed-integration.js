@@ -998,6 +998,51 @@ describe('Integration - Embed', () => {
     });
   });
 
+  describe('go', () => {
+    it('goLeft', async () => {
+      // Giv3n
+      const container = document.createElement('div');
+      document.body.appendChild(container);
+
+      const embed = new Flat.Embed(container, {
+        baseUrl: BASE_URL,
+        score: QUARTET_SCORE,
+        embedParams: {
+          appId: APP_ID
+        }
+      });
+
+      // When
+      await embed.goRight();
+
+      // Then
+      const pos = await embed.getCursorPosition();
+      assert.strictEqual(pos.noteIdx, 1);
+    });
+    it('goRight', async () => {
+      // Giv3n
+      const container = document.createElement('div');
+      document.body.appendChild(container);
+
+      const embed = new Flat.Embed(container, {
+        baseUrl: BASE_URL,
+        score: QUARTET_SCORE,
+        embedParams: {
+          appId: APP_ID
+        }
+      });
+      await embed.goRight();
+
+      // When
+      await embed.goLeft();
+
+      // Then
+      const pos = await embed.getCursorPosition();
+      assert.strictEqual(pos.noteIdx, 0);
+    });
+  });
+
+
   // describe('Editor config', () => {
   //   it('should fetch the viewer config', (done) => {
   //     var container = document.createElement('div');

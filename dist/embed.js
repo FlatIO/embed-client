@@ -962,6 +962,38 @@
       value: function getNoteDetails() {
         return this.call('getNoteDetails');
       }
+      /**
+       * Move the cursor to the next left item in the score (grace note, note or rest).
+       *
+       * @param {Boolean} mute false to play the note the cursor is moving to
+       * @return {Promise}
+       * @fullfill {Promise}
+       */
+
+    }, {
+      key: "goLeft",
+      value: function goLeft() {
+        var mute = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+        return this.call('goLeft', {
+          mute: mute
+        });
+      }
+      /**
+       * Move the cursor to the next right item in the score (grace note, note or rest).
+       *
+       * @param {Boolean} mute false to play the note the cursor is moving to
+       * @return {Promise}
+       * @fullfill {Promise}
+       */
+
+    }, {
+      key: "goRight",
+      value: function goRight() {
+        var mute = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+        return this.call('goRight', {
+          mute: mute
+        });
+      }
     }]);
 
     return Embed;
