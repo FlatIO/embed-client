@@ -572,6 +572,28 @@ class Embed {
   getNoteDetails() {
     return this.call('getNoteDetails');
   }
+
+  /**
+   * Move the cursor to the next left item in the score (grace note, note or rest).
+   *
+   * @param {Boolean} mute false to play the note the cursor is moving to
+   * @return {Promise}
+   * @fullfill {Promise}
+   */
+  goLeft(mute = false) {
+    return this.call('goLeft', { mute });
+  }
+
+  /**
+   * Move the cursor to the next right item in the score (grace note, note or rest).
+   *
+   * @param {Boolean} mute false to play the note the cursor is moving to
+   * @return {Promise}
+   * @fullfill {Promise}
+   */
+  goRight(mute = false) {
+    return this.call('goRight', { mute });
+  }
 }
 
 export default Embed;
