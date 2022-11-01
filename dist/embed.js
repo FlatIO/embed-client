@@ -915,6 +915,30 @@
         return this.call('setDisplayedParts', parts);
       }
       /**
+       * Get the number of measures in the score.
+       *
+       * @return {Promise}
+       * @fullfill {Number} The number of measures in the score
+       */
+
+    }, {
+      key: "getNbMeasures",
+      value: function getNbMeasures() {
+        return this.call('getNbMeasures');
+      }
+      /**
+       * Get the measures uuids of the score
+       *
+       * @return {Promise}
+       * @fullfill {Array} The list of measures uuids.
+       */
+
+    }, {
+      key: "getMeasuresUuids",
+      value: function getMeasuresUuids() {
+        return this.call('getMeasuresUuids');
+      }
+      /**
        * Get all the parts information
        *
        * @return {Promise}

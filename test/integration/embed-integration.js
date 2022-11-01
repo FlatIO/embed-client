@@ -954,6 +954,50 @@ describe('Integration - Embed', () => {
     });
   });
 
+  describe('getNbMeasures', () => {
+    it('basic', async () => {
+      // Giv3n
+      const container = document.createElement('div');
+      document.body.appendChild(container);
+
+      const embed = new Flat.Embed(container, {
+        baseUrl: BASE_URL,
+        score: QUARTET_SCORE,
+        embedParams: {
+          appId: APP_ID
+        }
+      });
+
+      // When
+      const result = await embed.getNbMeasures();
+
+      // Then
+      assert.strictEqual(result, 1);
+    });
+  });
+
+  describe('getMeasuresUuids', () => {
+    it('basic', async () => {
+      // Giv3n
+      const container = document.createElement('div');
+      document.body.appendChild(container);
+
+      const embed = new Flat.Embed(container, {
+        baseUrl: BASE_URL,
+        score: QUARTET_SCORE,
+        embedParams: {
+          appId: APP_ID
+        }
+      });
+
+      // When
+      const result = await embed.getMeasuresUuids();
+
+      // Then
+      assert.deepEqual(result, ['32511d58-cc7e-e7ba-399e-3b8f186b4ddb']);
+    });
+  });
+
   // describe('Editor config', () => {
   //   it('should fetch the viewer config', (done) => {
   //     var container = document.createElement('div');
