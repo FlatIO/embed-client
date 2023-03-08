@@ -645,6 +645,18 @@ class Embed {
   setPlaybackSpeed(speed) {
     return this.call('setPlaybackSpeed', { speed });
   }
+
+  /**
+   * Scroll to the cursor position in the score.
+   *
+   * The scrolling is done asynchronously, so it is not guaranteed that it will be complete
+   * by the time the callback is called.
+   *
+   * @return {Promise}
+   */
+  scrollToCursor() {
+    return this.call('scrollToCursor');
+  }
 }
 
 export default Embed;
