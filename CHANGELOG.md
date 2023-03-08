@@ -1,5 +1,15 @@
 # Changelog
 
+## 2023-05-08: v1.5.0
+
+* Add methods:
+  * `getNbMeasures`
+  * `getMeasuresUuids`
+  * `goLeft`
+  * `goRight`
+  * `getMetronomeMode`
+  * `setMetronomeMode`
+
 ## 2022-04-22: v1.4.1
 
 * Fixed compatibility with Vue 3
