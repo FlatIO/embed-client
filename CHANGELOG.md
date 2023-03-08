@@ -1,6 +1,6 @@
 # Changelog
 
-## 2023-05-08: v1.5.0
+## 2023-03-08: v1.5.0
 
 * Add methods:
   * `getNbMeasures`
