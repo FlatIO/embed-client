@@ -127,6 +127,8 @@ When instantiating `Flat.Embed`, you can pass options in the second parameter. T
   * [`setPartReverb`](#setpartreverb-partuuid-string-reverberation-number--promisevoid-error): Set a part reverberation
   * [`getMetronomeMode`](#getMetronomeMode-promisenumber-error): Get the mode of the metronome counting
   * [`setMetronomeMode`](#setMetronomeMode-number--promisevoid-error): Set the mode of the metronome counting
+  * [`getPlaybackSpeed`](#getPlaybackSpeed-promisenumber-error): Get the playback speed
+  * [`setPlaybackSpeed`](#setPlaybackSpeed-number--promisevoid-error): Set the playback speed
   * [`setTrack`](#settrackobject-promisevoid-error): Configure an new audio track to use
   * [`useTrack`](#usetrack-id--promisevoid-error): Use a configured audio track
   * [`seekTrackTo`](#seektrackto-time--promisevoid-error): Seek the audio track to a specified duration
@@ -601,6 +603,26 @@ Set the metronome count-in mode.
 ```js
 embed.setMetronomeMode(1).then(function () {
   // The metronome mode is set
+});
+```
+
+### `getPlaybackSpeed(): Promise<Number, Error>`
+
+Get the playback speed. 
+
+```js
+embed.getPlaybackSpeed().then(function (playbackSpeed) {
+  assert.strictEqual(playbackSpeed, 1);
+});
+```
+
+### `setPlaybackSpeed(number): Promise<void, Error>`
+
+Set the playback speed. Normal value is 1. The value can be between 0.2 and 2. 
+
+```js
+embed.setPlaybackSpeed(1.5).then(function () {
+  // The playback speed is set
 });
 ```
 

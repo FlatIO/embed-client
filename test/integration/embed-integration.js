@@ -1069,6 +1069,33 @@ describe('Integration - Embed', () => {
     });
   });
 
+  describe('Playback speed', () => {
+    it('should change between different playback speeds', async () => {
+      var container = document.createElement('div');
+      document.body.appendChild(container);
+
+      var embed = new Flat.Embed(container, {
+        baseUrl: BASE_URL,
+        score: QUARTET_SCORE,
+        embedParams: {
+          appId: APP_ID
+        }
+      });
+
+      let speed;
+
+      const fastSpeed = 1.5;
+      await embed.setPlaybackSpeed(fastSpeed);
+      speed = await embed.getPlaybackSpeed();
+      assert.strictEqual(speed, fastSpeed);
+
+      const slowSpeed = 0.5;
+      await embed.setPlaybackSpeed(slowSpeed);
+      speed = await embed.getPlaybackSpeed();
+      assert.strictEqual(speed, slowSpeed);
+    });
+  });
+
   // describe('Editor config', () => {
   //   it('should fetch the viewer config', (done) => {
   //     var container = document.createElement('div');
