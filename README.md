@@ -129,6 +129,7 @@ When instantiating `Flat.Embed`, you can pass options in the second parameter. T
   * [`setMetronomeMode`](#setMetronomeMode-number--promisevoid-error): Set the mode of the metronome counting
   * [`getPlaybackSpeed`](#getPlaybackSpeed-promisenumber-error): Get the playback speed
   * [`setPlaybackSpeed`](#setPlaybackSpeed-number--promisevoid-error): Set the playback speed
+  * [`scrollToCursor`](#scrollToCursor-promisevoid-error): Scroll to the cursor position in the score
   * [`setTrack`](#settrackobject-promisevoid-error): Configure an new audio track to use
   * [`useTrack`](#usetrack-id--promisevoid-error): Use a configured audio track
   * [`seekTrackTo`](#seektrackto-time--promisevoid-error): Seek the audio track to a specified duration
@@ -623,6 +624,16 @@ Set the playback speed. Normal value is 1. The value can be between 0.2 and 2.
 ```js
 embed.setPlaybackSpeed(1.5).then(function () {
   // The playback speed is set
+});
+```
+
+### `scrollToCursor(): Promise<void, Error>`
+
+For the display to scroll at the position of the cursor in the score
+
+```js
+embed.scrollToCursor().then(function () {
+  // The scrolling is done asynchronously, it is not guarenteed that it will be completed here. 
 });
 ```
 
