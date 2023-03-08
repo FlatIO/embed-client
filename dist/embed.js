@@ -1,4 +1,4 @@
-/*! flat-embed v1.4.1 | (c) 2023 Tutteo Ltd. (Flat) | Apache-2.0 License | https://github.com/FlatIO/embed-client */
+/*! flat-embed v1.5.0 | (c) 2023 Tutteo Ltd. (Flat) | Apache-2.0 License | https://github.com/FlatIO/embed-client */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
@@ -1007,6 +1007,34 @@
       value: function setMetronomeMode(mode) {
         return this.call('setMetronomeMode', {
           mode: mode
+        });
+      }
+
+      /**
+       * Get the current metronome mode
+       *
+       * @returns {Promise}
+       * @fullfill {Number} The Playback speed
+       */
+    }, {
+      key: "getPlaybackSpeed",
+      value: function getPlaybackSpeed() {
+        return this.call('getPlaybackSpeed');
+      }
+
+      /**
+       * Set the playback speed.
+       *
+       * 1 is the normal value, then it is a value between 0.2 and 2.
+       *
+       * @param {Number} speed the new playback speed
+       * @return {Promise}
+       */
+    }, {
+      key: "setPlaybackSpeed",
+      value: function setPlaybackSpeed(speed) {
+        return this.call('setPlaybackSpeed', {
+          speed: speed
         });
       }
     }]);

@@ -623,6 +623,28 @@ class Embed {
   setMetronomeMode(mode) {
     return this.call('setMetronomeMode', { mode });
   }
+
+  /**
+   * Get the current metronome mode
+   *
+   * @returns {Promise}
+   * @fullfill {Number} The Playback speed
+   */
+  getPlaybackSpeed() {
+    return this.call('getPlaybackSpeed');
+  }
+
+  /**
+   * Set the playback speed.
+   *
+   * 1 is the normal value, then it is a value between 0.2 and 2.
+   *
+   * @param {Number} speed the new playback speed
+   * @return {Promise}
+   */
+  setPlaybackSpeed(speed) {
+    return this.call('setPlaybackSpeed', { speed });
+  }
 }
 
 export default Embed;
