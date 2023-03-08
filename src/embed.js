@@ -594,6 +594,35 @@ class Embed {
   goRight(mute = false) {
     return this.call('goRight', { mute });
   }
+
+  /**
+  * Get the current metronome mode
+  *
+  * @returns {Promise}
+  * @fullfill {Number} The metronome mode
+  */
+  getMetronomeMode() {
+    return this.call('getMetronomeMode');
+  }
+
+  /**
+   * Sett the metronome mode.
+   *
+   * Mode is defined as:
+   * ``` javascript
+   * const METRONOME_MODES = {
+   *   COUNT_IN: 0,
+   *   CONTINUOUS: 1,
+   *   DISABLED: 2,
+   * };
+   * ```
+   *
+   * @param {Number} mode the new metronome mode
+   * @return {Promise}
+   */
+  setMetronomeMode(mode) {
+    return this.call('setMetronomeMode', { mode });
+  }
 }
 
 export default Embed;

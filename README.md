@@ -125,6 +125,8 @@ When instantiating `Flat.Embed`, you can pass options in the second parameter. T
   * [`getPartSoloMode`](#getpartsolomode-partuuid-string--promiseboolean-error): Get the state of the solo mode of a part
   * [`getPartReverb`](#getpartreverb-partuuid-string--promisenumber-error): Get a part reverberation
   * [`setPartReverb`](#setpartreverb-partuuid-string-reverberation-number--promisevoid-error): Set a part reverberation
+  * [`getMetronomeMode`](#getMetronomeMode-promisenumber-error): Get the mode of the metronome counting
+  * [`setMetronomeMode`](#setMetronomeMode-number--promisevoid-error): Set the mode of the metronome counting
   * [`setTrack`](#settrackobject-promisevoid-error): Configure an new audio track to use
   * [`useTrack`](#usetrack-id--promisevoid-error): Use a configured audio track
   * [`seekTrackTo`](#seektrackto-time--promisevoid-error): Seek the audio track to a specified duration
@@ -569,6 +571,36 @@ Set a part reverberation (`reverberation` between 0 and 100, `partUuid` can be r
 ```js
 embed.setPartReverb({ partUuid: 'c86be847-a7a1-54fb-44fc-a6564d7eb75c', reverberation: 50 }).then(function () {
   // The reverberation is set
+});
+```
+
+### `getMetronomeMode(): Promise<Number, Error>`
+
+Get the value of the metronome count-in mode. 
+
+Mode is defined as:
+```js
+const METRONOME_MODES = {
+  COUNT_IN: 0,// Count in at the beginning of the playback
+  CONTINUOUS: 1,// Always on
+  DISABLED: 2,
+};
+```
+
+```js
+embed.getMetronomeMode().then(function (metronomeMode) {
+  assert.strictEqual(metronomeMode, METRONOME_MODES.COUNT_IN);
+  assert.strictEqual(metronomeMode, 0);
+});
+```
+
+### `setMetronomeMode(number): Promise<void, Error>`
+
+Set the metronome count-in mode. 
+
+```js
+embed.setMetronomeMode(1).then(function () {
+  // The metronome mode is set
 });
 ```
 

@@ -1042,6 +1042,32 @@ describe('Integration - Embed', () => {
     });
   });
 
+  describe('Metronome mode', () => {
+    it('should change between metronome modes', async () => {
+      var container = document.createElement('div');
+      document.body.appendChild(container);
+
+      var embed = new Flat.Embed(container, {
+        baseUrl: BASE_URL,
+        score: QUARTET_SCORE,
+        embedParams: {
+          appId: APP_ID
+        }
+      });
+
+      let mode;
+
+      const continuousMode = 1;
+      await embed.setMetronomeMode(continuousMode);
+      mode = await embed.getMetronomeMode();
+      assert.strictEqual(mode, continuousMode);
+
+      const disabledMode = 2;
+      await embed.setMetronomeMode(disabledMode);
+      mode = await embed.getMetronomeMode();
+      assert.strictEqual(mode, disabledMode);
+    });
+  });
 
   // describe('Editor config', () => {
   //   it('should fetch the viewer config', (done) => {
