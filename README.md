@@ -141,6 +141,10 @@ When instantiating `Flat.Embed`, you can pass options in the second parameter. T
   * [`setDisplayedParts`](#setdisplayedpartsparts-promisevoid-error): Choose the parts to display
   * [`getMeasureDetails`](#getmeasuredetails-promiseobject-error): Get details about the current measure
   * [`getNoteDetails`](#getnotedetails-promiseobject-error): Get details about the current note
+  * [`getNbMeasures`](#getnbmeasures-promisenumber-error): Get the number of measures in the score
+  * [`getMeasuresUuids`](#getmeasuresuuids-promisearray-error): Get the list of measures uuids of the score
+  * [`goLeft`](#play-promisevoid-error): Move the cursor the previous note/rest
+  * [`goRight`](#play-promisevoid-error): Move the cursor the next note/rest
 * [Editor API](#editor-api)
 * [Events API](#events-api)
   * [`scoreLoaded`](#event-scoreLoaded): A new score has been loaded
@@ -873,6 +877,51 @@ embed.getNoteDetails().then(function (measure) {
   //     "wedgeType": null,
   //     "durationType": "eighth"
   // }
+});
+```
+
+### `getNbMeasures(): Promise(<number, Error>)`
+
+Get the number of measures within the score
+
+```js
+embed.getNoteDetails().then(function (nbMeasures) {
+  assert.strictEqual(nbMeasures, 5);
+});
+```
+
+### `getMeasuresUuids(): Promise(<array, Error>)`
+
+Get the number of measures within the score
+
+```js
+embed.getMeasuresUuids().then(function (measuresUuids) {
+  assert.strictEqual(measuresUuids, [
+    '05a4daec-bc78-5987-81e4-2467e234dfb2',
+    '08b9110b-82bb-11e5-f57c-7b0f47a6a69a',
+    '3c176017-31ff-cc91-7ad6-a2ea4a510200',
+    '833ca409-04e9-0b76-52db-105777bd7a56',
+  ]);
+});
+```
+
+### `goLeft(): Promise(<void, Error>)`
+
+Get the number of measures within the score
+
+```js
+embed.goLeft().then(function () {
+  // The cursor is moved to the previous item on the left
+});
+```
+
+### `goRight(): Promise(<void, Error>)`
+
+Get the number of measures within the score
+
+```js
+embed.goRight().then(function () {
+  // The cursor is moved to the next item on the right
 });
 ```
 
