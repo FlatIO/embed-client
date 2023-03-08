@@ -11,10 +11,11 @@ If you have any feedback or questions regarding this product, [please feel free 
 
 ## Installation
 
-You can install our Embed Client using [npm](https://www.npmjs.com/package/flat-embed) or [yarn](https://yarnpkg.com/en/package/flat-embed):
+You can install our Embed Client using [npm](https://www.npmjs.com/package/flat-embed), pnpm, or [yarn](https://yarnpkg.com/en/package/flat-embed):
 
 ```bash
 npm install flat-embed
+pnpm add flat-embed
 yarn add flat-embed
 ```
 
