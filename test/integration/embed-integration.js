@@ -158,11 +158,11 @@ describe('Integration - Embed', () => {
         assert.ok(json['score-partwise']);
         return embed.getFlatScoreMetadata();
       })
-      .then((meta) => {
-        assert.equal(meta.title, 'House of the Rising Sun');
-        container.parentNode.removeChild(container);
-        done();
-      });
+        .then((meta) => {
+          assert.equal(meta.title, 'House of the Rising Sun');
+          container.parentNode.removeChild(container);
+          done();
+        });
     });
   });
 
@@ -179,29 +179,29 @@ describe('Integration - Embed', () => {
       });
 
       fetch('https://api.flat.io/v2/scores/56ae21579a127715a02901a6/revisions/last/json')
-      .then((response) => {
-        return response.json();
-      })
-      .then((json) => {
-        return embed.loadJSON(json);
-      })
-      .then(() => {
-        return embed.getJSON();
-      })
-      .then((json) => {
-        assert.ok(json['score-partwise']);
-        assert.deepEqual(json['score-partwise'].credit, [
-          {
-            'credit-type': 'title',
-            'credit-words': 'House of the Rising Sun'
-          }
-        ]);
-        container.parentNode.removeChild(container);
-        done();
-      })
-      .catch((error) => {
-        assert.ifError(error);
-      });
+        .then((response) => {
+          return response.json();
+        })
+        .then((json) => {
+          return embed.loadJSON(json);
+        })
+        .then(() => {
+          return embed.getJSON();
+        })
+        .then((json) => {
+          assert.ok(json['score-partwise']);
+          assert.deepEqual(json['score-partwise'].credit, [
+            {
+              'credit-type': 'title',
+              'credit-words': 'House of the Rising Sun'
+            }
+          ]);
+          container.parentNode.removeChild(container);
+          done();
+        })
+        .catch((error) => {
+          assert.ifError(error);
+        });
     });
 
     it('should fail to import a non json', (done) => {
@@ -216,15 +216,15 @@ describe('Integration - Embed', () => {
       });
 
       embed
-      .loadJSON('42}')
-      .then(() => {
-        assert.notOk(true);
-      })
-      .catch((error) => {
-        assert.equal(error.message, 'Invalid score JSON');
-        container.parentNode.removeChild(container);
-        done();
-      });
+        .loadJSON('42}')
+        .then(() => {
+          assert.notOk(true);
+        })
+        .catch((error) => {
+          assert.equal(error.message, 'Invalid score JSON');
+          container.parentNode.removeChild(container);
+          done();
+        });
     });
   });
 
@@ -241,29 +241,29 @@ describe('Integration - Embed', () => {
       });
 
       fetch('/base/test/integration/fixtures/flat-house-of-the-rising-sun.musicxml')
-      .then((response) => {
-        return response.text();
-      })
-      .then((xml) => {
-        return embed.loadMusicXML(xml);
-      })
-      .then(() => {
-        return embed.getJSON();
-      })
-      .then((json) => {
-        assert.ok(json['score-partwise']);
-        assert.deepEqual(json['score-partwise'].credit, [
-          {
-            'credit-type': 'title',
-            'credit-words': 'House of the Rising Sun'
-          }
-        ]);
-        container.parentNode.removeChild(container);
-        done();
-      })
-      .catch((error) => {
-        assert.ifError(error);
-      });
+        .then((response) => {
+          return response.text();
+        })
+        .then((xml) => {
+          return embed.loadMusicXML(xml);
+        })
+        .then(() => {
+          return embed.getJSON();
+        })
+        .then((json) => {
+          assert.ok(json['score-partwise']);
+          assert.deepEqual(json['score-partwise'].credit, [
+            {
+              'credit-type': 'title',
+              'credit-words': 'House of the Rising Sun'
+            }
+          ]);
+          container.parentNode.removeChild(container);
+          done();
+        })
+        .catch((error) => {
+          assert.ifError(error);
+        });
     });
 
     it('shoud load a MusicXML (compressed) in a blank embed', (done) => {
@@ -278,29 +278,29 @@ describe('Integration - Embed', () => {
       });
 
       fetch('/base/test/integration/fixtures/flat-house-of-the-rising-sun.mxl')
-      .then((response) => {
-        return response.arrayBuffer();
-      })
-      .then((mxl) => {
-        return embed.loadMusicXML(mxl);
-      })
-      .then(() => {
-        return embed.getJSON();
-      })
-      .then((json) => {
-        assert.ok(json['score-partwise']);
-        assert.deepEqual(json['score-partwise'].credit, [
-          {
-            'credit-type': 'title',
-            'credit-words': 'House of the Rising Sun'
-          }
-        ]);
-        container.parentNode.removeChild(container);
-        done();
-      })
-      .catch((error) => {
-        assert.ifError(error);
-      });
+        .then((response) => {
+          return response.arrayBuffer();
+        })
+        .then((mxl) => {
+          return embed.loadMusicXML(mxl);
+        })
+        .then(() => {
+          return embed.getJSON();
+        })
+        .then((json) => {
+          assert.ok(json['score-partwise']);
+          assert.deepEqual(json['score-partwise'].credit, [
+            {
+              'credit-type': 'title',
+              'credit-words': 'House of the Rising Sun'
+            }
+          ]);
+          container.parentNode.removeChild(container);
+          done();
+        })
+        .catch((error) => {
+          assert.ifError(error);
+        });
     });
 
     it('shoud export a score into a plain MusicXML', (done) => {
@@ -315,23 +315,23 @@ describe('Integration - Embed', () => {
       });
 
       fetch('/base/test/integration/fixtures/flat-house-of-the-rising-sun.mxl')
-      .then((response) => {
-        return response.arrayBuffer();
-      })
-      .then((mxl) => {
-        return embed.loadMusicXML(mxl);
-      })
-      .then(() => {
-        return embed.getMusicXML();
-      })
-      .then((xml) => {
-        assert.ok(xml.includes('<work-title>House of the Rising Sun</work-title>'));
-        container.parentNode.removeChild(container);
-        done();
-      })
-      .catch((error) => {
-        assert.ifError(error);
-      });
+        .then((response) => {
+          return response.arrayBuffer();
+        })
+        .then((mxl) => {
+          return embed.loadMusicXML(mxl);
+        })
+        .then(() => {
+          return embed.getMusicXML();
+        })
+        .then((xml) => {
+          assert.ok(xml.includes('<work-title>House of the Rising Sun</work-title>'));
+          container.parentNode.removeChild(container);
+          done();
+        })
+        .catch((error) => {
+          assert.ifError(error);
+        });
     });
 
     it('shoud export a score into a compressed MusicXML and re-import it', (done) => {
@@ -346,35 +346,35 @@ describe('Integration - Embed', () => {
       });
 
       fetch('/base/test/integration/fixtures/flat-house-of-the-rising-sun.mxl')
-      .then((response) => {
-        return response.arrayBuffer();
-      })
-      .then((mxl) => {
-        return embed.loadMusicXML(mxl);
-      })
-      .then(() => {
-        return embed.getMusicXML({ compressed: true });
-      })
-      .then((mxl) => {
-        return embed.loadMusicXML(mxl);
-      })
-      .then(() => {
-        return embed.getJSON();
-      })
-      .then((json) => {
-        assert.ok(json['score-partwise']);
-        assert.deepEqual(json['score-partwise'].credit, [
-          {
-            'credit-type': 'title',
-            'credit-words': 'House of the Rising Sun'
-          }
-        ]);
-        container.parentNode.removeChild(container);
-        done();
-      })
-      .catch((error) => {
-        assert.ifError(error);
-      });
+        .then((response) => {
+          return response.arrayBuffer();
+        })
+        .then((mxl) => {
+          return embed.loadMusicXML(mxl);
+        })
+        .then(() => {
+          return embed.getMusicXML({ compressed: true });
+        })
+        .then((mxl) => {
+          return embed.loadMusicXML(mxl);
+        })
+        .then(() => {
+          return embed.getJSON();
+        })
+        .then((json) => {
+          assert.ok(json['score-partwise']);
+          assert.deepEqual(json['score-partwise'].credit, [
+            {
+              'credit-type': 'title',
+              'credit-words': 'House of the Rising Sun'
+            }
+          ]);
+          container.parentNode.removeChild(container);
+          done();
+        })
+        .catch((error) => {
+          assert.ifError(error);
+        });
     });
 
     it('should fail to import an invalid MusicXML', (done) => {
@@ -389,15 +389,15 @@ describe('Integration - Embed', () => {
       });
 
       embed
-      .loadMusicXML('<?xml version="1.0" encoding="UTF-8"?><bad></bad>')
-      .then(() => {
-        assert.notOk(true);
-      })
-      .catch((error) => {
-        assert.equal(error.message, 'Invalid MusicXML file format.');
-        container.parentNode.removeChild(container);
-        done();
-      });
+        .loadMusicXML('<?xml version="1.0" encoding="UTF-8"?><bad></bad>')
+        .then(() => {
+          assert.notOk(true);
+        })
+        .catch((error) => {
+          assert.equal(error.message, 'Invalid MusicXML file format.');
+          container.parentNode.removeChild(container);
+          done();
+        });
     });
   });
 
@@ -455,12 +455,12 @@ describe('Integration - Embed', () => {
       });
 
       embed.getPNG()
-      .then((png) => {
-        assert.ok(png instanceof Uint8Array);
-        assert.ok(png.length > 0);
-        container.parentNode.removeChild(container);
-        done();
-      });
+        .then((png) => {
+          assert.ok(png instanceof Uint8Array);
+          assert.ok(png.length > 0);
+          container.parentNode.removeChild(container);
+          done();
+        });
     });
 
     it('should export in PNG (data Url)', (done) => {
@@ -476,13 +476,13 @@ describe('Integration - Embed', () => {
         }
       });
 
-      embed.getPNG({result: 'dataURL'})
-      .then((png) => {
-        assert.equal(typeof png, 'string');
-        assert.equal(png.indexOf('data:image/png;base64,'), 0);
-        container.parentNode.removeChild(container);
-        done();
-      });
+      embed.getPNG({ result: 'dataURL' })
+        .then((png) => {
+          assert.equal(typeof png, 'string');
+          assert.equal(png.indexOf('data:image/png;base64,'), 0);
+          container.parentNode.removeChild(container);
+          done();
+        });
     });
   });
 
@@ -501,12 +501,12 @@ describe('Integration - Embed', () => {
       });
 
       embed.getMIDI()
-      .then((midi) => {
-        assert.ok(midi instanceof Uint8Array);
-        assert.ok(midi.length > 0);
-        container.parentNode.removeChild(container);
-        done();
-      });
+        .then((midi) => {
+          assert.ok(midi instanceof Uint8Array);
+          assert.ok(midi.length > 0);
+          container.parentNode.removeChild(container);
+          done();
+        });
     });
   });
 
@@ -535,9 +535,9 @@ describe('Integration - Embed', () => {
         container.parentNode.removeChild(container);
         done();
       })
-      .catch((error) => {
-        assert.ifError(error);
-      });
+        .catch((error) => {
+          assert.ifError(error);
+        });
     });
 
     it('should set the cursor position then get it', (done) => {
@@ -560,26 +560,26 @@ describe('Integration - Embed', () => {
         noteIdx: 1,
         extra: 'skip'
       })
-      .then((position) => {
-        assert.equal(position.partIdx, 0);
-        assert.equal(position.staffIdx, 0);
-        assert.equal(position.voiceIdxInStaff, 0);
-        assert.equal(position.measureIdx, 2);
-        assert.equal(position.noteIdx, 1);
-        return embed.getCursorPosition();
-      })
-      .then((position) => {
-        assert.equal(position.partIdx, 0);
-        assert.equal(position.staffIdx, 0);
-        assert.equal(position.voiceIdxInStaff, 0);
-        assert.equal(position.measureIdx, 2);
-        assert.equal(position.noteIdx, 1);
-        container.parentNode.removeChild(container);
-        done();
-      })
-      .catch((error) => {
-        assert.ifError(error);
-      });
+        .then((position) => {
+          assert.equal(position.partIdx, 0);
+          assert.equal(position.staffIdx, 0);
+          assert.equal(position.voiceIdxInStaff, 0);
+          assert.equal(position.measureIdx, 2);
+          assert.equal(position.noteIdx, 1);
+          return embed.getCursorPosition();
+        })
+        .then((position) => {
+          assert.equal(position.partIdx, 0);
+          assert.equal(position.staffIdx, 0);
+          assert.equal(position.voiceIdxInStaff, 0);
+          assert.equal(position.measureIdx, 2);
+          assert.equal(position.noteIdx, 1);
+          container.parentNode.removeChild(container);
+          done();
+        })
+        .catch((error) => {
+          assert.ifError(error);
+        });
     });
 
     it('should fail to set cursor with missing param', (done) => {
@@ -597,12 +597,12 @@ describe('Integration - Embed', () => {
       embed.setCursorPosition({
         noteIdx: 1
       })
-      .catch((error) => {
-        assert.equal(error.code, 'BadPartIdxError');
-        assert.equal(error.message, 'There is no part at the index [undefined<undefined>].');
-        container.parentNode.removeChild(container);
-        done();
-      });
+        .catch((error) => {
+          assert.equal(error.code, 'BadPartIdxError');
+          assert.equal(error.message, 'There is no part at the index [undefined<undefined>].');
+          container.parentNode.removeChild(container);
+          done();
+        });
     });
 
     it('should set fail to set cursor with bad param value', (done) => {
@@ -624,11 +624,11 @@ describe('Integration - Embed', () => {
         noteIdx: 0,
         voiceIdxInStaff: 0
       })
-      .catch((error) => {
-        assert.equal(error.message, 'Parameter measureIdx should be a number, not boolean');
-        container.parentNode.removeChild(container);
-        done();
-      });
+        .catch((error) => {
+          assert.equal(error.message, 'Parameter measureIdx should be a number, not boolean');
+          container.parentNode.removeChild(container);
+          done();
+        });
     });
   });
 
@@ -647,15 +647,15 @@ describe('Integration - Embed', () => {
       });
 
       embed.ready()
-      .then(() => {
-        assert.equal(document.activeElement.nodeName, 'BODY');
-        return embed.focusScore();
-      })
-      .then(() => {
-        assert.equal(document.activeElement.nodeName, 'IFRAME');
-        container.parentNode.removeChild(container);
-        done();
-      })
+        .then(() => {
+          assert.equal(document.activeElement.nodeName, 'BODY');
+          return embed.focusScore();
+        })
+        .then(() => {
+          assert.equal(document.activeElement.nodeName, 'IFRAME');
+          container.parentNode.removeChild(container);
+          done();
+        })
     });
   });
 
@@ -677,28 +677,28 @@ describe('Integration - Embed', () => {
         assert.equal(state, 'true');
         done();
       })
-      .then(() => {
-        return embed.getZoom();
-      })
-      .then((zoom) => {
-        assert.ok(Number.isFinite(zoom));
-        assert.ok(zoom >= 0.5);
-        assert.ok(zoom < 3);
-        return embed.getAutoZoom();
-      })
-      .then((autoZoom) => {
-        assert.ok(autoZoom);
-        return embed.setAutoZoom(false);
-      })
-      .then((autoZoom) => {
-        assert.ok(!autoZoom);
-        return embed.getAutoZoom();
-      })
-      .then((autoZoom) => {
-        assert.ok(!autoZoom);
-        container.parentNode.removeChild(container);
-        done();
-      });
+        .then(() => {
+          return embed.getZoom();
+        })
+        .then((zoom) => {
+          assert.ok(Number.isFinite(zoom));
+          assert.ok(zoom >= 0.5);
+          assert.ok(zoom < 3);
+          return embed.getAutoZoom();
+        })
+        .then((autoZoom) => {
+          assert.ok(autoZoom);
+          return embed.setAutoZoom(false);
+        })
+        .then((autoZoom) => {
+          assert.ok(!autoZoom);
+          return embed.getAutoZoom();
+        })
+        .then((autoZoom) => {
+          assert.ok(!autoZoom);
+          container.parentNode.removeChild(container);
+          done();
+        });
     });
 
     it('should set a new zoom value & disable auto-zoom', (done) => {
@@ -718,18 +718,18 @@ describe('Integration - Embed', () => {
         assert.equal(zoom, 2);
         done();
       })
-      .then(() => {
-        return embed.getZoom();
-      }).
-      then((zoom) => {
-        assert.equal(zoom, 2);
-        return embed.getAutoZoom();
-      }).
-      then((state) => {
-        assert.equal(state, false);
-        container.parentNode.removeChild(container);
-        done();
-      });
+        .then(() => {
+          return embed.getZoom();
+        }).
+        then((zoom) => {
+          assert.equal(zoom, 2);
+          return embed.getAutoZoom();
+        }).
+        then((state) => {
+          assert.equal(state, false);
+          container.parentNode.removeChild(container);
+          done();
+        });
     });
   });
 
@@ -837,7 +837,7 @@ describe('Integration - Embed', () => {
       });
 
       const allParts = await embed.getParts();
-      
+
       assert.equal(allParts.length, 4);
       assert.equal(allParts[0].idx, 0);
       assert.equal(allParts[0].name, 'Violin');

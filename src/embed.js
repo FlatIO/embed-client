@@ -71,7 +71,7 @@ class Embed {
     return embedsReady.get(this.element);
   }
 
-  call(method, parameters={}) {
+  call(method, parameters = {}) {
     return new Promise((resolve, reject) => {
       return this.ready().then(() => {
         this.embedCallback.pushCall(method, resolve, reject);
@@ -94,7 +94,7 @@ class Embed {
       throw new TypeError('An callback (function) is required');
     }
     if (this.embedCallback.subscribeEvent(event, callback)) {
-      this.call('addEventListener', event).catch(() => {});
+      this.call('addEventListener', event).catch(() => { });
     }
   }
 
@@ -109,7 +109,7 @@ class Embed {
       throw new TypeError('An event name (string) is required');
     }
     if (this.embedCallback.unsubscribeEvent(event, callback)) {
-      this.call('removeEventListener', event).catch(() => {});
+      this.call('removeEventListener', event).catch(() => { });
     }
   }
 
@@ -191,20 +191,20 @@ class Embed {
    * @fullfill {Uint8Array} PNG File
    * @reject {Error} Conversion error
    */
-   getPNG(options) {
-     return new Promise((resolve, reject) => {
-       options = options || {};
-       if (typeof options !== 'object') {
-         return reject(new TypeError('Options must be an object'));
-       }
-       this.call('getPNG', options).then((data) => {
-         if (typeof data === 'string') {
-           return resolve(data);
-         }
-         return resolve(new Uint8Array(data));
-       }).catch(reject);
-     });
-   }
+  getPNG(options) {
+    return new Promise((resolve, reject) => {
+      options = options || {};
+      if (typeof options !== 'object') {
+        return reject(new TypeError('Options must be an object'));
+      }
+      this.call('getPNG', options).then((data) => {
+        if (typeof data === 'string') {
+          return resolve(data);
+        }
+        return resolve(new Uint8Array(data));
+      }).catch(reject);
+    });
+  }
 
   /**
    * Convert the displayed score in MIDI
@@ -233,9 +233,9 @@ class Embed {
    * @return {Promise}
    * @fullfill {object} An object containing the config of the embed
    */
-   getEmbedConfig() {
-     return this.call('getEmbedConfig');
-   }
+  getEmbedConfig() {
+    return this.call('getEmbedConfig');
+  }
 
   /**
    * Set a config for the embed mode
@@ -246,9 +246,9 @@ class Embed {
    * @return {Promise}
    * @fullfill {object} An object containing the config of the editor
    */
-   setEditorConfig(editor) {
-     return this.call('setEditorConfig', editor);
-   }
+  setEditorConfig(editor) {
+    return this.call('setEditorConfig', editor);
+  }
 
   /**
    * Toggle fullscreen state
@@ -539,9 +539,9 @@ class Embed {
    * @return {Promise}
    * @fullfill {Number} The number of measures in the score
    */
-   getNbMeasures() {
-     return this.call('getNbMeasures');
-   }
+  getNbMeasures() {
+    return this.call('getNbMeasures');
+  }
 
   /**
    * Get the measures uuids of the score
@@ -549,9 +549,9 @@ class Embed {
    * @return {Promise}
    * @fullfill {Array} The list of measures uuids.
    */
-   getMeasuresUuids() {
-     return this.call('getMeasuresUuids');
-   }
+  getMeasuresUuids() {
+    return this.call('getMeasuresUuids');
+  }
 
   /**
    * Get all the parts information
