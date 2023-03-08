@@ -974,6 +974,41 @@
           mute: mute
         });
       }
+
+      /**
+      * Get the current metronome mode
+      *
+      * @returns {Promise}
+      * @fullfill {Number} The metronome mode
+      */
+    }, {
+      key: "getMetronomeMode",
+      value: function getMetronomeMode() {
+        return this.call('getMetronomeMode');
+      }
+
+      /**
+       * Sett the metronome mode.
+       *
+       * Mode is defined as:
+       * ``` javascript
+       * const METRONOME_MODES = {
+       *   COUNT_IN: 0,
+       *   CONTINUOUS: 1,
+       *   DISABLED: 2,
+       * };
+       * ```
+       *
+       * @param {Number} mode the new metronome mode
+       * @return {Promise}
+       */
+    }, {
+      key: "setMetronomeMode",
+      value: function setMetronomeMode(mode) {
+        return this.call('setMetronomeMode', {
+          mode: mode
+        });
+      }
     }]);
     return Embed;
   }();
