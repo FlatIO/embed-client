@@ -11,6 +11,7 @@
   * `setMetronomeMode`
   * `getPlaybackSpeed`
   * `setPlaybackSpeed`
+  * `scrollToCursor`
 
 ## 2022-04-22: v1.4.1
 

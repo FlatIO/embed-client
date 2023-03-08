@@ -620,7 +620,7 @@
       }
 
       /**
-       * Get the current master volume
+       * Set the current master volume
        *
        * @return {Promise}
        */
@@ -1036,6 +1036,20 @@
         return this.call('setPlaybackSpeed', {
           speed: speed
         });
+      }
+
+      /**
+       * Scroll to the cursor position in the score.
+       *
+       * The scrolling is done asynchronously, so it is not guaranteed that it will be complete
+       * by the time the callback is called.
+       *
+       * @return {Promise}
+       */
+    }, {
+      key: "scrollToCursor",
+      value: function scrollToCursor() {
+        return this.call('scrollToCursor');
       }
     }]);
     return Embed;
