@@ -306,7 +306,7 @@ class Embed {
   }
 
   /**
-   * Get the current master volume
+   * Set the current master volume
    *
    * @return {Promise}
    */
