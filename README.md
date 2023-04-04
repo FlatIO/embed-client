@@ -22,7 +22,7 @@ yarn add flat-embed
 Or use the latest version hosted on our CDN:
 
 ```html
-<script src="https://prod.flat-cdn.com/embed-js/v1.5.0/embed.min.js"></script>
+<script src="https://prod.flat-cdn.com/embed-js/v1.5.1/embed.min.js"></script>
 ```
 
 ## Getting Started
@@ -31,7 +31,7 @@ The simplest way to get started is to pass a DOM element to our embed that will 
 
 ```html
 <div id="embed-container"></div>
-<script src="https://prod.flat-cdn.com/embed-js/v1.5.0/embed.min.js"></script>
+<script src="https://prod.flat-cdn.com/embed-js/v1.5.1/embed.min.js"></script>
 <script>
   var container = document.getElementById('embed-container');
   var embed = new Flat.Embed(container, {
