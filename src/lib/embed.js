@@ -35,7 +35,7 @@ export function createEmbedIframe(element, parameters) {
   iframe.setAttribute('width', parameters.width || '100%');
   iframe.setAttribute('height', parameters.height || '100%');
   iframe.setAttribute('allowfullscreen', true);
-  iframe.setAttribute('allow', 'midi');
+  iframe.setAttribute('allow', 'autoplay; midi');
   iframe.setAttribute('frameborder', '0');
 
   element.appendChild(iframe);
