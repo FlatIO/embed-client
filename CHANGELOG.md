@@ -1,5 +1,9 @@
 # Changelog
 
+## 2023-04-04: v1.5.1
+
+* Add `allow: autoplay` on created iframes.
+
 ## 2023-03-08: v1.5.0
 
 * Add methods:
