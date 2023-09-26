@@ -22,15 +22,6 @@ describe('Unit - Embed tests', () => {
       container.removeChild(embed.element);
     });
 
-    it('should instance an Embed using a jQuery selector', () => {
-      const container = $('#container');
-      const embed = new Flat.Embed(container);
-      assert.equal(embed.element.getAttribute('src'), 'https://flat-embed.com/blank?jsapi=true');
-      assert.equal(container[0].childNodes.length, 1);
-      assert.equal(container[0].childNodes[0], embed.element);
-      container[0].removeChild(embed.element);
-    });
-
     it('should instance an Embed using an id', () => {
       const container = document.getElementById('container');
       const embed = new Flat.Embed('container');

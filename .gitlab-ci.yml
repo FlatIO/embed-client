@@ -10,15 +10,17 @@ build:
     name: '$CI_PIPELINE_ID-$CI_COMMIT_SHA'
     paths:
       - node_modules/
+      - dist/
     expire_in: 2 days
   script:
-    - npm install -d
+    - pnpm install -d --frozen-lockfile
+    - pnpm build
 
 eslint:
   stage: QA
   allow_failure: true
   script:
-    - npm run eslint
+    - pnpm run eslint
 
 prettier:
   stage: QA
@@ -32,7 +34,7 @@ chrome_stable:
   script:
     - node -v
     - google-chrome --version
-    - npm test
+    - pnpm test
 
 release_s3:
   stage: Release
@@ -41,6 +43,10 @@ release_s3:
     - tags
   script:
     - GIT_TAG=$(git describe --tags)
+    # compat with old rollup build and public UMD urls
+    - cp dist/flat-embed.umd.js dist/embed.min.js
+    # only upload types to npm packages, not needed on cdn
+    - find dist -name "*.d.ts" -delete
     - s3cmd -c /root/.s3cfg.prod-static-wasabi sync --acl-public --no-mime-magic --guess-mime-type --no-preserve dist/ s3://flat-prod-static/embed-js/${GIT_TAG}/
     - s3cmd -c /root/.s3cfg.prod-static sync --no-mime-magic --guess-mime-type --no-preserve dist/ s3://flat-prod-static/embed-js/${GIT_TAG}/
     - s3cmd -c /root/.s3cfg.prod-static-do sync --acl-public --no-mime-magic --guess-mime-type --no-preserve dist/ s3://flat-prod-static/embed-js/${GIT_TAG}/

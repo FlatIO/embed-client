@@ -1,17 +1,16 @@
 /**
  * Select and normalize the DOM element input
- *
- * @param {(HTMLIFrameElement|HTMLElement|string|jQuery)} element
- * @return {(HTMLIFrameElement|HTMLElement)}
  */
-export function normalizeElement(element) {
-  if (window.jQuery && element instanceof window.jQuery) {
-    element = element[0];
-  }
-
+export function normalizeElement(
+  element: HTMLIFrameElement | HTMLElement | string,
+): HTMLIFrameElement | HTMLElement {
   // Find an element by identifier
   if (typeof element === 'string') {
-    element = document.getElementById(element);
+    const container = document.getElementById(element);
+    if (!container) {
+      throw new TypeError(`The DOM element with the identifier "${element}" was not found.`);
+    }
+    element = container;
   }
 
   // Check if a DOM element

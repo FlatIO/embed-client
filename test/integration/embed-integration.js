@@ -40,26 +40,6 @@ describe('Integration - Embed', () => {
       });
     });
 
-    it('should instance an Embed using a jQuery element', done => {
-      var container = document.createElement('div');
-      container.setAttribute('id', 'container');
-      document.body.appendChild(container);
-
-      var embed = new Flat.Embed($('#container'), {
-        score: PUBLIC_SCORE,
-        baseUrl: BASE_URL,
-        embedParams: {
-          appId: APP_ID,
-          controlsFloating: false,
-        },
-      });
-
-      embed.ready().then(() => {
-        container.parentNode.removeChild(container);
-        done();
-      });
-    });
-
     it('should instance an Embed using a string id', done => {
       var container = document.createElement('div');
       container.setAttribute('id', 'container');

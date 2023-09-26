@@ -80,7 +80,6 @@ When instantiating `Flat.Embed`, the first argument will always refer to a DOM e
 
 - A DOM element (e.g. selected using `document.getElementById('embed-container')`).
 - The string identifier of the element (e.g. `"embed-container"`).
-- A jQuery element (e.g. selected using `$('#embed-container')`). If multiple elements match the selection, the client will take the first one selected.
 - An existing embed iframe element. In this case, this one will need to have our JS API loaded using the query string [`jsapi=true`](https://flat.io/developers/docs/embed/url-parameters.html).
 
 If you instance a different `Flat.Embed` for the same element, you will always get the same instance of the object.
