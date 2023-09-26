@@ -11,7 +11,7 @@ If you have any feedback or questions regarding this product, [please feel free 
 
 ## Installation
 
-You can install our Embed Client using [npm](https://www.npmjs.com/package/flat-embed), pnpm, or [yarn](https://yarnpkg.com/en/package/flat-embed):
+You can install our ES/TypeScript Embed Client using [npm](https://www.npmjs.com/package/flat-embed), pnpm, or [yarn](https://yarnpkg.com/en/package/flat-embed):
 
 ```bash
 npm install flat-embed
@@ -19,10 +19,10 @@ pnpm add flat-embed
 yarn add flat-embed
 ```
 
-Or use the latest version hosted on our CDN:
+Or use the latest UMD version hosted on our CDN:
 
 ```html
-<script src="https://prod.flat-cdn.com/embed-js/v1.5.1/embed.min.js"></script>
+<script src="https://prod.flat-cdn.com/embed-js/v2.0.0/embed.min.js"></script>
 ```
 
 ## Getting Started
@@ -31,7 +31,7 @@ The simplest way to get started is to pass a DOM element to our embed that will 
 
 ```html
 <div id="embed-container"></div>
-<script src="https://prod.flat-cdn.com/embed-js/v1.5.1/embed.min.js"></script>
+<script src="https://prod.flat-cdn.com/embed-js/v2.0.0/embed.min.js"></script>
 <script>
   var container = document.getElementById('embed-container');
   var embed = new Flat.Embed(container, {
