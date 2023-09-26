@@ -3,7 +3,8 @@ let BASE_URL = 'https://flat-embed.com';
 let PUBLIC_SCORE = '56ae21579a127715a02901a6';
 let QUARTET_SCORE = '5e1348dd6d09386a2b178b58';
 let PRIVATE_LINK_SCORE = '5ce56f7c019fd41f5b17b72d';
-let PRIVATE_LINK_SHARING_KEY = '3f70cc5ecf5e4248055bbe7502a9514cfe619c53b4e248144e470bb5f08c5ecf880cf3eda5679c6b19f646a98ec0bd06d892ee1fd6896e20de0365ed0a42fc00';
+let PRIVATE_LINK_SHARING_KEY =
+  '3f70cc5ecf5e4248055bbe7502a9514cfe619c53b4e248144e470bb5f08c5ecf880cf3eda5679c6b19f646a98ec0bd06d892ee1fd6896e20de0365ed0a42fc00';
 
 // APP_ID = '58e90082688f3e99d1244f58';
 // BASE_URL = 'http://vincent.ovh:3000/embed';
@@ -14,14 +15,13 @@ describe('Integration - Embed', () => {
   afterEach(() => {
     try {
       [...document.querySelectorAll('div,iframe')].forEach(el => document.body.removeChild(el));
-    }
-    catch (err) {
+    } catch (err) {
       // console.debug(err);
     }
   });
 
   describe('Loading embed', () => {
-    it('should instance an Embed using a container', (done) => {
+    it('should instance an Embed using a container', done => {
       var container = document.createElement('div');
       document.body.appendChild(container);
 
@@ -30,8 +30,8 @@ describe('Integration - Embed', () => {
         baseUrl: BASE_URL,
         embedParams: {
           appId: APP_ID,
-          controlsFloating: false
-        }
+          controlsFloating: false,
+        },
       });
 
       embed.ready().then(() => {
@@ -40,7 +40,7 @@ describe('Integration - Embed', () => {
       });
     });
 
-    it('should instance an Embed using a jQuery element', (done) => {
+    it('should instance an Embed using a jQuery element', done => {
       var container = document.createElement('div');
       container.setAttribute('id', 'container');
       document.body.appendChild(container);
@@ -50,8 +50,8 @@ describe('Integration - Embed', () => {
         baseUrl: BASE_URL,
         embedParams: {
           appId: APP_ID,
-          controlsFloating: false
-        }
+          controlsFloating: false,
+        },
       });
 
       embed.ready().then(() => {
@@ -60,7 +60,7 @@ describe('Integration - Embed', () => {
       });
     });
 
-    it('should instance an Embed using a string id', (done) => {
+    it('should instance an Embed using a string id', done => {
       var container = document.createElement('div');
       container.setAttribute('id', 'container');
       document.body.appendChild(container);
@@ -70,8 +70,8 @@ describe('Integration - Embed', () => {
         baseUrl: BASE_URL,
         embedParams: {
           appId: APP_ID,
-          controlsFloating: false
-        }
+          controlsFloating: false,
+        },
       });
 
       embed.ready().then(() => {
@@ -80,7 +80,7 @@ describe('Integration - Embed', () => {
       });
     });
 
-    it('should create two object with the same embed', (done) => {
+    it('should create two object with the same embed', done => {
       var container = document.createElement('div');
       document.body.appendChild(container);
 
@@ -89,8 +89,8 @@ describe('Integration - Embed', () => {
         baseUrl: BASE_URL,
         embedParams: {
           appId: APP_ID,
-          controlsFloating: false
-        }
+          controlsFloating: false,
+        },
       });
 
       var embed2 = new Flat.Embed(container, {
@@ -98,8 +98,8 @@ describe('Integration - Embed', () => {
         baseUrl: BASE_URL,
         embedParams: {
           appId: APP_ID,
-          controlsFloating: false
-        }
+          controlsFloating: false,
+        },
       });
 
       embed.ready().then(() => {
@@ -109,15 +109,15 @@ describe('Integration - Embed', () => {
       });
     });
 
-    it('should create an embed with a blank document', (done) => {
+    it('should create an embed with a blank document', done => {
       var container = document.createElement('div');
       document.body.appendChild(container);
 
       var embed = new Flat.Embed(container, {
         baseUrl: BASE_URL,
         embedParams: {
-          appId: APP_ID
-        }
+          appId: APP_ID,
+        },
       });
 
       embed.ready().then(() => {
@@ -126,7 +126,7 @@ describe('Integration - Embed', () => {
       });
     });
 
-    it('should plug into an existing iframe', (done) => {
+    it('should plug into an existing iframe', done => {
       var iframe = document.createElement('iframe');
       var baseUrl = BASE_URL || 'https://flat-embed.com';
       iframe.setAttribute('src', baseUrl + '/' + PUBLIC_SCORE + '?jsapi=true&appId=' + APP_ID);
@@ -142,7 +142,7 @@ describe('Integration - Embed', () => {
   });
 
   describe('Load Platform scores', () => {
-    it('should load a Flat Platform score by id', (done) => {
+    it('should load a Flat Platform score by id', done => {
       var container = document.createElement('div');
       document.body.appendChild(container);
 
@@ -150,15 +150,17 @@ describe('Integration - Embed', () => {
         baseUrl: BASE_URL,
         score: PUBLIC_SCORE,
         embedParams: {
-          appId: APP_ID
-        }
+          appId: APP_ID,
+        },
       });
 
-      embed.getJSON().then((json) => {
-        assert.ok(json['score-partwise']);
-        return embed.getFlatScoreMetadata();
-      })
-        .then((meta) => {
+      embed
+        .getJSON()
+        .then(json => {
+          assert.ok(json['score-partwise']);
+          return embed.getFlatScoreMetadata();
+        })
+        .then(meta => {
           assert.equal(meta.title, 'House of the Rising Sun');
           container.parentNode.removeChild(container);
           done();
@@ -167,52 +169,52 @@ describe('Integration - Embed', () => {
   });
 
   describe('JSON import/export', () => {
-    it('should import a Flat JSON file then export it', (done) => {
+    it('should import a Flat JSON file then export it', done => {
       var container = document.createElement('div');
       document.body.appendChild(container);
 
       var embed = new Flat.Embed(container, {
         baseUrl: BASE_URL,
         embedParams: {
-          appId: APP_ID
-        }
+          appId: APP_ID,
+        },
       });
 
       fetch('https://api.flat.io/v2/scores/56ae21579a127715a02901a6/revisions/last/json')
-        .then((response) => {
+        .then(response => {
           return response.json();
         })
-        .then((json) => {
+        .then(json => {
           return embed.loadJSON(json);
         })
         .then(() => {
           return embed.getJSON();
         })
-        .then((json) => {
+        .then(json => {
           assert.ok(json['score-partwise']);
           assert.deepEqual(json['score-partwise'].credit, [
             {
               'credit-type': 'title',
-              'credit-words': 'House of the Rising Sun'
-            }
+              'credit-words': 'House of the Rising Sun',
+            },
           ]);
           container.parentNode.removeChild(container);
           done();
         })
-        .catch((error) => {
+        .catch(error => {
           assert.ifError(error);
         });
     });
 
-    it('should fail to import a non json', (done) => {
+    it('should fail to import a non json', done => {
       var container = document.createElement('div');
       document.body.appendChild(container);
 
       var embed = new Flat.Embed(container, {
         baseUrl: BASE_URL,
         embedParams: {
-          appId: APP_ID
-        }
+          appId: APP_ID,
+        },
       });
 
       embed
@@ -220,7 +222,7 @@ describe('Integration - Embed', () => {
         .then(() => {
           assert.notOk(true);
         })
-        .catch((error) => {
+        .catch(error => {
           assert.equal(error.message, 'Invalid score JSON');
           container.parentNode.removeChild(container);
           done();
@@ -229,163 +231,163 @@ describe('Integration - Embed', () => {
   });
 
   describe('MusicXML import/export', () => {
-    it('shoud load a MusicXML (plain) in a blank embed', (done) => {
+    it('shoud load a MusicXML (plain) in a blank embed', done => {
       var container = document.createElement('div');
       document.body.appendChild(container);
 
       var embed = new Flat.Embed(container, {
         baseUrl: BASE_URL,
         embedParams: {
-          appId: APP_ID
-        }
+          appId: APP_ID,
+        },
       });
 
       fetch('/base/test/integration/fixtures/flat-house-of-the-rising-sun.musicxml')
-        .then((response) => {
+        .then(response => {
           return response.text();
         })
-        .then((xml) => {
+        .then(xml => {
           return embed.loadMusicXML(xml);
         })
         .then(() => {
           return embed.getJSON();
         })
-        .then((json) => {
+        .then(json => {
           assert.ok(json['score-partwise']);
           assert.deepEqual(json['score-partwise'].credit, [
             {
               'credit-type': 'title',
-              'credit-words': 'House of the Rising Sun'
-            }
+              'credit-words': 'House of the Rising Sun',
+            },
           ]);
           container.parentNode.removeChild(container);
           done();
         })
-        .catch((error) => {
+        .catch(error => {
           assert.ifError(error);
         });
     });
 
-    it('shoud load a MusicXML (compressed) in a blank embed', (done) => {
+    it('shoud load a MusicXML (compressed) in a blank embed', done => {
       var container = document.createElement('div');
       document.body.appendChild(container);
 
       var embed = new Flat.Embed(container, {
         baseUrl: BASE_URL,
         embedParams: {
-          appId: APP_ID
-        }
+          appId: APP_ID,
+        },
       });
 
       fetch('/base/test/integration/fixtures/flat-house-of-the-rising-sun.mxl')
-        .then((response) => {
+        .then(response => {
           return response.arrayBuffer();
         })
-        .then((mxl) => {
+        .then(mxl => {
           return embed.loadMusicXML(mxl);
         })
         .then(() => {
           return embed.getJSON();
         })
-        .then((json) => {
+        .then(json => {
           assert.ok(json['score-partwise']);
           assert.deepEqual(json['score-partwise'].credit, [
             {
               'credit-type': 'title',
-              'credit-words': 'House of the Rising Sun'
-            }
+              'credit-words': 'House of the Rising Sun',
+            },
           ]);
           container.parentNode.removeChild(container);
           done();
         })
-        .catch((error) => {
+        .catch(error => {
           assert.ifError(error);
         });
     });
 
-    it('shoud export a score into a plain MusicXML', (done) => {
+    it('shoud export a score into a plain MusicXML', done => {
       var container = document.createElement('div');
       document.body.appendChild(container);
 
       var embed = new Flat.Embed(container, {
         baseUrl: BASE_URL,
         embedParams: {
-          appId: APP_ID
-        }
+          appId: APP_ID,
+        },
       });
 
       fetch('/base/test/integration/fixtures/flat-house-of-the-rising-sun.mxl')
-        .then((response) => {
+        .then(response => {
           return response.arrayBuffer();
         })
-        .then((mxl) => {
+        .then(mxl => {
           return embed.loadMusicXML(mxl);
         })
         .then(() => {
           return embed.getMusicXML();
         })
-        .then((xml) => {
+        .then(xml => {
           assert.ok(xml.includes('<work-title>House of the Rising Sun</work-title>'));
           container.parentNode.removeChild(container);
           done();
         })
-        .catch((error) => {
+        .catch(error => {
           assert.ifError(error);
         });
     });
 
-    it('shoud export a score into a compressed MusicXML and re-import it', (done) => {
+    it('shoud export a score into a compressed MusicXML and re-import it', done => {
       var container = document.createElement('div');
       document.body.appendChild(container);
 
       var embed = new Flat.Embed(container, {
         baseUrl: BASE_URL,
         embedParams: {
-          appId: APP_ID
-        }
+          appId: APP_ID,
+        },
       });
 
       fetch('/base/test/integration/fixtures/flat-house-of-the-rising-sun.mxl')
-        .then((response) => {
+        .then(response => {
           return response.arrayBuffer();
         })
-        .then((mxl) => {
+        .then(mxl => {
           return embed.loadMusicXML(mxl);
         })
         .then(() => {
           return embed.getMusicXML({ compressed: true });
         })
-        .then((mxl) => {
+        .then(mxl => {
           return embed.loadMusicXML(mxl);
         })
         .then(() => {
           return embed.getJSON();
         })
-        .then((json) => {
+        .then(json => {
           assert.ok(json['score-partwise']);
           assert.deepEqual(json['score-partwise'].credit, [
             {
               'credit-type': 'title',
-              'credit-words': 'House of the Rising Sun'
-            }
+              'credit-words': 'House of the Rising Sun',
+            },
           ]);
           container.parentNode.removeChild(container);
           done();
         })
-        .catch((error) => {
+        .catch(error => {
           assert.ifError(error);
         });
     });
 
-    it('should fail to import an invalid MusicXML', (done) => {
+    it('should fail to import an invalid MusicXML', done => {
       var container = document.createElement('div');
       document.body.appendChild(container);
 
       var embed = new Flat.Embed(container, {
         baseUrl: BASE_URL,
         embedParams: {
-          appId: APP_ID
-        }
+          appId: APP_ID,
+        },
       });
 
       embed
@@ -393,7 +395,7 @@ describe('Integration - Embed', () => {
         .then(() => {
           assert.notOk(true);
         })
-        .catch((error) => {
+        .catch(error => {
           assert.equal(error.message, 'Invalid MusicXML file format.');
           container.parentNode.removeChild(container);
           done();
@@ -410,7 +412,7 @@ describe('Integration - Embed', () => {
         baseUrl: BASE_URL,
         embedParams: {
           appId: APP_ID,
-        }
+        },
       });
       await embed.loadFlatScore(PUBLIC_SCORE);
       const meta = await embed.getFlatScoreMetadata();
@@ -427,7 +429,7 @@ describe('Integration - Embed', () => {
         baseUrl: BASE_URL,
         embedParams: {
           appId: APP_ID,
-        }
+        },
       });
       await embed.loadFlatScore({
         score: PRIVATE_LINK_SCORE,
@@ -441,7 +443,7 @@ describe('Integration - Embed', () => {
   });
 
   describe('PNG export', () => {
-    it('should export in PNG (no options)', (done) => {
+    it('should export in PNG (no options)', done => {
       var container = document.createElement('div');
       document.body.appendChild(container);
 
@@ -450,20 +452,19 @@ describe('Integration - Embed', () => {
         baseUrl: BASE_URL,
         embedParams: {
           appId: APP_ID,
-          layout: 'page'
-        }
+          layout: 'page',
+        },
       });
 
-      embed.getPNG()
-        .then((png) => {
-          assert.ok(png instanceof Uint8Array);
-          assert.ok(png.length > 0);
-          container.parentNode.removeChild(container);
-          done();
-        });
+      embed.getPNG().then(png => {
+        assert.ok(png instanceof Uint8Array);
+        assert.ok(png.length > 0);
+        container.parentNode.removeChild(container);
+        done();
+      });
     });
 
-    it('should export in PNG (data Url)', (done) => {
+    it('should export in PNG (data Url)', done => {
       var container = document.createElement('div');
       document.body.appendChild(container);
 
@@ -472,22 +473,21 @@ describe('Integration - Embed', () => {
         baseUrl: BASE_URL,
         embedParams: {
           appId: APP_ID,
-          layout: 'page'
-        }
+          layout: 'page',
+        },
       });
 
-      embed.getPNG({ result: 'dataURL' })
-        .then((png) => {
-          assert.equal(typeof png, 'string');
-          assert.equal(png.indexOf('data:image/png;base64,'), 0);
-          container.parentNode.removeChild(container);
-          done();
-        });
+      embed.getPNG({ result: 'dataURL' }).then(png => {
+        assert.equal(typeof png, 'string');
+        assert.equal(png.indexOf('data:image/png;base64,'), 0);
+        container.parentNode.removeChild(container);
+        done();
+      });
     });
   });
 
   describe('MIDI export', () => {
-    it('should export in MIDI', (done) => {
+    it('should export in MIDI', done => {
       var container = document.createElement('div');
       document.body.appendChild(container);
 
@@ -496,22 +496,21 @@ describe('Integration - Embed', () => {
         baseUrl: BASE_URL,
         embedParams: {
           appId: APP_ID,
-          layout: 'page'
-        }
+          layout: 'page',
+        },
       });
 
-      embed.getMIDI()
-        .then((midi) => {
-          assert.ok(midi instanceof Uint8Array);
-          assert.ok(midi.length > 0);
-          container.parentNode.removeChild(container);
-          done();
-        });
+      embed.getMIDI().then(midi => {
+        assert.ok(midi instanceof Uint8Array);
+        assert.ok(midi.length > 0);
+        container.parentNode.removeChild(container);
+        done();
+      });
     });
   });
 
   describe('Cursor position', () => {
-    it('should get the cursor position (default: 0)', (done) => {
+    it('should get the cursor position (default: 0)', done => {
       var container = document.createElement('div');
       document.body.appendChild(container);
 
@@ -519,28 +518,30 @@ describe('Integration - Embed', () => {
         baseUrl: BASE_URL,
         score: PUBLIC_SCORE,
         embedParams: {
-          appId: APP_ID
-        }
+          appId: APP_ID,
+        },
       });
-      embed.getCursorPosition().then((position) => {
-        assert.equal(position.partIdx, 0);
-        assert.equal(position.staffIdx, 0);
-        assert.equal(position.voiceIdxInStaff, 0);
-        assert.equal(position.measureIdx, 0);
-        assert.equal(position.noteIdx, 0);
-        assert.ok(position.partUuid);
-        assert.ok(position.staffUuid);
-        assert.ok(position.measureUuid);
-        assert.ok(position.voiceUuid);
-        container.parentNode.removeChild(container);
-        done();
-      })
-        .catch((error) => {
+      embed
+        .getCursorPosition()
+        .then(position => {
+          assert.equal(position.partIdx, 0);
+          assert.equal(position.staffIdx, 0);
+          assert.equal(position.voiceIdxInStaff, 0);
+          assert.equal(position.measureIdx, 0);
+          assert.equal(position.noteIdx, 0);
+          assert.ok(position.partUuid);
+          assert.ok(position.staffUuid);
+          assert.ok(position.measureUuid);
+          assert.ok(position.voiceUuid);
+          container.parentNode.removeChild(container);
+          done();
+        })
+        .catch(error => {
           assert.ifError(error);
         });
     });
 
-    it('should set the cursor position then get it', (done) => {
+    it('should set the cursor position then get it', done => {
       var container = document.createElement('div');
       document.body.appendChild(container);
 
@@ -548,19 +549,20 @@ describe('Integration - Embed', () => {
         baseUrl: BASE_URL,
         score: PUBLIC_SCORE,
         embedParams: {
-          appId: APP_ID
-        }
+          appId: APP_ID,
+        },
       });
 
-      embed.setCursorPosition({
-        partIdx: 0,
-        staffIdx: 0,
-        voiceIdxInStaff: 0,
-        measureIdx: 2,
-        noteIdx: 1,
-        extra: 'skip'
-      })
-        .then((position) => {
+      embed
+        .setCursorPosition({
+          partIdx: 0,
+          staffIdx: 0,
+          voiceIdxInStaff: 0,
+          measureIdx: 2,
+          noteIdx: 1,
+          extra: 'skip',
+        })
+        .then(position => {
           assert.equal(position.partIdx, 0);
           assert.equal(position.staffIdx, 0);
           assert.equal(position.voiceIdxInStaff, 0);
@@ -568,7 +570,7 @@ describe('Integration - Embed', () => {
           assert.equal(position.noteIdx, 1);
           return embed.getCursorPosition();
         })
-        .then((position) => {
+        .then(position => {
           assert.equal(position.partIdx, 0);
           assert.equal(position.staffIdx, 0);
           assert.equal(position.voiceIdxInStaff, 0);
@@ -577,12 +579,12 @@ describe('Integration - Embed', () => {
           container.parentNode.removeChild(container);
           done();
         })
-        .catch((error) => {
+        .catch(error => {
           assert.ifError(error);
         });
     });
 
-    it('should fail to set cursor with missing param', (done) => {
+    it('should fail to set cursor with missing param', done => {
       var container = document.createElement('div');
       document.body.appendChild(container);
 
@@ -590,14 +592,15 @@ describe('Integration - Embed', () => {
         baseUrl: BASE_URL,
         score: PUBLIC_SCORE,
         embedParams: {
-          appId: APP_ID
-        }
+          appId: APP_ID,
+        },
       });
 
-      embed.setCursorPosition({
-        noteIdx: 1
-      })
-        .catch((error) => {
+      embed
+        .setCursorPosition({
+          noteIdx: 1,
+        })
+        .catch(error => {
           assert.equal(error.code, 'BadPartIdxError');
           assert.equal(error.message, 'There is no part at the index [undefined<undefined>].');
           container.parentNode.removeChild(container);
@@ -605,7 +608,7 @@ describe('Integration - Embed', () => {
         });
     });
 
-    it('should set fail to set cursor with bad param value', (done) => {
+    it('should set fail to set cursor with bad param value', done => {
       var container = document.createElement('div');
       document.body.appendChild(container);
 
@@ -613,18 +616,19 @@ describe('Integration - Embed', () => {
         baseUrl: BASE_URL,
         score: PUBLIC_SCORE,
         embedParams: {
-          appId: APP_ID
-        }
+          appId: APP_ID,
+        },
       });
 
-      embed.setCursorPosition({
-        partIdx: 0,
-        staffIdx: 0,
-        measureIdx: true,
-        noteIdx: 0,
-        voiceIdxInStaff: 0
-      })
-        .catch((error) => {
+      embed
+        .setCursorPosition({
+          partIdx: 0,
+          staffIdx: 0,
+          measureIdx: true,
+          noteIdx: 0,
+          voiceIdxInStaff: 0,
+        })
+        .catch(error => {
           assert.equal(error.message, 'Parameter measureIdx should be a number, not boolean');
           container.parentNode.removeChild(container);
           done();
@@ -633,7 +637,7 @@ describe('Integration - Embed', () => {
   });
 
   describe('Focus score', () => {
-    it('should focus the score', (done) => {
+    it('should focus the score', done => {
       var container = document.createElement('div');
       document.body.appendChild(container);
 
@@ -642,11 +646,12 @@ describe('Integration - Embed', () => {
         baseUrl: BASE_URL,
         embedParams: {
           appId: APP_ID,
-          layout: 'page'
-        }
+          layout: 'page',
+        },
       });
 
-      embed.ready()
+      embed
+        .ready()
         .then(() => {
           assert.equal(document.activeElement.nodeName, 'BODY');
           return embed.focusScore();
@@ -655,12 +660,12 @@ describe('Integration - Embed', () => {
           assert.equal(document.activeElement.nodeName, 'IFRAME');
           container.parentNode.removeChild(container);
           done();
-        })
+        });
     });
   });
 
   describe('Zoom', () => {
-    it('should load an embed in page mode and have the zoom auto set', (done) => {
+    it('should load an embed in page mode and have the zoom auto set', done => {
       var container = document.createElement('div');
       document.body.appendChild(container);
 
@@ -669,39 +674,40 @@ describe('Integration - Embed', () => {
         baseUrl: BASE_URL,
         embedParams: {
           appId: APP_ID,
-          layout: 'page'
-        }
+          layout: 'page',
+        },
       });
 
-      embed.getAutoZoom((state) => {
-        assert.equal(state, 'true');
-        done();
-      })
+      embed
+        .getAutoZoom(state => {
+          assert.equal(state, 'true');
+          done();
+        })
         .then(() => {
           return embed.getZoom();
         })
-        .then((zoom) => {
+        .then(zoom => {
           assert.ok(Number.isFinite(zoom));
           assert.ok(zoom >= 0.5);
           assert.ok(zoom < 3);
           return embed.getAutoZoom();
         })
-        .then((autoZoom) => {
+        .then(autoZoom => {
           assert.ok(autoZoom);
           return embed.setAutoZoom(false);
         })
-        .then((autoZoom) => {
+        .then(autoZoom => {
           assert.ok(!autoZoom);
           return embed.getAutoZoom();
         })
-        .then((autoZoom) => {
+        .then(autoZoom => {
           assert.ok(!autoZoom);
           container.parentNode.removeChild(container);
           done();
         });
     });
 
-    it('should set a new zoom value & disable auto-zoom', (done) => {
+    it('should set a new zoom value & disable auto-zoom', done => {
       var container = document.createElement('div');
       document.body.appendChild(container);
 
@@ -710,22 +716,23 @@ describe('Integration - Embed', () => {
         baseUrl: BASE_URL,
         embedParams: {
           appId: APP_ID,
-          layout: 'page'
-        }
+          layout: 'page',
+        },
       });
 
-      embed.setZoom(2, (zoom) => {
-        assert.equal(zoom, 2);
-        done();
-      })
+      embed
+        .setZoom(2, zoom => {
+          assert.equal(zoom, 2);
+          done();
+        })
         .then(() => {
           return embed.getZoom();
-        }).
-        then((zoom) => {
+        })
+        .then(zoom => {
           assert.equal(zoom, 2);
           return embed.getAutoZoom();
-        }).
-        then((state) => {
+        })
+        .then(state => {
           assert.equal(state, false);
           container.parentNode.removeChild(container);
           done();
@@ -734,7 +741,7 @@ describe('Integration - Embed', () => {
   });
 
   describe('Playback', () => {
-    it('should play get `play` event', (done) => {
+    it('should play get `play` event', done => {
       var container = document.createElement('div');
       document.body.appendChild(container);
 
@@ -742,8 +749,8 @@ describe('Integration - Embed', () => {
         score: PUBLIC_SCORE,
         baseUrl: BASE_URL,
         embedParams: {
-          appId: APP_ID
-        }
+          appId: APP_ID,
+        },
       });
 
       embed.on('play', () => {
@@ -754,7 +761,7 @@ describe('Integration - Embed', () => {
       embed.play();
     });
 
-    it('should play get `playbackPosition` event', (done) => {
+    it('should play get `playbackPosition` event', done => {
       var container = document.createElement('div');
       document.body.appendChild(container);
 
@@ -762,11 +769,11 @@ describe('Integration - Embed', () => {
         score: PUBLIC_SCORE,
         baseUrl: BASE_URL,
         embedParams: {
-          appId: APP_ID
-        }
+          appId: APP_ID,
+        },
       });
 
-      embed.on('playbackPosition', (pos) => {
+      embed.on('playbackPosition', pos => {
         assert.ok(pos.currentMeasure >= 0, 'currentMeasure');
         if (container) {
           container.parentNode.removeChild(container);
@@ -778,7 +785,7 @@ describe('Integration - Embed', () => {
       embed.play();
     });
 
-    it('should play then pause and get `pause` event', (done) => {
+    it('should play then pause and get `pause` event', done => {
       var container = document.createElement('div');
       document.body.appendChild(container);
 
@@ -786,8 +793,8 @@ describe('Integration - Embed', () => {
         score: PUBLIC_SCORE,
         baseUrl: BASE_URL,
         embedParams: {
-          appId: APP_ID
-        }
+          appId: APP_ID,
+        },
       });
 
       embed.on('pause', () => {
@@ -800,7 +807,7 @@ describe('Integration - Embed', () => {
       });
     });
 
-    it('should play then stop and get `stop` event', (done) => {
+    it('should play then stop and get `stop` event', done => {
       var container = document.createElement('div');
       document.body.appendChild(container);
 
@@ -808,8 +815,8 @@ describe('Integration - Embed', () => {
         score: PUBLIC_SCORE,
         baseUrl: BASE_URL,
         embedParams: {
-          appId: APP_ID
-        }
+          appId: APP_ID,
+        },
       });
 
       embed.on('stop', () => {
@@ -832,8 +839,8 @@ describe('Integration - Embed', () => {
         baseUrl: BASE_URL,
         score: QUARTET_SCORE,
         embedParams: {
-          appId: APP_ID
-        }
+          appId: APP_ID,
+        },
       });
 
       const allParts = await embed.getParts();
@@ -877,7 +884,7 @@ describe('Integration - Embed', () => {
         embedParams: {
           appId: APP_ID,
           parts: 'Viola,Cello',
-        }
+        },
       });
 
       const allParts = await embed.getParts();
@@ -901,7 +908,7 @@ describe('Integration - Embed', () => {
         embedParams: {
           appId: APP_ID,
           parts: '0,2',
-        }
+        },
       });
 
       const allParts = await embed.getParts();
@@ -925,7 +932,7 @@ describe('Integration - Embed', () => {
         embedParams: {
           appId: APP_ID,
           parts: '0,2',
-        }
+        },
       });
 
       const allParts = await embed.getParts();
@@ -964,8 +971,8 @@ describe('Integration - Embed', () => {
         baseUrl: BASE_URL,
         score: QUARTET_SCORE,
         embedParams: {
-          appId: APP_ID
-        }
+          appId: APP_ID,
+        },
       });
 
       // When
@@ -986,8 +993,8 @@ describe('Integration - Embed', () => {
         baseUrl: BASE_URL,
         score: QUARTET_SCORE,
         embedParams: {
-          appId: APP_ID
-        }
+          appId: APP_ID,
+        },
       });
 
       // When
@@ -1008,8 +1015,8 @@ describe('Integration - Embed', () => {
         baseUrl: BASE_URL,
         score: QUARTET_SCORE,
         embedParams: {
-          appId: APP_ID
-        }
+          appId: APP_ID,
+        },
       });
 
       // When
@@ -1028,8 +1035,8 @@ describe('Integration - Embed', () => {
         baseUrl: BASE_URL,
         score: QUARTET_SCORE,
         embedParams: {
-          appId: APP_ID
-        }
+          appId: APP_ID,
+        },
       });
       await embed.goRight();
 
@@ -1051,8 +1058,8 @@ describe('Integration - Embed', () => {
         baseUrl: BASE_URL,
         score: QUARTET_SCORE,
         embedParams: {
-          appId: APP_ID
-        }
+          appId: APP_ID,
+        },
       });
 
       let mode;
@@ -1078,8 +1085,8 @@ describe('Integration - Embed', () => {
         baseUrl: BASE_URL,
         score: QUARTET_SCORE,
         embedParams: {
-          appId: APP_ID
-        }
+          appId: APP_ID,
+        },
       });
 
       let speed;

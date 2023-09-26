@@ -40,13 +40,13 @@ const build = async () => {
     plugins: [
       babel({
         runtimeHelpers: true,
-        exclude: 'node_modules/**'
+        exclude: 'node_modules/**',
       }),
       resolve({
         mainFields: 'jsnext:main:browser',
       }),
-      commonjs()
-    ]
+      commonjs(),
+    ],
   });
 
   let { output } = await bundle.generate({
@@ -54,7 +54,7 @@ const build = async () => {
     name: 'Flat.Embed',
     format: 'umd',
     sourcemap: true,
-    sourcemapFile: 'dist/embed.js.map'
+    sourcemapFile: 'dist/embed.js.map',
   });
   let [{ code, map }] = output;
 
@@ -64,14 +64,14 @@ const build = async () => {
   const minified = uglifyJs.minify(code, {
     sourceMap: {
       content: map,
-      filename: 'dist/embed.min.js.map'
+      filename: 'dist/embed.min.js.map',
     },
     output: {
-      preamble: banner
+      preamble: banner,
     },
     mangle: {
-      reserved: ['Embed']
-    }
+      reserved: ['Embed'],
+    },
   });
 
   fs.writeFileSync('dist/embed.min.js', minified.code);
@@ -88,7 +88,5 @@ const build = async () => {
 build();
 
 if (watch) {
-  require('chokidar')
-    .watch('src')
-    .on('change', build);
+  require('chokidar').watch('src').on('change', build);
 }

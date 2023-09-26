@@ -33,9 +33,9 @@ class Embed {
     this.element = element;
     this.embedCallback = new EmbedCallback();
 
-    const onReady = new Promise((resolve) => {
+    const onReady = new Promise(resolve => {
       // Handle incoming messages from embed
-      const onMessage = (event) => {
+      const onMessage = event => {
         if (element.contentWindow !== event.source) {
           return;
         }
@@ -94,7 +94,7 @@ class Embed {
       throw new TypeError('An callback (function) is required');
     }
     if (this.embedCallback.subscribeEvent(event, callback)) {
-      this.call('addEventListener', event).catch(() => { });
+      this.call('addEventListener', event).catch(() => {});
     }
   }
 
@@ -109,7 +109,7 @@ class Embed {
       throw new TypeError('An event name (string) is required');
     }
     if (this.embedCallback.unsubscribeEvent(event, callback)) {
-      this.call('removeEventListener', event).catch(() => { });
+      this.call('removeEventListener', event).catch(() => {});
     }
   }
 
@@ -173,14 +173,16 @@ class Embed {
       if (typeof options !== 'object') {
         return reject(new TypeError('Options must be an object'));
       }
-      this.call('getMusicXML', options).then((data) => {
-        // Plain XML
-        if (typeof data === 'string') {
-          return resolve(data);
-        }
-        // Compressed, re-create Uint8Array
-        return resolve(new Uint8Array(data));
-      }).catch(reject);
+      this.call('getMusicXML', options)
+        .then(data => {
+          // Plain XML
+          if (typeof data === 'string') {
+            return resolve(data);
+          }
+          // Compressed, re-create Uint8Array
+          return resolve(new Uint8Array(data));
+        })
+        .catch(reject);
     });
   }
 
@@ -197,12 +199,14 @@ class Embed {
       if (typeof options !== 'object') {
         return reject(new TypeError('Options must be an object'));
       }
-      this.call('getPNG', options).then((data) => {
-        if (typeof data === 'string') {
-          return resolve(data);
-        }
-        return resolve(new Uint8Array(data));
-      }).catch(reject);
+      this.call('getPNG', options)
+        .then(data => {
+          if (typeof data === 'string') {
+            return resolve(data);
+          }
+          return resolve(new Uint8Array(data));
+        })
+        .catch(reject);
     });
   }
 
@@ -596,11 +600,11 @@ class Embed {
   }
 
   /**
-  * Get the current metronome mode
-  *
-  * @returns {Promise}
-  * @fullfill {Number} The metronome mode
-  */
+   * Get the current metronome mode
+   *
+   * @returns {Promise}
+   * @fullfill {Number} The metronome mode
+   */
   getMetronomeMode() {
     return this.call('getMetronomeMode');
   }

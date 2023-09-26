@@ -1,13 +1,13 @@
 var process = require('process');
 
-module.exports = function(config) {
+module.exports = function (config) {
   var configuration = {
     frameworks: ['mocha'],
     client: {
       mocha: {
         timeout: '30000ms',
         // grep: 'GREP'
-      }
+      },
     },
     files: [
       'node_modules/jquery/dist/jquery.min.js',
@@ -37,7 +37,7 @@ module.exports = function(config) {
     },
     singleRun: false,
     concurrency: Infinity,
-    browserNoActivityTimeout: 60000
+    browserNoActivityTimeout: 60000,
   };
 
   if (process.env.TRAVIS) {

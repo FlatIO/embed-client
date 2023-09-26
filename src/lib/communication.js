@@ -12,7 +12,7 @@ export function postMessage(embed, method, parameters) {
 
   let message = {
     method,
-    parameters
+    parameters,
   };
 
   embed.element.contentWindow.postMessage(message, embed.origin);

@@ -1,4 +1,3 @@
-
 class EmbedCallback {
   constructor(embed) {
     this.embed = embed;
@@ -9,7 +8,7 @@ class EmbedCallback {
 
   pushCall(name, resolve, reject) {
     this.promises[name] = this.promises[name] || [];
-    this.promises[name].push({resolve, reject});
+    this.promises[name].push({ resolve, reject });
   }
 
   /**
@@ -61,8 +60,7 @@ class EmbedCallback {
   process(data) {
     if (data.method) {
       this.processMethodResponse(data);
-    }
-    else if (data.event) {
+    } else if (data.event) {
       this.processEvent(data);
     }
   }
@@ -82,8 +80,7 @@ class EmbedCallback {
     }
     if (data.error) {
       promise.reject(data.error);
-    }
-    else {
+    } else {
       promise.resolve(data.response);
     }
   }
@@ -94,11 +91,10 @@ class EmbedCallback {
    * @param {object} data The data received from postMessage
    */
   processEvent(data) {
-    if (!this.eventCallbacks[data.event] ||
-        this.eventCallbacks[data.event].length === 0) {
+    if (!this.eventCallbacks[data.event] || this.eventCallbacks[data.event].length === 0) {
       return;
     }
-    this.eventCallbacks[data.event].forEach((callback) => {
+    this.eventCallbacks[data.event].forEach(callback => {
       callback.call(this.embed, data.parameters);
     });
   }
