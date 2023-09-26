@@ -7,10 +7,9 @@ stages:
 build:
   stage: Build
   artifacts:
-    name: "$CI_PIPELINE_ID-$CI_COMMIT_SHA"
+    name: '$CI_PIPELINE_ID-$CI_COMMIT_SHA'
     paths:
       - node_modules/
-      - package-lock.json
     expire_in: 2 days
   script:
     - npm install -d
@@ -21,19 +20,11 @@ eslint:
   script:
     - npm run eslint
 
-npm_dependencies:
-  stage: QA
-  allow_failure: true
-  dependencies: []
-  script:
-    - hash ncu || npm install -g npm-check-updates > /dev/null 2>&1
-    - ncu -e 2
-
-audit:
+prettier:
   stage: QA
   allow_failure: true
   script:
-    - npm audit
+    - npx prettier --check .
 
 chrome_stable:
   stage: Test
@@ -47,9 +38,9 @@ release_s3:
   stage: Release
   tags: ['docker-with-flat-configs']
   only:
-  - tags
+    - tags
   script:
-  - GIT_TAG=$(git describe --tags)
-  - s3cmd -c /root/.s3cfg.prod-static-wasabi sync --acl-public --no-mime-magic --guess-mime-type --no-preserve dist/ s3://flat-prod-static/embed-js/${GIT_TAG}/
-  - s3cmd -c /root/.s3cfg.prod-static sync --no-mime-magic --guess-mime-type --no-preserve dist/ s3://flat-prod-static/embed-js/${GIT_TAG}/
-  - s3cmd -c /root/.s3cfg.prod-static-do sync --acl-public --no-mime-magic --guess-mime-type --no-preserve dist/ s3://flat-prod-static/embed-js/${GIT_TAG}/
+    - GIT_TAG=$(git describe --tags)
+    - s3cmd -c /root/.s3cfg.prod-static-wasabi sync --acl-public --no-mime-magic --guess-mime-type --no-preserve dist/ s3://flat-prod-static/embed-js/${GIT_TAG}/
+    - s3cmd -c /root/.s3cfg.prod-static sync --no-mime-magic --guess-mime-type --no-preserve dist/ s3://flat-prod-static/embed-js/${GIT_TAG}/
+    - s3cmd -c /root/.s3cfg.prod-static-do sync --acl-public --no-mime-magic --guess-mime-type --no-preserve dist/ s3://flat-prod-static/embed-js/${GIT_TAG}/

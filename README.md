@@ -39,7 +39,7 @@ The simplest way to get started is to pass a DOM element to our embed that will 
     embedParams: {
       appId: '<your-app-id>',
       controlsPosition: 'bottom',
-    }
+    },
   });
 </script>
 ```
@@ -55,11 +55,11 @@ const embed = new Embed(container, {
   embedParams: {
     appId: '<your-app-id>',
     controlsPosition: 'bottom',
-  }
+  },
 });
 ```
 
-*[>> Open this demo in JSFiddle](https://jsfiddle.net/gierschv/jr91116y/)*
+_[>> Open this demo in JSFiddle](https://jsfiddle.net/gierschv/jr91116y/)_
 
 ### ✨ Demos
 
@@ -68,8 +68,9 @@ const embed = new Embed(container, {
 ### App ID
 
 Our Embed JS API requires an App ID (`appId`) to use it:
-* In development, you can try and use this client without limits on `localhost`/`*.localhost`.
-* To use it in production or with a custom domain, [create a new app on our website](https://flat.io/developers/apps), then go to the *Embed > Settings* and add your domains to the whitelist. Your app ID will also be displayed on this page.
+
+- In development, you can try and use this client without limits on `localhost`/`*.localhost`.
+- To use it in production or with a custom domain, [create a new app on our website](https://flat.io/developers/apps), then go to the _Embed > Settings_ and add your domains to the whitelist. Your app ID will also be displayed on this page.
 
 ## Embed construction
 
@@ -77,10 +78,10 @@ Our Embed JS API requires an App ID (`appId`) to use it:
 
 When instantiating `Flat.Embed`, the first argument will always refer to a DOM element. It can take:
 
-* A DOM element (e.g. selected using `document.getElementById('embed-container')`).
-* The string identifier of the element (e.g. `"embed-container"`).
-* A jQuery element (e.g. selected using `$('#embed-container')`). If multiple elements match the selection, the client will take the first one selected.
-* An existing embed iframe element. In this case, this one will need to have our JS API loaded using the query string [`jsapi=true`](https://flat.io/developers/docs/embed/url-parameters.html).
+- A DOM element (e.g. selected using `document.getElementById('embed-container')`).
+- The string identifier of the element (e.g. `"embed-container"`).
+- A jQuery element (e.g. selected using `$('#embed-container')`). If multiple elements match the selection, the client will take the first one selected.
+- An existing embed iframe element. In this case, this one will need to have our JS API loaded using the query string [`jsapi=true`](https://flat.io/developers/docs/embed/url-parameters.html).
 
 If you instance a different `Flat.Embed` for the same element, you will always get the same instance of the object.
 
@@ -88,82 +89,82 @@ If you instance a different `Flat.Embed` for the same element, you will always g
 
 When instantiating `Flat.Embed`, you can pass options in the second parameter. To use the different methods available and events subscriptions, you will need to pass at least `embedParams.appId`.
 
-| Option | Description | Values | Default |
-|:-------|:------------|:-------|:-------|
-| `score` | The score identifier that will load initially | Unique score id | `blank` |
-| `width` | The width of your embed | A width of the embed | `100%` |
-| `height` | The height of your embed | A height of the embed | `100%` |
-| `embedParams` | Object containing the loading options for the embed | [Any URL parameters](https://flat.io/developers/docs/embed/url-parameters.html) | `{}`
+| Option        | Description                                         | Values                                                                          | Default |
+| :------------ | :-------------------------------------------------- | :------------------------------------------------------------------------------ | :------ |
+| `score`       | The score identifier that will load initially       | Unique score id                                                                 | `blank` |
+| `width`       | The width of your embed                             | A width of the embed                                                            | `100%`  |
+| `height`      | The height of your embed                            | A height of the embed                                                           | `100%`  |
+| `embedParams` | Object containing the loading options for the embed | [Any URL parameters](https://flat.io/developers/docs/embed/url-parameters.html) | `{}`    |
 
 ## JavaScript API
 
-* [Viewer API](#viewer-api)
-  * [`ready`](#ready-promisevoid-error): Wait until the JavaScript is ready
-  * [`on`](#onevent-string-callback-function-void): Subscribe to events
-  * [`off`](#offevent-string-callback-function-void): Unsubscribe from events
-  * [`getEmbedConfig`](#getembedconfig-promiseobject-error): Get the global config of the embed
-  * [`loadFlatScore`](#loadflatscorescore-mixed-promisevoid-apierror): Load a score hosted on Flat
-  * [`loadMusicXML`](#loadmusicxmlscore-mixed-promisevoid-error): Load MusicXML file (compressed or not)
-  * [`loadJSON`](#loadjsonscore-object-promisevoid-error): Load Flat JSON file
-  * [`getMusicXML`](#getmusicxmloptions-object-promisestringuint8array-error): Get the score in MusicXML (compressed or not)
-  * [`getJSON`](#getjson-object): Get the score data in Flat JSON format
-  * [`getPNG`](#getpngoptions-object-promisestringuint8array-error): Get the score as a PNG file
-  * [`getMIDI`](#getmidi-promiseuint8array-error): Get the score as a MIDI file
-  * [`getScoreMeta`](#getscoremeta-object): Get the metadata from the current score (for hosted scores)
-  * [`fullscreen`](#fullscreenstate-bool-promisevoid-error): Toggle fullscreen mode
-  * [`play`](#play-promisevoid-error): Start playback
-  * [`pause`](#pause-promisevoid-error): Pause playback
-  * [`stop`](#stop-promisevoid-error): Stop playback
-  * [`mute`](#mute-promisevoid-error): Mute playback
-  * [`getMasterVolume`](#getmastervolume-promisenumber-error): Get the master volume
-  * [`setMasterVolume`](#setmastervolume-volume-number--promisevoid-error): Set the master volume
-  * [`getPartVolume`](#getpartvolume-partuuid-string--promisenumber-error): Get a part volume
-  * [`setPartVolume`](#setpartvolume-partuuid-string-volume-number--promisevoid-error): Set a part volume
-  * [`mutePart`](#mutepart-partuuid-string--promisevoid-error): Mute a part
-  * [`unmutePart`](#unmutepart-partuuid-string--promisevoid-error): Unmute a part
-  * [`setPartSoloMode`](#setpartsolomode-partuuid-string--promisevoid-error): Enable the solo mode for a part
-  * [`unsetPartSoloMode`](#unsetpartsolomode-partuuid-string--promisevoid-error): Disable the solo mode for a part
-  * [`getPartSoloMode`](#getpartsolomode-partuuid-string--promiseboolean-error): Get the state of the solo mode of a part
-  * [`getPartReverb`](#getpartreverb-partuuid-string--promisenumber-error): Get a part reverberation
-  * [`setPartReverb`](#setpartreverb-partuuid-string-reverberation-number--promisevoid-error): Set a part reverberation
-  * [`getMetronomeMode`](#getMetronomeMode-promisenumber-error): Get the mode of the metronome counting
-  * [`setMetronomeMode`](#setMetronomeMode-number--promisevoid-error): Set the mode of the metronome counting
-  * [`getPlaybackSpeed`](#getPlaybackSpeed-promisenumber-error): Get the playback speed
-  * [`setPlaybackSpeed`](#setPlaybackSpeed-number--promisevoid-error): Set the playback speed
-  * [`scrollToCursor`](#scrollToCursor-promisevoid-error): Scroll to the cursor position in the score
-  * [`setTrack`](#settrackobject-promisevoid-error): Configure an new audio track to use
-  * [`useTrack`](#usetrack-id--promisevoid-error): Use a configured audio track
-  * [`seekTrackTo`](#seektrackto-time--promisevoid-error): Seek the audio track to a specified duration
-  * [`print`](#print-promisevoid-error): Print the score
-  * [`getZoom`](#getzoom-promisenumber-error): Get the current display zoom ratio
-  * [`setZoom`](#setzoomnumber-promisenumber-error): Change the display zoom ratio
-  * [`getAutoZoom`](#getautozoom-promiseboolean-error): Get the state of the auto-zoom mode
-  * [`setAutoZoom`](#setautozoomboolean-promiseboolean-error): Enable or disable the auto-zoom mode
-  * [`focusScore`](#focusscore-promisevoid-error): Set the focus to the score
-  * [`getCursorPosition`](#getcursorposition-promiseobject-error): Get the current cursor position of the score
-  * [`setCursorPosition`](#setcursorpositionposition-object-promiseobject-error): Set a new position for the cursor
-  * [`getParts`](#getparts-promisearray-error): Get the list of all the parts
-  * [`getDisplayedParts`](#getdisplayedparts-promisearray-error): Get the displayed parts
-  * [`setDisplayedParts`](#setdisplayedpartsparts-promisevoid-error): Choose the parts to display
-  * [`getMeasureDetails`](#getmeasuredetails-promiseobject-error): Get details about the current measure
-  * [`getNoteDetails`](#getnotedetails-promiseobject-error): Get details about the current note
-  * [`getNbMeasures`](#getnbmeasures-promisenumber-error): Get the number of measures in the score
-  * [`getMeasuresUuids`](#getmeasuresuuids-promisearray-error): Get the list of measures uuids of the score
-  * [`goLeft`](#play-promisevoid-error): Move the cursor the previous note/rest
-  * [`goRight`](#play-promisevoid-error): Move the cursor the next note/rest
-* [Editor API](#editor-api)
-* [Events API](#events-api)
-  * [`scoreLoaded`](#event-scoreLoaded): A new score has been loaded
-  * [`cursorPosition`](#event-cursorposition): The cursor position changed
-  * [`cursorContext`](#event-cursorcontext): Additional context about current cursor
-  * [`measureDetails`](#event-measuredetails): Details about current measure changed
-  * [`noteDetails`](#event-notedetails): Details about current note changed
-  * [`rangeSelection`](#event-rangeSelection): The range selected changed
-  * [`fullscreen`](#event-fullscreen): The fullscreen state changed
-  * [`play`](#event-play): The score playback started
-  * [`pause`](#event-pause): The score playback paused
-  * [`stop`](#event-stop): The score playback stopped
-  * [`playbackPosition`](#event-playbackposition): The playback slider position changed
+- [Viewer API](#viewer-api)
+  - [`ready`](#ready-promisevoid-error): Wait until the JavaScript is ready
+  - [`on`](#onevent-string-callback-function-void): Subscribe to events
+  - [`off`](#offevent-string-callback-function-void): Unsubscribe from events
+  - [`getEmbedConfig`](#getembedconfig-promiseobject-error): Get the global config of the embed
+  - [`loadFlatScore`](#loadflatscorescore-mixed-promisevoid-apierror): Load a score hosted on Flat
+  - [`loadMusicXML`](#loadmusicxmlscore-mixed-promisevoid-error): Load MusicXML file (compressed or not)
+  - [`loadJSON`](#loadjsonscore-object-promisevoid-error): Load Flat JSON file
+  - [`getMusicXML`](#getmusicxmloptions-object-promisestringuint8array-error): Get the score in MusicXML (compressed or not)
+  - [`getJSON`](#getjson-object): Get the score data in Flat JSON format
+  - [`getPNG`](#getpngoptions-object-promisestringuint8array-error): Get the score as a PNG file
+  - [`getMIDI`](#getmidi-promiseuint8array-error): Get the score as a MIDI file
+  - [`getScoreMeta`](#getscoremeta-object): Get the metadata from the current score (for hosted scores)
+  - [`fullscreen`](#fullscreenstate-bool-promisevoid-error): Toggle fullscreen mode
+  - [`play`](#play-promisevoid-error): Start playback
+  - [`pause`](#pause-promisevoid-error): Pause playback
+  - [`stop`](#stop-promisevoid-error): Stop playback
+  - [`mute`](#mute-promisevoid-error): Mute playback
+  - [`getMasterVolume`](#getmastervolume-promisenumber-error): Get the master volume
+  - [`setMasterVolume`](#setmastervolume-volume-number--promisevoid-error): Set the master volume
+  - [`getPartVolume`](#getpartvolume-partuuid-string--promisenumber-error): Get a part volume
+  - [`setPartVolume`](#setpartvolume-partuuid-string-volume-number--promisevoid-error): Set a part volume
+  - [`mutePart`](#mutepart-partuuid-string--promisevoid-error): Mute a part
+  - [`unmutePart`](#unmutepart-partuuid-string--promisevoid-error): Unmute a part
+  - [`setPartSoloMode`](#setpartsolomode-partuuid-string--promisevoid-error): Enable the solo mode for a part
+  - [`unsetPartSoloMode`](#unsetpartsolomode-partuuid-string--promisevoid-error): Disable the solo mode for a part
+  - [`getPartSoloMode`](#getpartsolomode-partuuid-string--promiseboolean-error): Get the state of the solo mode of a part
+  - [`getPartReverb`](#getpartreverb-partuuid-string--promisenumber-error): Get a part reverberation
+  - [`setPartReverb`](#setpartreverb-partuuid-string-reverberation-number--promisevoid-error): Set a part reverberation
+  - [`getMetronomeMode`](#getMetronomeMode-promisenumber-error): Get the mode of the metronome counting
+  - [`setMetronomeMode`](#setMetronomeMode-number--promisevoid-error): Set the mode of the metronome counting
+  - [`getPlaybackSpeed`](#getPlaybackSpeed-promisenumber-error): Get the playback speed
+  - [`setPlaybackSpeed`](#setPlaybackSpeed-number--promisevoid-error): Set the playback speed
+  - [`scrollToCursor`](#scrollToCursor-promisevoid-error): Scroll to the cursor position in the score
+  - [`setTrack`](#settrackobject-promisevoid-error): Configure an new audio track to use
+  - [`useTrack`](#usetrack-id--promisevoid-error): Use a configured audio track
+  - [`seekTrackTo`](#seektrackto-time--promisevoid-error): Seek the audio track to a specified duration
+  - [`print`](#print-promisevoid-error): Print the score
+  - [`getZoom`](#getzoom-promisenumber-error): Get the current display zoom ratio
+  - [`setZoom`](#setzoomnumber-promisenumber-error): Change the display zoom ratio
+  - [`getAutoZoom`](#getautozoom-promiseboolean-error): Get the state of the auto-zoom mode
+  - [`setAutoZoom`](#setautozoomboolean-promiseboolean-error): Enable or disable the auto-zoom mode
+  - [`focusScore`](#focusscore-promisevoid-error): Set the focus to the score
+  - [`getCursorPosition`](#getcursorposition-promiseobject-error): Get the current cursor position of the score
+  - [`setCursorPosition`](#setcursorpositionposition-object-promiseobject-error): Set a new position for the cursor
+  - [`getParts`](#getparts-promisearray-error): Get the list of all the parts
+  - [`getDisplayedParts`](#getdisplayedparts-promisearray-error): Get the displayed parts
+  - [`setDisplayedParts`](#setdisplayedpartsparts-promisevoid-error): Choose the parts to display
+  - [`getMeasureDetails`](#getmeasuredetails-promiseobject-error): Get details about the current measure
+  - [`getNoteDetails`](#getnotedetails-promiseobject-error): Get details about the current note
+  - [`getNbMeasures`](#getnbmeasures-promisenumber-error): Get the number of measures in the score
+  - [`getMeasuresUuids`](#getmeasuresuuids-promisearray-error): Get the list of measures uuids of the score
+  - [`goLeft`](#play-promisevoid-error): Move the cursor the previous note/rest
+  - [`goRight`](#play-promisevoid-error): Move the cursor the next note/rest
+- [Editor API](#editor-api)
+- [Events API](#events-api)
+  - [`scoreLoaded`](#event-scoreLoaded): A new score has been loaded
+  - [`cursorPosition`](#event-cursorposition): The cursor position changed
+  - [`cursorContext`](#event-cursorcontext): Additional context about current cursor
+  - [`measureDetails`](#event-measuredetails): Details about current measure changed
+  - [`noteDetails`](#event-notedetails): Details about current note changed
+  - [`rangeSelection`](#event-rangeSelection): The range selected changed
+  - [`fullscreen`](#event-fullscreen): The fullscreen state changed
+  - [`play`](#event-play): The score playback started
+  - [`pause`](#event-pause): The score playback paused
+  - [`stop`](#event-stop): The score playback stopped
+  - [`playbackPosition`](#event-playbackposition): The playback slider position changed
 
 ## Viewer API
 
@@ -171,11 +172,14 @@ You can call the methods using any `Flat.Embed` object. By default, the methods 
 
 ```js
 var embed = new Flat.Embed('container');
-embed.loadFlatScore('12234').then(function () {
-  console.log('Score loaded');
-}).catch(function (err) {
-  console.log('Error', err);
-});
+embed
+  .loadFlatScore('12234')
+  .then(function () {
+    console.log('Score loaded');
+  })
+  .catch(function (err) {
+    console.log('Error', err);
+  });
 ```
 
 ### `ready(): Promise<void, Error>`
@@ -183,8 +187,8 @@ embed.loadFlatScore('12234').then(function () {
 Promises resolved when the embed is loaded and the JavaScript API is ready to use. All the methods will implicitly use this method, so you don't have to worry about waiting for the loading before calling the different methods.
 
 ```js
-embed.ready().then(function() {
- // You can use the embed
+embed.ready().then(function () {
+  // You can use the embed
 });
 ```
 
@@ -212,7 +216,7 @@ function positionChanged(position) {
 
   // Alternatively, you can remove all the listeners for the event:
   embed.off('play');
-};
+}
 
 // Subscribe to the event
 embed.on('positionChanged', positionChanged);
@@ -234,24 +238,31 @@ embed.getEmbedConfig().then(function (config) {
 Load a score hosted on Flat using its identifier. For example to load `https://flat.io/score/56ae21579a127715a02901a6-house-of-the-rising-sun`, you can call:
 
 ```js
-embed.loadFlatScore('56ae21579a127715a02901a6').then(function () {
-  // Score loaded in the embed
-}).catch(function (error) {
-  // Unable to load the score
-});
+embed
+  .loadFlatScore('56ae21579a127715a02901a6')
+  .then(function () {
+    // Score loaded in the embed
+  })
+  .catch(function (error) {
+    // Unable to load the score
+  });
 ```
 
 If the score has a private sharing link ([`privateLink`](https://flat.io/developers/api/reference/#operation/editScore)), you can pass an object with the `sharingKey` property:
 
 ```js
-embed.loadFlatScore({
-  score: '5ce56f7c019fd41f5b17b72d',
-  sharingKey: '3f70cc5ecf5e4248055bbe7502a9514cfe619c53b4e248144e470bb5f08c5ecf880cf3eda5679c6b19f646a98ec0bd06d892ee1fd6896e20de0365ed0a42fc00'
-}).then(function () {
-  // Score loaded in the embed
-}).catch(function (error) {
-  // Unable to load the score
-});
+embed
+  .loadFlatScore({
+    score: '5ce56f7c019fd41f5b17b72d',
+    sharingKey:
+      '3f70cc5ecf5e4248055bbe7502a9514cfe619c53b4e248144e470bb5f08c5ecf880cf3eda5679c6b19f646a98ec0bd06d892ee1fd6896e20de0365ed0a42fc00',
+  })
+  .then(function () {
+    // Score loaded in the embed
+  })
+  .catch(function (error) {
+    // Unable to load the score
+  });
 ```
 
 ### `loadMusicXML(score: mixed): Promise<void, Error>`
@@ -263,19 +274,19 @@ Example to load a compressed MXL file:
 ```js
 // Loading any MXL file here, for example a file from a public Flat score
 fetch('https://api.flat.io/v2/scores/56ae21579a127715a02901a6/revisions/last/mxl')
-.then(function (response) {
-  return response.arrayBuffer();
-})
-.then(function (mxl) {
-  // Got the compressed score as an `ArrayBuffer`, load it in the embed
-  return embed.loadMusicXML(mxl);
-})
-.then(function () {
-  // Score loaded in the embed
-})
-.catch(function (error) {
-  // Unable to load the score
-});
+  .then(function (response) {
+    return response.arrayBuffer();
+  })
+  .then(function (mxl) {
+    // Got the compressed score as an `ArrayBuffer`, load it in the embed
+    return embed.loadMusicXML(mxl);
+  })
+  .then(function () {
+    // Score loaded in the embed
+  })
+  .catch(function (error) {
+    // Unable to load the score
+  });
 ```
 
 Example to load a plain XML file:
@@ -283,19 +294,19 @@ Example to load a plain XML file:
 ```js
 // Loading any plain XML file here, for a file example from a public Flat score
 fetch('https://api.flat.io/v2/scores/56ae21579a127715a02901a6/revisions/last/xml')
-.then(function (response) {
-  return response.text();
-})
-.then(function (mxl) {
-  // Got the plain XML score as an `String`, load it in the embed
-  return embed.loadMusicXML(mxl);
-})
-.then(function () {
-  // Score loaded in the embed
-})
-.catch(function (error) {
-  // Unable to load the score
-});
+  .then(function (response) {
+    return response.text();
+  })
+  .then(function (mxl) {
+    // Got the plain XML score as an `String`, load it in the embed
+    return embed.loadMusicXML(mxl);
+  })
+  .then(function () {
+    // Score loaded in the embed
+  })
+  .catch(function (error) {
+    // Unable to load the score
+  });
 ```
 
 ### `loadJSON(score: object): Promise<void, Error>`
@@ -304,18 +315,18 @@ Load a score using Flat's JSON Format
 
 ```js
 fetch('https://api.flat.io/v2/scores/56ae21579a127715a02901a6/revisions/last/json')
-.then(function (response) {
-  return response.json();
-})
-.then(function (json) {
-  return embed.loadJSON(json);
-})
-.then(function () {
-  // Score loaded in the embed
-})
-.catch(function (error) {
-  // Unable to load the score
-});
+  .then(function (response) {
+    return response.json();
+  })
+  .then(function (json) {
+    return embed.loadJSON(json);
+  })
+  .then(function () {
+    // Score loaded in the embed
+  })
+  .catch(function (error) {
+    // Unable to load the score
+  });
 ```
 
 ### `getMusicXML(options?: object): Promise<string|Uint8Array, Error>`
@@ -336,9 +347,11 @@ Example: Retrieve the score as a compressed MusicXML, then convert it to a Blob 
 // Uncompressed MusicXML
 embed.getMusicXML({ compressed: true }).then(function (buffer) {
   // Create a Blob from a compressed MusicXML file (Uint8Array)
-  var blobUrl = window.URL.createObjectURL(new Blob([buffer], {
-    type: 'application/vnd.recordare.musicxml+xml'
-  }));
+  var blobUrl = window.URL.createObjectURL(
+    new Blob([buffer], {
+      type: 'application/vnd.recordare.musicxml+xml',
+    }),
+  );
 
   // Create a hidden link to download the blob
   var a = document.createElement('a');
@@ -356,20 +369,23 @@ embed.getMusicXML({ compressed: true }).then(function (buffer) {
 Get the data of the score in the "Flat JSON" format (a MusicXML-like as a JavaScript object).
 
 ```js
-embed.getJSON().then(function (data) {
-  console.log(data);
-}).catch(function (error) {
-  // Unable to get the data
-});
+embed
+  .getJSON()
+  .then(function (data) {
+    console.log(data);
+  })
+  .catch(function (error) {
+    // Unable to get the data
+  });
 ```
 
 ### `getPNG(options?: object): Promise<string|Uint8Array, Error>`
 
 Get the currently displayed score as a PNG file. This API method accepts the following options:
 
-* `result`: Choose how the PNG file is returned, either `dataURL` or `Uint8Array`. Default value is `Uint8Array`.
-* `layout`: The score can either exported as one horizontal system (`track`), or the first page (`page`). Default value is `track`
-* `dpi`: The dpi used to export the PNG, between `50` and `300`. Default value is `150`.
+- `result`: Choose how the PNG file is returned, either `dataURL` or `Uint8Array`. Default value is `Uint8Array`.
+- `layout`: The score can either exported as one horizontal system (`track`), or the first page (`page`). Default value is `track`
+- `dpi`: The dpi used to export the PNG, between `50` and `300`. Default value is `150`.
 
 ```js
 // PNG
@@ -381,14 +397,16 @@ embed.getPNG().then(function (png) {
 
 ```js
 // PNG
-embed.getPNG({
-  result: 'dataURL',
-  layout: 'layout',
-  dpi: 300
-}).then(function (png) {
-  // 300 DPI PNG with the score as a page, returned as a DataURL
-  console.log(png);
-});
+embed
+  .getPNG({
+    result: 'dataURL',
+    layout: 'layout',
+    dpi: 300,
+  })
+  .then(function (png) {
+    // 300 DPI PNG with the score as a page, returned as a DataURL
+    console.log(png);
+  });
 ```
 
 ### `getMIDI(): Promise<Uint8Array, Error>`
@@ -407,11 +425,14 @@ embed.getMIDI().then(function (midi) {
 Get the score metadata of the hosted score. The object will have the same format that the one returned [by our API `GET /v2/scores/{score}`](https://flat.io/developers/api/reference/#operation/getScore).
 
 ```js
-embed.getScoreMeta().then(function (metadata) {
-  console.log(metadata);
-}).catch(function (error) {
-  // Unable to get the metadata
-});
+embed
+  .getScoreMeta()
+  .then(function (metadata) {
+    console.log(metadata);
+  })
+  .catch(function (error) {
+    // Unable to get the metadata
+  });
 ```
 
 ### `fullscreen(state: bool): Promise<void, Error>`
@@ -501,9 +522,14 @@ embed.getPartVolume({ partUuid: 'c86be847-a7a1-54fb-44fc-a6564d7eb75c' }).then(f
 Set a part volume (`volume` between 0 and 100, `partUuid` can be retrieved with `getParts`)
 
 ```js
-embed.getPartVolume({ partUuid: 'c86be847-a7a1-54fb-44fc-a6564d7eb75c', volume: 50 }).then(function () {
-  // The volume is set
-});
+embed
+  .getPartVolume({
+    partUuid: 'c86be847-a7a1-54fb-44fc-a6564d7eb75c',
+    volume: 50,
+  })
+  .then(function () {
+    // The volume is set
+  });
 ```
 
 ## `mutePart({ partUuid: string }): Promise<void, Error>`
@@ -573,20 +599,26 @@ embed.getPartReverb({ partUuid: 'c86be847-a7a1-54fb-44fc-a6564d7eb75c' }).then(f
 Set a part reverberation (`reverberation` between 0 and 100, `partUuid` can be retrieved with `getParts`)
 
 ```js
-embed.setPartReverb({ partUuid: 'c86be847-a7a1-54fb-44fc-a6564d7eb75c', reverberation: 50 }).then(function () {
-  // The reverberation is set
-});
+embed
+  .setPartReverb({
+    partUuid: 'c86be847-a7a1-54fb-44fc-a6564d7eb75c',
+    reverberation: 50,
+  })
+  .then(function () {
+    // The reverberation is set
+  });
 ```
 
 ### `getMetronomeMode(): Promise<Number, Error>`
 
-Get the value of the metronome count-in mode. 
+Get the value of the metronome count-in mode.
 
 Mode is defined as:
+
 ```js
 const METRONOME_MODES = {
-  COUNT_IN: 0,// Count in at the beginning of the playback
-  CONTINUOUS: 1,// Always on
+  COUNT_IN: 0, // Count in at the beginning of the playback
+  CONTINUOUS: 1, // Always on
   DISABLED: 2,
 };
 ```
@@ -600,7 +632,7 @@ embed.getMetronomeMode().then(function (metronomeMode) {
 
 ### `setMetronomeMode(number): Promise<void, Error>`
 
-Set the metronome count-in mode. 
+Set the metronome count-in mode.
 
 ```js
 embed.setMetronomeMode(1).then(function () {
@@ -610,7 +642,7 @@ embed.setMetronomeMode(1).then(function () {
 
 ### `getPlaybackSpeed(): Promise<Number, Error>`
 
-Get the playback speed. 
+Get the playback speed.
 
 ```js
 embed.getPlaybackSpeed().then(function (playbackSpeed) {
@@ -620,7 +652,7 @@ embed.getPlaybackSpeed().then(function (playbackSpeed) {
 
 ### `setPlaybackSpeed(number): Promise<void, Error>`
 
-Set the playback speed. Normal value is 1. The value can be between 0.2 and 2. 
+Set the playback speed. Normal value is 1. The value can be between 0.2 and 2.
 
 ```js
 embed.setPlaybackSpeed(1.5).then(function () {
@@ -634,46 +666,49 @@ For the display to scroll at the position of the cursor in the score
 
 ```js
 embed.scrollToCursor().then(function () {
-  // The scrolling is done asynchronously, it is not guarenteed that it will be completed here. 
+  // The scrolling is done asynchronously, it is not guarenteed that it will be completed here.
 });
 ```
 
 ### `setTrack(object): Promise<void, Error>`
 
-Configure a new video or audio track for the current embedded score. This method uses the same system as [our audio tracks manager in our editor app](https://flat.io/help/en/music-notation-software/synchronize-external-recording.html), but allows you to dynamically configure any track or connect an external player to an embedded score. 
+Configure a new video or audio track for the current embedded score. This method uses the same system as [our audio tracks manager in our editor app](https://flat.io/help/en/music-notation-software/synchronize-external-recording.html), but allows you to dynamically configure any track or connect an external player to an embedded score.
 
 This method takes the following options:
 
-* `id` **(required)**: An unique identifier for the configuration, that can be used later for the method [`useTrack`](#usetrack-id--promisevoid-error).
-* `type` **(required)**: The type of track to configure, using one of the following types: `youtube`, `soundcloud`, `vimeo`, `audio`, `external`
-* `url` **(required for `soundcloud` and `audio`)**: the URL of the Souncloud or the audio file to load
-* `mediaId` **(required for `youtube`, `vimeo`)**: the video identifier to embed
-* `totalTime` **(required for `external`)**: the total time of the media played
-* `synchronizationPoints` **(required)**: the list of synchronization points to use. Each point can have the following information:
-  * `type`: `measure` or `end` of the score
-  * `time` in seconds, the position of the synchronization point
-  * `location.measureIdx`: for `measure` point, the index of the score where the point is located.
+- `id` **(required)**: An unique identifier for the configuration, that can be used later for the method [`useTrack`](#usetrack-id--promisevoid-error).
+- `type` **(required)**: The type of track to configure, using one of the following types: `youtube`, `soundcloud`, `vimeo`, `audio`, `external`
+- `url` **(required for `soundcloud` and `audio`)**: the URL of the Souncloud or the audio file to load
+- `mediaId` **(required for `youtube`, `vimeo`)**: the video identifier to embed
+- `totalTime` **(required for `external`)**: the total time of the media played
+- `synchronizationPoints` **(required)**: the list of synchronization points to use. Each point can have the following information:
+  - `type`: `measure` or `end` of the score
+  - `time` in seconds, the position of the synchronization point
+  - `location.measureIdx`: for `measure` point, the index of the score where the point is located.
 
 Once a track is configured, you must call the method [`useTrack`](#usetrack-id--promisevoid-error) to enable it.
 
 Two implementation examples are available in our example repository:
-* [📺 YouTube synced player with a MusicXML loaded locally](https://github.com/FlatIO/embed-examples#-youtube-synced-player-with-a-musicxml-loaded-locally)
-* [🎧 External player with a MusicXML loaded locally](https://github.com/FlatIO/embed-examples#-external-player-with-a-musicxml-loaded-locally)
+
+- [📺 YouTube synced player with a MusicXML loaded locally](https://github.com/FlatIO/embed-examples#-youtube-synced-player-with-a-musicxml-loaded-locally)
+- [🎧 External player with a MusicXML loaded locally](https://github.com/FlatIO/embed-examples#-external-player-with-a-musicxml-loaded-locally)
 
 The `synchronizationPoints` also use the same formats as our REST API. If you previously configured some tracks using our web editor, [you can fetch their configuration using our REST API](https://flat.io/developers/api/reference/#operation/getScoreTrack).
 
 ```js
-embed.setTrack({
-  id: 'yt-cucaracha',
-  type: 'youtube',
-  mediaId: 'jp9vFhyhNd8',
-  synchronizationPoints: [
-    { type: 'measure', time: 0, location: { measureIdx: 0 }},
-    { type: 'end', time: 19 }
-  ],
-}).then(function () {
-  // The track is configured
-});
+embed
+  .setTrack({
+    id: 'yt-cucaracha',
+    type: 'youtube',
+    mediaId: 'jp9vFhyhNd8',
+    synchronizationPoints: [
+      { type: 'measure', time: 0, location: { measureIdx: 0 } },
+      { type: 'end', time: 19 },
+    ],
+  })
+  .then(function () {
+    // The track is configured
+  });
 ```
 
 ### `useTrack({ id }): Promise<void, Error>`
@@ -681,11 +716,13 @@ embed.setTrack({
 Enable a previously configured audio or video track. The `id` can be an identifier chosen from a track configured using [`setTrack`](#settrackobject-promisevoid-error) or from [Flat's REST API](https://flat.io/developers/api/reference/#operation/getScoreTrack).
 
 ```js
-embed.useTrack({
-  id: 'yt-cucaracha',
-}).then(function () {
-  // The track is enabled
-});
+embed
+  .useTrack({
+    id: 'yt-cucaracha',
+  })
+  .then(function () {
+    // The track is enabled
+  });
 ```
 
 ### `seekTrackTo({ time }): Promise<void, Error>`
@@ -694,7 +731,7 @@ Seek the current played track to a provided `time`, in seconds.
 
 ```js
 embed.useTrack({
-  time: 5
+  time: 5,
 });
 ```
 
@@ -703,11 +740,14 @@ embed.useTrack({
 Print the score
 
 ```js
-embed.print().then(function () {
-  // The score is being printed (the browser opens the print prompt)
-}).catch(function (error) {
-  // Error when printing
-});
+embed
+  .print()
+  .then(function () {
+    // The score is being printed (the browser opens the print prompt)
+  })
+  .catch(function (error) {
+    // Error when printing
+  });
 ```
 
 ### `getZoom(): Promise<number, Error>`
@@ -789,21 +829,23 @@ embed.getCursorPosition().then(function (position) {
 Set the current position of the cursor (on a specific note).
 
 ```js
-embed.setCursorPosition({
-  partIdx: 0,
-  staffIdx: 1,
-  voiceIdx: 0,
-  measureIdx: 2,
-  noteIdx: 1
-}).then(function (position) {
-  // position: {
-  //     "partIdx": 0,
-  //     "staffIdx": 1,
-  //     "voiceIdxInStaff": 0,
-  //     "measureIdx": 2,
-  //     "noteIdx": 1
-  // }
-});
+embed
+  .setCursorPosition({
+    partIdx: 0,
+    staffIdx: 1,
+    voiceIdx: 0,
+    measureIdx: 2,
+    noteIdx: 1,
+  })
+  .then(function (position) {
+    // position: {
+    //     "partIdx": 0,
+    //     "staffIdx": 1,
+    //     "voiceIdxInStaff": 0,
+    //     "measureIdx": 2,
+    //     "noteIdx": 1
+    // }
+  });
 ```
 
 ### `getParts(): Promise(<Array, Error>)`
@@ -812,22 +854,22 @@ Get the list of all the parts of the current score.
 
 ```js
 embed.getParts().then(function (parts) {
- // parts: [
- //  {
- //    idx: 0
- //    uuid: "ff78f481-2658-a94e-b3b2-c81f6d83bff0"
- //    name: "Grand Piano"
- //    abbreviation: "Pno."
- //    isTransposing: false
- //  },
- //  {
- //    idx: 1
- //    uuid: "ab0ec60f-13ca-765d-34c6-0f181e58a672"
- //    name: "Drum Set"
- //    abbreviation: "Drs."
- //    isTransposing: false
- //  }
- //]
+  // parts: [
+  //  {
+  //    idx: 0
+  //    uuid: "ff78f481-2658-a94e-b3b2-c81f6d83bff0"
+  //    name: "Grand Piano"
+  //    abbreviation: "Pno."
+  //    isTransposing: false
+  //  },
+  //  {
+  //    idx: 1
+  //    uuid: "ab0ec60f-13ca-765d-34c6-0f181e58a672"
+  //    name: "Drum Set"
+  //    abbreviation: "Drs."
+  //    isTransposing: false
+  //  }
+  //]
 });
 ```
 
@@ -837,15 +879,15 @@ Get the list of the displayed parts. You can update the displayed parts with [`s
 
 ```js
 embed.getDisplayedParts().then(function (parts) {
- // parts: [
- //  {
- //    idx: 0
- //    uuid: "ff78f481-2658-a94e-b3b2-c81f6d83bff0"
- //    name: "Grand Piano"
- //    abbreviation: "Pno."
- //    isTransposing: false
- //  }
- //]
+  // parts: [
+  //  {
+  //    idx: 0
+  //    uuid: "ff78f481-2658-a94e-b3b2-c81f6d83bff0"
+  //    name: "Grand Piano"
+  //    abbreviation: "Pno."
+  //    isTransposing: false
+  //  }
+  //]
 });
 ```
 
@@ -999,8 +1041,8 @@ You can enable the editor mode by setting the `mode` to `edit` when creating the
 var embed = new Flat.Embed(container, {
   embedParams: {
     appId: '<your-app-id>',
-    mode: 'edit'
-  }
+    mode: 'edit',
+  },
 });
 ```
 
@@ -1020,11 +1062,11 @@ This event is triggered when the position of the user's cursor changes.
 
 ```json
 {
-    "partIdx": 0,
-    "staffIdx": 1,
-    "voiceIdx": 0,
-    "measureIdx": 2,
-    "noteIdx": 1
+  "partIdx": 0,
+  "staffIdx": 1,
+  "voiceIdx": 0,
+  "measureIdx": 2,
+  "noteIdx": 1
 }
 ```
 
@@ -1034,23 +1076,23 @@ This event is triggered when the position or context of the user's cursor change
 
 ```json
 {
-    "isRest": false,
-    "isGrace": false,
-    "isUnpitchedPart": false,
-    "isPitchedPart": true,
-    "isPitched": true,
-    "isChord": true,
-    "isTab": false,
-    "hasTab": true,
-    "hasTabFrame": false,
-    "isEndOfScore": false,
-    "isSameLineThanNextNote": false,
-    "hasSlashInConnection": false,
-    "canTieWithNextNote": false,
-    "canSwitchEnharmonic": false,
-    "isNextRest": false,
-    "hasTie": false,
-    "isHeadTied": false
+  "isRest": false,
+  "isGrace": false,
+  "isUnpitchedPart": false,
+  "isPitchedPart": true,
+  "isPitched": true,
+  "isChord": true,
+  "isTab": false,
+  "hasTab": true,
+  "hasTabFrame": false,
+  "isEndOfScore": false,
+  "isSameLineThanNextNote": false,
+  "hasSlashInConnection": false,
+  "canTieWithNextNote": false,
+  "canSwitchEnharmonic": false,
+  "isNextRest": false,
+  "hasTie": false,
+  "isHeadTied": false
 }
 ```
 
@@ -1061,37 +1103,35 @@ The payload of this event is the same as the returned value from [`getMeasureDet
 
 ```json
 {
-    "clef": {
-        "sign": "G",
-        "line": 2,
-        "clef-octave-change": -1
-    },
-    "key": {
-        "fifths": 0
-    },
-    "time": {
-        "beats": 4,
-        "beat-type": 4
-    },
-    "displayedTime": {
-        "beats": 4,
-        "beat-type": 4
-    },
-    "tempo": {
-        "qpm": 80,
-        "bpm": 80,
-        "durationType": "quarter",
-        "nbDots": 0
-    },
-    "transpose": {
-        "chromatic": "0"
-    },
-    "voicesData": {
-        "voices": [
-            0
-        ],
-        "mainVoiceIdx": 0
-    }
+  "clef": {
+    "sign": "G",
+    "line": 2,
+    "clef-octave-change": -1
+  },
+  "key": {
+    "fifths": 0
+  },
+  "time": {
+    "beats": 4,
+    "beat-type": 4
+  },
+  "displayedTime": {
+    "beats": 4,
+    "beat-type": 4
+  },
+  "tempo": {
+    "qpm": 80,
+    "bpm": 80,
+    "durationType": "quarter",
+    "nbDots": 0
+  },
+  "transpose": {
+    "chromatic": "0"
+  },
+  "voicesData": {
+    "voices": [0],
+    "mainVoiceIdx": 0
+  }
 }
 ```
 
@@ -1102,40 +1142,34 @@ The payload of this event is the same as the returned value from [`getNoteDetail
 
 ```json
 {
-    "articulations": [],
-    "classicHarmony": null,
-    "dynamicStyle": null,
-    "ghostNotes": [
-        false
-    ],
-    "hammerOnPullOffs": [
-        false
-    ],
-    "harmony": null,
-    "hasArpeggio": false,
-    "hasGlissando": false,
-    "isChord": false,
-    "isInSlur": false,
-    "isRest": false,
-    "isTied": false,
-    "lines": [
-        -2.5
-    ],
-    "lyrics": [],
-    "nbDots": 0,
-    "nbGraces": 0,
-    "ornaments": [],
-    "pitches": [
-        {
-            "step": "E",
-            "octave": 2,
-            "alter": 0
-        }
-    ],
-    "technical": [],
-    "tupletType": null,
-    "wedgeType": null,
-    "durationType": "eighth"
+  "articulations": [],
+  "classicHarmony": null,
+  "dynamicStyle": null,
+  "ghostNotes": [false],
+  "hammerOnPullOffs": [false],
+  "harmony": null,
+  "hasArpeggio": false,
+  "hasGlissando": false,
+  "isChord": false,
+  "isInSlur": false,
+  "isRest": false,
+  "isTied": false,
+  "lines": [-2.5],
+  "lyrics": [],
+  "nbDots": 0,
+  "nbGraces": 0,
+  "ornaments": [],
+  "pitches": [
+    {
+      "step": "E",
+      "octave": 2,
+      "alter": 0
+    }
+  ],
+  "technical": [],
+  "tupletType": null,
+  "wedgeType": null,
+  "durationType": "eighth"
 }
 ```
 
@@ -1145,20 +1179,20 @@ This event is triggered when a range of notes is selected or the selection chang
 
 ```json
 {
-    "from": {
-        "partIdx": 0,
-        "measureIdx": 1,
-        "staffIdx": 0,
-        "voiceIdx": 0,
-        "noteIdx": 2
-    },
-    "to": {
-        "partIdx": 0,
-        "measureIdx": 3,
-        "staffIdx": 0,
-        "voiceIdx": 0,
-        "noteIdx": 5
-    }
+  "from": {
+    "partIdx": 0,
+    "measureIdx": 1,
+    "staffIdx": 0,
+    "voiceIdx": 0,
+    "noteIdx": 2
+  },
+  "to": {
+    "partIdx": 0,
+    "measureIdx": 3,
+    "staffIdx": 0,
+    "voiceIdx": 0,
+    "noteIdx": 5
+  }
 }
 ```
 
@@ -1184,10 +1218,10 @@ This event is triggered when the playback slider moves. It is usually triggered 
 
 ```json
 {
-    "beat": "4",
-    "beatType": "4",
-    "tempo": 120,
-    "currentMeasure": 1,
-    "timePerMeasure": 2
+  "beat": "4",
+  "beatType": "4",
+  "tempo": 120,
+  "currentMeasure": 1,
+  "timePerMeasure": 2
 }
 ```

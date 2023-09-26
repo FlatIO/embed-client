@@ -7,8 +7,7 @@ describe('Unit - Embed tests', () => {
   afterEach(() => {
     try {
       [...document.querySelectorAll('div,iframe')].forEach(el => document.body.removeChild(el));
-    }
-    catch (err) {
+    } catch (err) {
       // console.debug(err);
     }
   });
@@ -90,30 +89,21 @@ describe('Unit - Embed tests', () => {
     });
 
     it('should throw with a non existing DOM element (string)', () => {
-      assert.throws(
-        () => {
-          new Flat.Embed('container-not-found');
-        },
-        TypeError
-      );
+      assert.throws(() => {
+        new Flat.Embed('container-not-found');
+      }, TypeError);
     });
 
     it('should throw with a non existing DOM element (null)', () => {
-      assert.throws(
-        () => {
-          new Flat.Embed(null);
-        },
-        TypeError
-      );
+      assert.throws(() => {
+        new Flat.Embed(null);
+      }, TypeError);
     });
 
     it('should throw with a non existing DOM element (object)', () => {
-      assert.throws(
-        () => {
-          new Flat.Embed({});
-        },
-        TypeError
-      );
+      assert.throws(() => {
+        new Flat.Embed({});
+      }, TypeError);
     });
   });
 
@@ -121,7 +111,7 @@ describe('Unit - Embed tests', () => {
     it('should pass a score id', () => {
       const container = document.getElementById('container');
       const embed = new Flat.Embed(container, {
-        score: '1234'
+        score: '1234',
       });
       assert.equal(embed.element.getAttribute('src'), 'https://flat-embed.com/1234?jsapi=true');
       container.removeChild(embed.element);
@@ -133,10 +123,13 @@ describe('Unit - Embed tests', () => {
         score: '1234',
         embedParams: {
           controlsFloating: false,
-          foo: 42
-        }
+          foo: 42,
+        },
       });
-      assert.equal(embed.element.getAttribute('src'), 'https://flat-embed.com/1234?jsapi=true&controlsFloating=false&foo=42');
+      assert.equal(
+        embed.element.getAttribute('src'),
+        'https://flat-embed.com/1234?jsapi=true&controlsFloating=false&foo=42',
+      );
       container.removeChild(embed.element);
     });
 
@@ -147,10 +140,13 @@ describe('Unit - Embed tests', () => {
         embedParams: {
           controlsFloating: false,
           themePrimary: '#E53935',
-          themeCursorV0: '#E53935'
-        }
+          themeCursorV0: '#E53935',
+        },
       });
-      assert.equal(embed.element.getAttribute('src'), 'https://flat-embed.com/1234?jsapi=true&controlsFloating=false&themePrimary=%23E53935&themeCursorV0=%23E53935');
+      assert.equal(
+        embed.element.getAttribute('src'),
+        'https://flat-embed.com/1234?jsapi=true&controlsFloating=false&themePrimary=%23E53935&themeCursorV0=%23E53935',
+      );
       assert.equal(embed.element.getAttribute('width'), '100%');
       assert.equal(embed.element.getAttribute('height'), '100%');
       container.removeChild(embed.element);
@@ -163,10 +159,13 @@ describe('Unit - Embed tests', () => {
         width: '800',
         height: '450',
         embedParams: {
-          controlsFloating: false
-        }
+          controlsFloating: false,
+        },
       });
-      assert.equal(embed.element.getAttribute('src'), 'https://flat-embed.com/1234?jsapi=true&controlsFloating=false');
+      assert.equal(
+        embed.element.getAttribute('src'),
+        'https://flat-embed.com/1234?jsapi=true&controlsFloating=false',
+      );
       assert.equal(embed.element.getAttribute('width'), '800');
       assert.equal(embed.element.getAttribute('height'), '450');
       assert.equal(embed.element.getAttribute('allowfullscreen'), 'true');

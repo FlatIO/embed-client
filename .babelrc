@@ -1,13 +1,16 @@
 {
   "presets": [
-    ["@babel/env", {
-      "modules": false,
-      "targets": {
-        "edge": "17",
-        "firefox": "31",
-        "chrome": "67",
-        "safari": "7.1"
+    [
+      "@babel/env",
+      {
+        "modules": false,
+        "targets": {
+          "edge": "17",
+          "firefox": "31",
+          "chrome": "67",
+          "safari": "7.1"
+        }
       }
-    }]
+    ]
   ]
 }

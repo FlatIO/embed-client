@@ -4,15 +4,18 @@
  * @param {object} parameters
  */
 export function buildIframeUrl(parameters) {
-  let url = (parameters.baseUrl || 'https://flat-embed.com');
+  let url = parameters.baseUrl || 'https://flat-embed.com';
 
   // Score id or blank embed
   url += '/' + (parameters.score || 'blank');
 
   // Build qs parameters
-  let urlParameters = Object.assign({
-    jsapi: true
-  }, parameters.embedParams);
+  let urlParameters = Object.assign(
+    {
+      jsapi: true,
+    },
+    parameters.embedParams,
+  );
 
   let qs = Object.keys(urlParameters)
     .map(k => `${encodeURIComponent(k)}=${encodeURIComponent(urlParameters[k])}`)
