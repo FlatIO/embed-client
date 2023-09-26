@@ -9,9 +9,15 @@ module.exports = function (config) {
         // grep: 'GREP'
       },
     },
+    reporters: ['mocha'],
+    // Make Karma work with pnpm.
+    // See: https://github.com/pnpm/pnpm/issues/720#issuecomment-954120387
+    plugins: Object.keys(require('./package').devDependencies).flatMap(packageName => {
+      if (!packageName.startsWith('karma-')) return [];
+      return [require(packageName)];
+    }),
     files: [
-      'node_modules/jquery/dist/jquery.min.js',
-      'dist/embed.js',
+      'dist/flat-embed.umd.js',
       'test/unit/*.js',
       'test/integration/lib/*.js',
       'test/integration/*.js',
@@ -22,14 +28,13 @@ module.exports = function (config) {
         included: false,
       },
     ],
-    reporters: ['mocha'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['ChromeNoGPU'],
+    browsers: ['ChromeCustom'],
     customLaunchers: {
-      ChromeNoGPU: {
+      ChromeCustom: {
         base: 'ChromeHeadless',
         // base: 'Chrome',
         flags: ['--no-sandbox', '--autoplay-policy=no-user-gesture-required'],
@@ -39,10 +44,6 @@ module.exports = function (config) {
     concurrency: Infinity,
     browserNoActivityTimeout: 60000,
   };
-
-  if (process.env.TRAVIS) {
-    configuration.customLaunchers.ChromeNoGPU.flags.push('--disable-gpu');
-  }
 
   config.set(configuration);
 };

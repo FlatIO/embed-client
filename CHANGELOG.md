@@ -1,5 +1,20 @@
 # Changelog
 
+## v2.0.0
+
+**Breaking changes**:
+
+- Removed support for jQuery in constructor. Migration:
+
+```js
+var container = $('#embed-container');
+var embed = new Flat.Embed(container[0], {
+  // your options
+});
+```
+
+**New features**:
+
 ## 2023-04-04: v1.5.1
 
 - Add `allow: autoplay` on created iframes.

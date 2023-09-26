@@ -1,23 +1,25 @@
+import { EmbedParameters } from '../types';
+
 /**
  * Build url for the new iframe
  *
  * @param {object} parameters
  */
-export function buildIframeUrl(parameters) {
+export function buildIframeUrl(parameters: EmbedParameters) {
   let url = parameters.baseUrl || 'https://flat-embed.com';
 
   // Score id or blank embed
   url += '/' + (parameters.score || 'blank');
 
   // Build qs parameters
-  let urlParameters = Object.assign(
+  const urlParameters: Record<string, string | number | boolean> = Object.assign(
     {
       jsapi: true,
     },
-    parameters.embedParams,
+    parameters.embedParams as Record<string, string | number | boolean>,
   );
 
-  let qs = Object.keys(urlParameters)
+  const qs = Object.keys(urlParameters)
     .map(k => `${encodeURIComponent(k)}=${encodeURIComponent(urlParameters[k])}`)
     .join('&');
 
@@ -30,14 +32,17 @@ export function buildIframeUrl(parameters) {
  * @param {HTMLElement} element
  * @param {object} parameters
  */
-export function createEmbedIframe(element, parameters) {
-  let url = buildIframeUrl(parameters);
+export function createEmbedIframe(
+  element: HTMLElement,
+  parameters: EmbedParameters,
+): HTMLIFrameElement {
+  const url = buildIframeUrl(parameters);
 
-  var iframe = document.createElement('iframe');
+  const iframe = document.createElement('iframe');
   iframe.setAttribute('src', url);
   iframe.setAttribute('width', parameters.width || '100%');
   iframe.setAttribute('height', parameters.height || '100%');
-  iframe.setAttribute('allowfullscreen', true);
+  iframe.setAttribute('allowfullscreen', 'true');
   iframe.setAttribute('allow', 'autoplay; midi');
   iframe.setAttribute('frameborder', '0');
 

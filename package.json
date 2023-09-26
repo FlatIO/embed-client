@@ -4,8 +4,17 @@
   "description": "Interact and get events from Flat's Sheet Music Embed",
   "license": "Apache-2.0",
   "author": "Flat Team <developers@flat.io>",
-  "main": "dist/embed.js",
-  "jsnext:main": "src/embed.js",
+  "main": "./dist/flat-embed.mjs",
+  "jsnext:main": "./dist/flat-embed.mjs",
+  "exports": {
+    ".": {
+      "import": {
+        "default": "./dist/flat-embed.mjs",
+        "types": "./dist/embed.d.ts"
+      }
+    }
+  },
+  "types": "./dist/embed.d.ts",
   "repository": "FlatIO/embed-client",
   "keywords": [
     "flat.io",
@@ -21,46 +30,38 @@
     "tablature",
     "embed"
   ],
-  "directories": {
-    "lib": "src/"
-  },
   "files": [
-    "src",
     "dist"
   ],
   "scripts": {
     "clean": "rm build/*",
-    "build": "BABEL_ENV=production node rollup.js",
-    "build:watch": "BUILD_WATCH=true npm run build",
-    "test": "npm run eslint && npm run test:karma",
+    "build": "tsc && vite build",
+    "test": "tsc && pnpm run prettier:check && npm run eslint && npm run test:karma",
     "eslint": "eslint src --max-warnings=0",
+    "prettier:check": "prettier --check .",
     "test:karma": "karma start --single-run",
     "test:karma-watch": "karma start --single-run=false --auto-watch",
     "prepare": "husky install"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown",
-    "{src,test}/**/*.{js,ts}": "eslint --max-warnings=0"
+    "{src,test}/**/*.{js,ts}": "eslint"
   },
   "devDependencies": {
-    "@babel/core": "^7.17.5",
-    "@babel/preset-env": "^7.16.11",
-    "chokidar": "^3.5.3",
+    "@typescript-eslint/eslint-plugin": "^6.7.3",
+    "@typescript-eslint/parser": "^6.7.3",
     "eslint": "^8.50.0",
     "eslint-config-prettier": "^9.0.0",
     "husky": "^8.0.3",
-    "jquery": "^3.6.0",
-    "karma": "6.4.1",
-    "karma-chrome-launcher": "3.1.1",
+    "karma": "6.4.2",
+    "karma-chrome-launcher": "3.2.0",
     "karma-mocha": "2.0.1",
-    "karma-mocha-reporter": "^2.2.3",
+    "karma-mocha-reporter": "^2.2.5",
     "lint-staged": "^14.0.1",
-    "mocha": "^10.0.0",
+    "mocha": "^10.2.0",
     "prettier": "^3.0.3",
-    "rollup": "^2.68.0",
-    "rollup-plugin-babel": "^4.4.0",
-    "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "uglify-js": "^3.15.2"
+    "typescript": "^5.2.2",
+    "vite": "^4.4.9",
+    "vite-plugin-dts": "^3.6.0"
   }
 }
