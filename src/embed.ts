@@ -344,7 +344,7 @@ class Embed {
    * Set the current master volume
    */
   setMasterVolume(parameters: { volume: number }): Promise<void> {
-    return this.call('getMasterVolume', parameters) as Promise<void>;
+    return this.call('setMasterVolume', parameters) as Promise<void>;
   }
 
   /**
