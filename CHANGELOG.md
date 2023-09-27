@@ -1,6 +1,6 @@
 # Changelog
 
-## 2023-09-26: v2.0.0
+## 2023-09-27: v2.0.0
 
 **Breaking changes**:
 
@@ -16,6 +16,7 @@ var embed = new Flat.Embed(container[0], {
 **New features**:
 
 - Added support for TypeScript in published NPM module
+- Publishing separate ES & UMD builds
 
 ## 2023-04-04: v1.5.1
 
