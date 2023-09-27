@@ -1,5 +1,9 @@
 # Changelog
 
+## Upcoming
+
+- Fixed `setMasterVolume` not calling the correct underlying method
+
 ## 2023-09-27: v2.0.1
 
 - Fixed package `exports` compatibility with Webpack 5

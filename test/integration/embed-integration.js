@@ -1083,6 +1083,35 @@ describe('Integration - Embed', () => {
     });
   });
 
+  describe('Volume', () => {
+    it('should set & get the mast volume', async () => {
+      var container = document.createElement('div');
+      document.body.appendChild(container);
+
+      var embed = new Flat.Embed(container, {
+        baseUrl: BASE_URL,
+        score: QUARTET_SCORE,
+        embedParams: {
+          appId: APP_ID,
+        },
+      });
+
+      // default volume
+      assert.strictEqual(await embed.getMasterVolume(), 100);
+
+      // set & get volume
+      await embed.setMasterVolume({ volume: 50 });
+      assert.strictEqual(await embed.getMasterVolume(), 50);
+
+      await embed.setMasterVolume({ volume: 0 });
+      assert.strictEqual(await embed.getMasterVolume(), 0);
+
+      await embed.setMasterVolume({ volume: 100 });
+      console.log(await embed.getMasterVolume());
+      assert.strictEqual(await embed.getMasterVolume(), 100);
+    });
+  });
+
   // describe('Editor config', () => {
   //   it('should fetch the viewer config', (done) => {
   //     var container = document.createElement('div');
