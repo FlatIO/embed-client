@@ -1,6 +1,6 @@
 {
   "name": "flat-embed",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Interact and get events from Flat's Sheet Music Embed",
   "license": "Apache-2.0",
   "author": "Flat Team <developers@flat.io>",
@@ -9,8 +9,8 @@
   "exports": {
     ".": {
       "import": {
-        "default": "./dist/flat-embed.mjs",
-        "types": "./dist/embed.d.ts"
+        "types": "./dist/embed.d.ts",
+        "default": "./dist/flat-embed.mjs"
       }
     }
   },

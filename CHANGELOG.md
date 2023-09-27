@@ -1,5 +1,9 @@
 # Changelog
 
+## 2023-09-27: v2.0.1
+
+- Fixed package `exports` compatibility with Webpack 5
+
 ## 2023-09-27: v2.0.0
 
 **Breaking changes**:
