@@ -985,6 +985,177 @@ describe('Integration - Embed', () => {
     });
   });
 
+  describe('getNbParts', () => {
+    it('basic', async () => {
+      // Giv3n
+      const container = document.createElement('div');
+      document.body.appendChild(container);
+
+      const embed = new Flat.Embed(container, {
+        baseUrl: BASE_URL,
+        score: QUARTET_SCORE,
+        embedParams: {
+          appId: APP_ID,
+        },
+      });
+
+      // When
+      const result = await embed.getNbParts();
+
+      // Then
+      assert.strictEqual(result, 4);
+    });
+  });
+
+  describe('getPartsUuids', () => {
+    it('basic', async () => {
+      // Giv3n
+      const container = document.createElement('div');
+      document.body.appendChild(container);
+
+      const embed = new Flat.Embed(container, {
+        baseUrl: BASE_URL,
+        score: QUARTET_SCORE,
+        embedParams: {
+          appId: APP_ID,
+        },
+      });
+
+      // When
+      const result = await embed.getPartsUuids();
+
+      // Then
+      assert.deepEqual(result, [
+        '1f4ab07d-d27a-99aa-2304-f3dc10bb27c3',
+        '6deb4bfc-f6f3-ce3a-68bb-f9e7b388325b',
+        'f6b248fa-57c3-2341-a8cd-48131fd71fc1',
+        '513b8d32-7f48-3677-146f-d6744c8d5c4f',
+      ]);
+    });
+  });
+
+  describe('getMeasureVoicesUuids', () => {
+    it('basic', async () => {
+      // Giv3n
+      const container = document.createElement('div');
+      document.body.appendChild(container);
+
+      const embed = new Flat.Embed(container, {
+        baseUrl: BASE_URL,
+        score: QUARTET_SCORE,
+        embedParams: {
+          appId: APP_ID,
+        },
+      });
+
+      // When
+      const result = await embed.getMeasureVoicesUuids({
+        partUuid: '1f4ab07d-d27a-99aa-2304-f3dc10bb27c3',
+        measureUuid: '32511d58-cc7e-e7ba-399e-3b8f186b4ddb',
+      });
+
+      // Then
+      assert.deepEqual(result, ['17099aa2-e0dd-dbc3-2d45-b9b574e89572']);
+    });
+  });
+
+  describe('getMeasureNbNotes', () => {
+    it('basic', async () => {
+      // Giv3n
+      const container = document.createElement('div');
+      document.body.appendChild(container);
+
+      const embed = new Flat.Embed(container, {
+        baseUrl: BASE_URL,
+        score: QUARTET_SCORE,
+        embedParams: {
+          appId: APP_ID,
+        },
+      });
+
+      // When
+      const result = await embed.getMeasureNbNotes({
+        partUuid: '1f4ab07d-d27a-99aa-2304-f3dc10bb27c3',
+        measureUuid: '32511d58-cc7e-e7ba-399e-3b8f186b4ddb',
+        voiceUuid: '17099aa2-e0dd-dbc3-2d45-b9b574e89572',
+      });
+
+      // Then
+      assert.strictEqual(result, 4);
+    });
+  });
+
+  describe('getNoteData', () => {
+    it('basic', async () => {
+      // Giv3n
+      const container = document.createElement('div');
+      document.body.appendChild(container);
+
+      const embed = new Flat.Embed(container, {
+        baseUrl: BASE_URL,
+        score: QUARTET_SCORE,
+        embedParams: {
+          appId: APP_ID,
+        },
+      });
+
+      // When
+      const result = await embed.getNoteData({
+        partUuid: '1f4ab07d-d27a-99aa-2304-f3dc10bb27c3',
+        measureUuid: '32511d58-cc7e-e7ba-399e-3b8f186b4ddb',
+        voiceUuid: '17099aa2-e0dd-dbc3-2d45-b9b574e89572',
+        noteIdx: 1,
+      });
+
+      // Then
+      assert.deepEqual(result, {
+        articulations: [],
+        classicHarmony: null,
+        durationType: 'quarter',
+        dynamicStyle: null,
+        harmony: null,
+        isInSlur: false,
+        isRest: true,
+        lyrics: [],
+        nbDots: 0,
+        nbGraces: 0,
+        ornaments: [],
+        technical: [],
+        tupletType: null,
+        wedgeType: null,
+      });
+    });
+  });
+
+  describe('playbackPositionToNoteIdx', () => {
+    it('basic', async () => {
+      // Giv3n
+      const container = document.createElement('div');
+      document.body.appendChild(container);
+
+      const embed = new Flat.Embed(container, {
+        baseUrl: BASE_URL,
+        score: QUARTET_SCORE,
+        embedParams: {
+          appId: APP_ID,
+        },
+      });
+
+      // When
+      const result = await embed.playbackPositionToNoteIdx({
+        partUuid: '1f4ab07d-d27a-99aa-2304-f3dc10bb27c3',
+        voiceUuid: '17099aa2-e0dd-dbc3-2d45-b9b574e89572',
+        playbackPosition: {
+          currentMeasure: 0,
+          quarterFromMeasureStart: 1.1,
+        },
+      });
+
+      // Then
+      assert.strictEqual(result, 1);
+    });
+  });
+
   describe('go', () => {
     it('goLeft', async () => {
       // Giv3n

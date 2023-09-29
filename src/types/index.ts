@@ -10,3 +10,4 @@ export * from './part';
 export * from './measure';
 export * from './note';
 export * from './metronome';
+export * from './playbackPosition';
