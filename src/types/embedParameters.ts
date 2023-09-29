@@ -76,7 +76,7 @@ export interface EmbedUrlParameters {
   /**
    * Apply a saved layout template from your account
    *
-   * Learn more about engraving layout: https://flat.io/developers/docs/embed/url-parameters#saved-envraving-layout-layoutid
+   * Learn more about engraving layout: https://flat.io/developers/docs/embed/url-parameters#saved-engraving-layout-layoutid
    **/
   layoutId?: string;
 
