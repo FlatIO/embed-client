@@ -17,6 +17,7 @@ import type {
   MeasureDetails,
   NoteDetails,
   MetronomeMode,
+  PlaybackPosition,
 } from './types';
 
 const embeds = new WeakMap();
@@ -566,6 +567,79 @@ class Embed {
    */
   getMeasureDetails(): Promise<MeasureDetails> {
     return this.call('getMeasureDetails') as Promise<MeasureDetails>;
+  }
+
+  /**
+   * Get the number of parts in the score.
+   *
+   * @return {Promise}
+   * @fullfill {Number} The number of parts in the score
+   */
+  getNbParts(): Promise<number> {
+    return this.call('getNbParts') as Promise<number>;
+  }
+
+  /**
+   * Get the parts uuids of the score
+   *
+   * @return {Promise}
+   * @fullfill {Array} The list of parts uuids.
+   */
+  getPartsUuids(): Promise<string[]> {
+    return this.call('getPartsUuids') as Promise<string[]>;
+  }
+
+  /**
+   * Get the voice uuids that are present in a given measure.
+   *
+   * @return {Promise}
+   * @fullfill {Array} The list of voices uuids.
+   */
+  getMeasureVoicesUuids(parameters: { partUuid: string; measureUuid: string }): Promise<string[]> {
+    return this.call('getMeasureVoicesUuids', parameters) as Promise<string[]>;
+  }
+
+  /**
+   * Get the number of notes in a voice for a given measure.
+   *
+   * @return {Promise}
+   * @fullfill {Number} The number of notes in a voice for a given measure.
+   */
+  getMeasureNbNotes(parameters: {
+    partUuid: string;
+    measureUuid: string;
+    voiceUuid: string;
+  }): Promise<number> {
+    return this.call('getMeasureNbNotes', parameters) as Promise<number>;
+  }
+
+  /**
+   * Get information about a specific note.
+   *
+   * @return {Promise}
+   * @fullfill {object} Note details
+   */
+  getNoteData(parameters: {
+    partUuid: string;
+    measureUuid: string;
+    voiceUuid: string;
+    noteIdx: number;
+  }): Promise<NoteDetails> {
+    return this.call('getNoteData', parameters) as Promise<NoteDetails>;
+  }
+
+  /**
+   * Get information about a specific note.
+   *
+   * @return {Promise}
+   * @fullfill {Number} Note index in the voice/measure.
+   */
+  playbackPositionToNoteIdx(parameters: {
+    partUuid: string;
+    voiceUuid: string;
+    playbackPosition: PlaybackPosition;
+  }): Promise<number> {
+    return this.call('playbackPositionToNoteIdx', parameters) as Promise<number>;
   }
 
   /**
