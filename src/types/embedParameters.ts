@@ -116,6 +116,9 @@ export interface EmbedUrlParameters {
   /** Display or hide the playback controls (default = true) */
   controlsPlay?: boolean;
 
+  /** Completely disable audio capabilities of the embed (default = false) */
+  noAudio?: boolean;
+
   /** Hide Flat playback (default = false) */
   hideFlatPlayback?: boolean;
 
