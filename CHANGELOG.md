@@ -1,7 +1,14 @@
 # Changelog
 
-## Upcoming
+## 2023-10-02: v2.1.0
 
+- Added methods:
+  - `getNbParts`
+  - `getPartsUuids`
+  - `getMeasureVoicesUuids`
+  - `getMeasureNbNotes`
+  - `getNoteData`
+  - `playbackPositionToNoteIdx`
 - Fixed `setMasterVolume` not calling the correct underlying method
 
 ## 2023-09-27: v2.0.1
