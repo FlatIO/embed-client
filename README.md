@@ -1351,12 +1351,11 @@ Here is how you can get information on the note currently played.
 We will check for a note in the part/voice where the user cursor is currently located.
 
 ```js
-const embed;
 const cursorPosition = await embed.getCursorPosition();
 const { partUuid, voiceUuid } = cursorPosition;
 const measuresUuids = await embed.getMeasuresUuids();
 
-embed.on("playbackPosition", async (playbackPosition) => {
+embed.on('playbackPosition', async playbackPosition => {
   const { currentMeasure } = playbackPosition;
   const measureUuid = measuresUuids[currentMeasure];
   const voicesUuids = await embed.getMeasureVoicesUuids({
