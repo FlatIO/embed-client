@@ -149,6 +149,12 @@ When instantiating `Flat.Embed`, you can pass options in the second parameter. T
   - [`getNoteDetails`](#getnotedetails-promiseobject-error): Get details about the current note
   - [`getNbMeasures`](#getnbmeasures-promisenumber-error): Get the number of measures in the score
   - [`getMeasuresUuids`](#getmeasuresuuids-promisearray-error): Get the list of measures uuids of the score
+  - [`getNbParts`](#getnbparts-promisenumber-error): Get the number of parts in the score
+  - [`getPartsUuids`](#getpartsuuids-promisearray-error): Get the list of parts uuids of the score
+  - [`getMeasureVoicesUuids`](#getmeasurevoicesuuids-promisearray-error): Get the list of voices uuids for a given measure
+  - [`getMeasureNbNotes`](#getmeasurenbnotes-promisenumber-error): Get the number of notes for a given meaasure/voice.
+  - [`getNoteData`](#getnotedata-promiseobject-error): Get information about a specific note
+  - [`playbackPositionToNoteIdx`](#playbackpositiontonoteidx-promisenumber-error): Convert a playback position into a note index.
   - [`goLeft`](#play-promisevoid-error): Move the cursor the previous note/rest
   - [`goRight`](#play-promisevoid-error): Move the cursor the next note/rest
 - [Editor API](#editor-api)
@@ -1012,6 +1018,123 @@ embed.getMeasuresUuids().then(function (measuresUuids) {
 });
 ```
 
+### `getNbParts(): Promise(<number, Error>)`
+
+Get the number of parts within the score
+
+```js
+embed.getNbParts().then(function (nbParts) {
+  assert.strictEqual(nbParts, 3);
+});
+```
+
+### `getPartsUuids(): Promise(<array, Error>)`
+
+Get the number of parts within the score
+
+```js
+embed.getPartsUuids().then(function (partsUuids) {
+  assert.deepStrictEqual(partsUuids, [
+    '05a4daec-bc78-5987-81e4-2467e234dfb2',
+    '08b9110b-82bb-11e5-f57c-7b0f47a6a69a',
+    '833ca409-04e9-0b76-52db-105777bd7a56',
+  ]);
+});
+```
+
+### `getMeasureVoicesUuids(): Promise(<array, Error>)`
+
+Get the list of voice uuids present in a given measure
+
+```js
+embed
+  .getMeasureVoicesUuids({
+    partUuid: '05a4daec-bc78-5987-81e4-2467e234dfb2',
+    measureUuid: '08b9110b-82bb-11e5-f57c-7b0f47a6a69a',
+  })
+  .then(function (voicesUuids) {
+    assert.deepStrictEqual(voicesUuids, [
+      '3c176017-31ff-cc91-7ad6-a2ea4a510200',
+      '833ca409-04e9-0b76-52db-105777bd7a56',
+    ]);
+  });
+```
+
+### `getMeasureNbNotes(): Promise(<number, Error>)`
+
+Get the number of notes in the voice of a specific measure.
+
+```js
+embed
+  .getMeasureNbNotes({
+    partUuid: '05a4daec-bc78-5987-81e4-2467e234dfb2',
+    measureUuid: '08b9110b-82bb-11e5-f57c-7b0f47a6a69a',
+    voiceUuid: '3c176017-31ff-cc91-7ad6-a2ea4a510200',
+  })
+  .then(function (nbNotes) {
+    assert.strictEqual(nbNotes, 4);
+  });
+```
+
+### `getNoteData(): Promise(<object, Error>)`
+
+Get information on a specific note.
+
+```js
+embed
+  .getNoteData({
+    partUuid: '05a4daec-bc78-5987-81e4-2467e234dfb2',
+    measureUuid: '08b9110b-82bb-11e5-f57c-7b0f47a6a69a',
+    voiceUuid: '3c176017-31ff-cc91-7ad6-a2ea4a510200',
+    noteIdx: 2,
+  })
+  .then(function (noteData) {
+    assert.deepStrictEqual(noteData, {
+      articulations: [],
+      classicHarmony: null,
+      durationType: 'quarter',
+      dynamicStyle: null,
+      ghostNotes: undefined,
+      hammerOnPullOffs: undefined,
+      harmony: null,
+      hasArpeggio: undefined,
+      hasGlissando: undefined,
+      isChord: undefined,
+      isInSlur: false,
+      isRest: true,
+      isTied: undefined,
+      lines: undefined,
+      lyrics: [],
+      nbDots: 0,
+      nbGraces: 0,
+      ornaments: [],
+      pitches: undefined,
+      technical: [],
+      tupletType: null,
+      wedgeType: null,
+    });
+  });
+```
+
+### `playbackPositionToNoteIdx(): Promise(<number, Error>)`
+
+Convert the data given by the [`playbackPosition` event](#event-playbackposition) into a note index.
+
+```js
+embed
+  .playbackPositionToNoteIdx({
+    partUuid: '1f4ab07d-d27a-99aa-2304-f3dc10bb27c3',
+    voiceUuid: '17099aa2-e0dd-dbc3-2d45-b9b574e89572',
+    playbackPosition: {
+      currentMeasure: 0,
+      quarterFromMeasureStart: 1.1,
+    },
+  })
+  .then(function (noteIdx) {
+    assert.strictEqual(noteIdx, 1);
+  });
+```
+
 ### `goLeft(): Promise(<void, Error>)`
 
 Get the number of measures within the score
@@ -1213,14 +1336,49 @@ This event is triggered when you or the end-user stops the playback. This event 
 
 ### Event: `playbackPosition`
 
-This event is triggered when the playback slider moves. It is usually triggered at the beginning of every measure and will contain an object with information regarding the position of the playback in the score:
+This event is triggered when the playback slider moves. It is constantly triggered,
+as it is the event that also serve internally to animate the vertical line.
+It contains an object with information regarding the position of the playback in the score:
 
-```json
+```js
 {
-  "beat": "4",
-  "beatType": "4",
-  "tempo": 120,
-  "currentMeasure": 1,
-  "timePerMeasure": 2
+  currentMeasure: 3,// Index of the meaasure in the score
+  quarterFromMeasureStart: 2.2341,// Position from the beginning of the measure, expressed in quarter notes
 }
+```
+
+Here is how you can get information on the note currently played.
+We will check for a note in the part/voice where the user cursor is currently located.
+
+```js
+const embed;
+const cursorPosition = await embed.getCursorPosition();
+const { partUuid, voiceUuid } = cursorPosition;
+const measuresUuids = await embed.getMeasuresUuids();
+
+embed.on("playbackPosition", async (playbackPosition) => {
+  const { currentMeasure } = playbackPosition;
+  const measureUuid = measuresUuids[currentMeasure];
+  const voicesUuids = await embed.getMeasureVoicesUuids({
+    partUuid,
+    measureUuid,
+  });
+  if (voicesUuids.includes(voiceUuid)) {
+    // The voice is not present in the measure currently being played..
+    return;
+  }
+
+  const noteIdx = await embed.playbackPositionToNoteIdx({
+    partUuid,
+    voiceUuid,
+    playbackPosition,
+  });
+  const noteData = await embed.getNoteData({
+    partUuid,
+    measureUuid,
+    voiceUuid,
+    noteIdx,
+  });
+  assert.strictEqual(noteData.isRest, true);
+});
 ```
