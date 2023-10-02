@@ -9,6 +9,8 @@
   - `getMeasureNbNotes`
   - `getNoteData`
   - `playbackPositionToNoteIdx`
+- Added URL parameter:
+  - `noAudio` to disable audio playback
 - Fixed `setMasterVolume` not calling the correct underlying method
 
 ## 2023-09-27: v2.0.1
