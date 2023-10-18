@@ -46,10 +46,10 @@ devDependencies:
     version: 5.2.2
   vite:
     specifier: ^4.4.9
-    version: 4.4.10
+    version: 4.5.0
   vite-plugin-dts:
     specifier: ^3.6.0
-    version: 3.6.0(typescript@5.2.2)(vite@4.4.10)
+    version: 3.6.0(typescript@5.2.2)(vite@4.5.0)
 
 packages:
 
@@ -2682,7 +2682,7 @@ packages:
     engines: {node: '>= 0.8'}
     dev: true
 
-  /vite-plugin-dts@3.6.0(typescript@5.2.2)(vite@4.4.10):
+  /vite-plugin-dts@3.6.0(typescript@5.2.2)(vite@4.5.0):
     resolution: {integrity: sha512-doxhDRFJCZD2sGjIp4V800nm8Y19GvmwckjG5vYPuiqJ7OBjc9NlW1Vp9Gkyh2aXlUs1jTDRH/lxWfcsPLOQHg==}
     engines: {node: ^14.18.0 || >=16.0.0}
     peerDependencies:
@@ -2698,7 +2698,7 @@ packages:
       debug: 4.3.4(supports-color@8.1.1)
       kolorist: 1.8.0
       typescript: 5.2.2
-      vite: 4.4.10
+      vite: 4.5.0
       vue-tsc: 1.8.15(typescript@5.2.2)
     transitivePeerDependencies:
       - '@types/node'
@@ -2706,8 +2706,8 @@ packages:
       - supports-color
     dev: true
 
-  /vite@4.4.10:
-    resolution: {integrity: sha512-TzIjiqx9BEXF8yzYdF2NTf1kFFbjMjUSV0LFZ3HyHoI3SGSPLnnFUKiIQtL3gl2AjHvMrprOvQ3amzaHgQlAxw==}
+  /vite@4.5.0:
+    resolution: {integrity: sha512-ulr8rNLA6rkyFAlVWw2q5YJ91v098AFQ2R0PRFwPzREXOUJQPtFUG0t+/ZikhaOCDqFoDhN6/v8Sq0o4araFAw==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
     peerDependencies:
