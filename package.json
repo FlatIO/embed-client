@@ -1,6 +1,6 @@
 {
   "name": "flat-embed",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Interact and get events from Flat's Sheet Music Embed",
   "license": "Apache-2.0",
   "author": "Flat Team <developers@flat.io>",
