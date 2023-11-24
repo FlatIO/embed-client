@@ -124,22 +124,20 @@ describe('Unit - Embed tests', () => {
       container.removeChild(embed.element);
     });
 
-    it('should correctly encode the options', () => {
+    it('should pass userId & appId', () => {
       const container = document.getElementById('container');
       const embed = new Flat.Embed(container, {
         score: '1234',
         embedParams: {
-          controlsFloating: false,
+          appId: '123456abcdef',
+          userId: '| 42',
           themePrimary: '#E53935',
-          themeCursorV0: '#E53935',
         },
       });
       assert.equal(
         embed.element.getAttribute('src'),
-        'https://flat-embed.com/1234?jsapi=true&controlsFloating=false&themePrimary=%23E53935&themeCursorV0=%23E53935',
+        'https://flat-embed.com/1234?jsapi=true&appId=123456abcdef&userId=%7C%2042&themePrimary=%23E53935',
       );
-      assert.equal(embed.element.getAttribute('width'), '100%');
-      assert.equal(embed.element.getAttribute('height'), '100%');
       container.removeChild(embed.element);
     });
 

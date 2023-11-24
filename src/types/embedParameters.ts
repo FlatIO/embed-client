@@ -28,6 +28,20 @@ export interface EmbedUrlParameters {
   /** Your application identifier (aka API key) */
   appId?: string;
 
+  /**
+   * Optional: User ID of end-user for billing & analytics
+   *
+   * This user identifier:
+   * - Must be unique for each end user
+   * - Must not contain any personal information (no email, no names, etc.)
+   * - Will be stored hashed in our embed logs (in case any personal information is provided by mistake)
+   *
+   * If not provided, Flat Embed will use the visitor IP address to identify unique users.
+   *
+   * Learn more at https://flat.io/developers/docs/embed/unique-users
+   **/
+  userId?: string;
+
   /** The score sharing key when the privacy mode is `privateLink` */
   sharingKey?: string;
 

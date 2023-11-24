@@ -22,7 +22,7 @@ yarn add flat-embed
 Or use the latest UMD version hosted on our CDN:
 
 ```html
-<script src="https://prod.flat-cdn.com/embed-js/v2.1.0/embed.min.js"></script>
+<script src="https://prod.flat-cdn.com/embed-js/v2.2.0/embed.min.js"></script>
 ```
 
 ## Getting Started
@@ -31,7 +31,7 @@ The simplest way to get started is to pass a DOM element to our embed that will 
 
 ```html
 <div id="embed-container"></div>
-<script src="https://prod.flat-cdn.com/embed-js/v2.1.0/embed.min.js"></script>
+<script src="https://prod.flat-cdn.com/embed-js/v2.2.0/embed.min.js"></script>
 <script>
   var container = document.getElementById('embed-container');
   var embed = new Flat.Embed(container, {
@@ -71,6 +71,25 @@ Our Embed JS API requires an App ID (`appId`) to use it:
 
 - In development, you can try and use this client without limits on `localhost`/`*.localhost`.
 - To use it in production or with a custom domain, [create a new app on our website](https://flat.io/developers/apps), then go to the _Embed > Settings_ and add your domains to the whitelist. Your app ID will also be displayed on this page.
+
+### Unique users
+
+By default, analytics and billing of unique users is done using the visitor IPs. To improve accuracy and avoid counting the same user multiple times, you can pass a unique identifier for the user using the `embedParams.userId` option.
+
+This identifier must be a unique identifier for the user. For example, you can use the user ID of your application. Please don't use any personal information (e.g. email address).
+
+```js
+import Embed from 'flat-embed';
+
+const container = document.getElementById('embed-container');
+const embed = new Embed(container, {
+  score: '<score-id-you-want-to-load>',
+  embedParams: {
+    appId: '<your-app-id>',
+    userId: '<your-end-user-id>',
+  },
+});
+```
 
 ## Embed construction
 
