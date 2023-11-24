@@ -1,5 +1,9 @@
 # Changelog
 
+## 2023-11-24: v2.2.0
+
+- Added embed parameter `userId`
+
 ## 2023-10-02: v2.1.0
 
 - Added methods:
