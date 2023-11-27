@@ -1290,6 +1290,38 @@ describe('Integration - Embed', () => {
     });
   });
 
+  describe('getEmbedConfig', () => {
+    it('with layout and other config elements', async () => {
+      // Given
+      const container = document.createElement('div');
+      document.body.appendChild(container);
+      const extraOpts = {
+        noHeader: true,
+        showTabRests: true,
+        layout: 'track',
+        hideTempo: true,
+      };
+
+      const embed = new Flat.Embed(container, {
+        baseUrl: BASE_URL,
+        score: QUARTET_SCORE,
+        embedParams: {
+          appId: APP_ID,
+          ...extraOpts,
+        },
+      });
+
+      // When
+      const embedConfig = await embed.getEmbedConfig();
+
+      // Then
+      Object.entries(embedConfig).forEach(([key, expectedValue]) => {
+        const actualValue = embedConfig[key];
+        assert.deepStrictEqual(actualValue, expectedValue);
+      });
+    });
+  });
+
   // describe('Editor config', () => {
   //   it('should fetch the viewer config', (done) => {
   //     var container = document.createElement('div');
