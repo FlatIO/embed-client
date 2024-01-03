@@ -199,6 +199,9 @@ export interface EmbedParameters {
   /** Base URL for the embed */
   baseUrl?: string;
 
+  /** Lazy loading of the iframe */
+  lazy?: boolean;
+
   /**
    * Optional configuration and customization options
    * See https://flat.io/developers/docs/embed/url-parameters for more details
