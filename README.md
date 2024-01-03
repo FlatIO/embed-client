@@ -113,6 +113,7 @@ When instantiating `Flat.Embed`, you can pass options in the second parameter. T
 | `width`       | The width of your embed                             | A width of the embed                                                            | `100%`  |
 | `height`      | The height of your embed                            | A height of the embed                                                           | `100%`  |
 | `embedParams` | Object containing the loading options for the embed | [Any URL parameters](https://flat.io/developers/docs/embed/url-parameters.html) | `{}`    |
+| `lazy`        | Add a `loading="lazy"` attribute to the iframe      | A boolean to enable the lazy-loading                                            | `false` |
 
 ## JavaScript API
 
