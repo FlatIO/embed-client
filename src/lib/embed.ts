@@ -46,6 +46,10 @@ export function createEmbedIframe(
   iframe.setAttribute('allow', 'autoplay; midi');
   iframe.setAttribute('frameborder', '0');
 
+  if (parameters.lazy) {
+    iframe.setAttribute('loading', 'lazy');
+  }
+
   element.appendChild(iframe);
 
   return iframe;
