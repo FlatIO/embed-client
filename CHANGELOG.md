@@ -1,5 +1,9 @@
 # Changelog
 
+## 2024-01-03: v2.3.0
+
+- Added `lazy` option to add a `loading="lazy"` attribute to the created iframe
+
 ## 2023-11-24: v2.2.0
 
 - Added embed parameter `userId`
