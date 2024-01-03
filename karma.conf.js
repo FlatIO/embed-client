@@ -1,5 +1,3 @@
-var process = require('process');
-
 module.exports = function (config) {
   var configuration = {
     frameworks: ['mocha'],

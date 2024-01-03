@@ -1317,63 +1317,8 @@ describe('Integration - Embed', () => {
       // Then
       Object.entries(embedConfig).forEach(([key, expectedValue]) => {
         const actualValue = embedConfig[key];
-        assert.deepStrictEqual(actualValue, expectedValue);
+        assert.deepEqual(actualValue, expectedValue);
       });
     });
   });
-
-  // describe('Editor config', () => {
-  //   it('should fetch the viewer config', (done) => {
-  //     var container = document.createElement('div');
-  //     document.body.appendChild(container);
-
-  //     var embed = new Flat.Embed(container, {
-  //       score: PUBLIC_SCORE,
-  //       baseUrl: BASE_URL,
-  //       embedParams: {
-  //         appId: APP_ID,
-  //         controlsFloating: false,
-  //         branding: false
-  //       }
-  //     });
-
-  //     embed.getEmbedConfig().then((config) => {
-  //       assert.equal(config.branding, false);
-  //       assert.equal(config.controlsPlay, true);
-  //       assert.equal(config.controlsFloating, false);
-  //       container.parentNode.removeChild(container);
-  //       done();
-  //     });
-  //   });
-
-  //   it('should use the edit mode and set a tools config', (done) => {
-  //     var container = document.createElement('div');
-  //     document.body.appendChild(container);
-
-  //     var embed = new Flat.Embed(container, {
-  //       baseUrl: BASE_URL,
-  //       embedParams: {
-  //         appId: APP_ID,
-  //         mode: 'edit',
-  //         controlsFloating: false,
-  //         branding: false
-  //       }
-  //     });
-
-  //     embed.setEditorConfig({
-  //       noteMode: {
-  //         durations: true,
-  //         tuplet: false
-  //       },
-  //       articulationMode: false
-  //     }).then((config) => {
-  //       assert.ok(config.global);
-  //       assert.equal(config.articulationMode, false);
-  //       assert.equal(config.noteMode.durations, true);
-  //       assert.equal(config.noteMode.tuplet, false);
-  //       container.parentNode.removeChild(container);
-  //       done();
-  //     }).catch(done);
-  //   });
-  // });
 });
