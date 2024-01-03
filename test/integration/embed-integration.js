@@ -589,8 +589,8 @@ describe('Integration - Embed', () => {
           noteIdx: 1,
         })
         .catch(error => {
-          assert.equal(error.code, 'BadPartIdxError');
-          assert.equal(error.message, 'There is no part at the index [undefined<undefined>].');
+          assert.equal(error.code, 'InvalidMeasureUuid');
+          assert.equal(error.message, 'The measureUuid <undefined> is invalid.');
           container.parentNode.removeChild(container);
           done();
         });
@@ -1286,7 +1286,6 @@ describe('Integration - Embed', () => {
       assert.strictEqual(await embed.getMasterVolume(), 0);
 
       await embed.setMasterVolume({ volume: 100 });
-      console.log(await embed.getMasterVolume());
       assert.strictEqual(await embed.getMasterVolume(), 100);
     });
   });
