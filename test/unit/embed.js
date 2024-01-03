@@ -161,5 +161,16 @@ describe('Unit - Embed tests', () => {
       assert.equal(embed.element.getAttribute('frameborder'), '0');
       container.removeChild(embed.element);
     });
+
+    it('should use the lazy loading attribute', () => {
+      const container = document.getElementById('container');
+      const embed = new Flat.Embed(container, {
+        score: '1234',
+        lazy: true,
+      });
+      assert.equal(embed.element.getAttribute('src'), 'https://flat-embed.com/1234?jsapi=true');
+      assert.equal(embed.element.getAttribute('loading'), 'lazy');
+      container.removeChild(embed.element);
+    });
   });
 });
