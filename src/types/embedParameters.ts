@@ -38,7 +38,7 @@ export interface EmbedUrlParameters {
    *
    * If not provided, Flat Embed will use the visitor IP address to identify unique users.
    *
-   * Learn more at https://flat.io/developers/docs/embed/unique-users
+   * Learn more at https://flat.io/developers/docs/embed/usage-billing
    **/
   userId?: string;
 

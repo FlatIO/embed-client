@@ -74,7 +74,7 @@ Our Embed JS API requires an App ID (`appId`) to use it:
 
 ### Unique users
 
-By default, analytics and billing of unique users is done using the visitor IPs. To improve accuracy and avoid counting the same user multiple times, you can pass a unique identifier for the user using the `embedParams.userId` option.
+By default, [analytics and billing of unique users is done using the visitor IPs](https://flat.io/developers/docs/embed/usage-billing). To improve accuracy and avoid counting the same user multiple times, [you can pass a unique identifier](https://flat.io/developers/docs/embed/usage-billing) for the user using the `embedParams.userId` option.
 
 This identifier must be a unique identifier for the user. For example, you can use the user ID of your application. Please don't use any personal information (e.g. email address).
 
