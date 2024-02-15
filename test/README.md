@@ -40,7 +40,7 @@ TEST_GREP='should pass' pnpm test
 
 **Note 1:** For the following steps we assume your local environment is setup as `https://flat.ovh:3000`.
 
-**Note 2:** In the future we need to create a script that automatically handle step 1, 2 and 3
+**Note 2:** In the future we need to create a script that automatically handle step 1, 2 and 3.
 
 ### Step 1: Create a testing account
 
@@ -56,7 +56,7 @@ We recommend to create a dedicated account for `embed-client` testing. For examp
 
 ### Step 3: Create some testing score
 
-In order to properly run the tests you'll have to create three scores on your account. All the scores must be created by importing the fixture available in `/test/integration/fixtures/` of the `embed-client` repository.
+In order to properly run the tests you'll have to create three scores on your account. All the scores must be created by importing the fixtures available in `/test/integration/fixtures/` of the `embed-client` repository.
 
 Go to your library: `https://flat.ovh:3000/my-library`.
 
