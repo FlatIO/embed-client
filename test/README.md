@@ -9,14 +9,7 @@
 - [Run the tests](#run-the-tests)
 - [Run specific test with TEST_GREP](#run-specific-test-with-test_grep)
 - [Use local WebApp to run the test](#use-local-webapp-to-run-the-test)
-  - [Step 1: Create a testing account](#step-1-create-a-testing-account)
-  - [Step 2: Create an app in your local account](#step-2-create-an-app-in-your-local-account)
-  - [Step 3: Create some testing score](#step-3-create-some-testing-score)
-    - [Create a public score](#create-a-public-score)
-    - [Create a private score](#create-a-private-score)
-    - [Create a quartet score](#create-a-quartet-score)
-  - [Step 4: Setup the `.env` file](#step-4-setup-the-env-file)
-  - [You can know run the tests as usual](#you-can-know-run-the-tests-as-usual)
+  - [Follow the guide](#follow-the-guide)
 
 <!-- TOC end -->
 
