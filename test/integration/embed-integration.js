@@ -1,22 +1,31 @@
-let APP_ID = '58fa312bea9bbd061b0ea8f3';
-let BASE_URL = 'https://flat-embed.com';
-let PUBLIC_SCORE = '56ae21579a127715a02901a6';
-let QUARTET_SCORE = '5e1348dd6d09386a2b178b58';
-let PRIVATE_LINK_SCORE = '5ce56f7c019fd41f5b17b72d';
+let APP_ID = window.__karma__.config.env.FLAT_EMBED_APP_ID || '58fa312bea9bbd061b0ea8f3';
+let BASE_URL = window.__karma__.config.env.FLAT_EMBED_BASE_URL || 'https://flat-embed.com';
+let PUBLIC_SCORE =
+  window.__karma__.config.env.FLAT_EMBED_PUBLIC_SCORE || '56ae21579a127715a02901a6';
+let QUARTET_SCORE =
+  window.__karma__.config.env.FLAT_EMBED_QUARTET_SCORE || '5e1348dd6d09386a2b178b58';
+let PRIVATE_LINK_SCORE =
+  window.__karma__.config.env.FLAT_EMBED_PRIVATE_LINK_SCORE || '5ce56f7c019fd41f5b17b72d';
 let PRIVATE_LINK_SHARING_KEY =
+  window.__karma__.config.env.FLAT_EMBED_PRIVATE_LINK_SHARING_KEY ||
   '3f70cc5ecf5e4248055bbe7502a9514cfe619c53b4e248144e470bb5f08c5ecf880cf3eda5679c6b19f646a98ec0bd06d892ee1fd6896e20de0365ed0a42fc00';
 
 // - DEV
-// APP_ID = '58e90082688f3e99d1244f58';
+// APP_ID = '65cccd59be134dbcbbeb5a99';
 // BASE_URL = 'https://flat.ovh:3000/embed';
-// PUBLIC_SCORE = '5bcc8e5b32023d903fb5fb26';
+// PUBLIC_SCORE = '65cccfb8be134dbcbbeb5e26';
+// PRIVATE_LINK_SCORE = '65ccd053be134dbcbbeb5f55';
+// PRIVATE_LINK_SHARING_KEY =
+//   '9403a0840956afe154643f7fdcbf73729275e840ea5a3bbfe3691d4192c0115284f3e88563a0e15f429a16f10dc066296b3d8501cea873522c84eccfe3bf39a2';
 
 // - PREVIEW
 // APP_ID = '58f0ee6053674e68c81e5646';
-// BASE_URL = 'https://flat-feat-seco-lo42zh.preview.tutteo.dev/embed';
+// BASE_URL = 'https://flat-feat-scor-i2u9na.preview.tutteo.dev/embed'; // scoreAudio
+// // BASE_URL = 'https://flat-fix-bulke-yjovyv.preview.tutteo.dev/embed';
 // PUBLIC_SCORE = '655421147ae4155c831a5dbe';
 // PRIVATE_LINK_SCORE = '655422237ae4155c831a93c2';
-// PRIVATE_LINK_SHARING_KEY =  '74f29977ef7a9ae523ebf88e3e0a9b1edeaf0142daf72a7f0b8b52d1ed5059a625f03be5681303d01bddcafdd04d888cfc3730d1c750296473337b7030bc16fc';
+// PRIVATE_LINK_SHARING_KEY =
+//   '74f29977ef7a9ae523ebf88e3e0a9b1edeaf0142daf72a7f0b8b52d1ed5059a625f03be5681303d01bddcafdd04d888cfc3730d1c750296473337b7030bc16fc';
 
 describe('Integration - Embed', () => {
   // On failure, clean dom
