@@ -1,5 +1,22 @@
 # Testing Flat Embed Client
 
+**Table of content**
+
+<!-- Note for contributors: please use the GitHub preset for the TOC Generator -->
+
+<!-- TOC start (generated with https://github.com/derlin/bitdowntoc) -->
+
+- [Run specific test with TEST_GREP](#run-specific-test-with-test_grep)
+- [Use local WebApp to run the test](#use-local-webapp-to-run-the-test)
+   * [Step 1: Create an app in your local account](#step-1-create-an-app-in-your-local-account)
+   * [Step 2: Create some testing score](#step-2-create-some-testing-score)
+      + [Create a public score](#create-a-public-score)
+      + [Create a private score](#create-a-private-score)
+      + [Create a quarted score](#create-a-quarted-score)
+   * [Step 3: Setup the `.env` file](#step-3-setup-the-env-file)
+
+<!-- TOC end -->
+
 ## Run specific test with TEST_GREP
 
 You can run specific test by using the `TEST_GREP` environment variable.
@@ -21,6 +38,11 @@ TEST_GREP='should pass' pnpm test
 In order to properly run the tests you'll have to create three scores on your account. All the scores must be created by importing the fixture available in `/test/integration/fixtures/` of the `embed-client` repository.
 
 #### Create a public score
+
+#### Create a private score
+
+
+#### Create a quarted score
 
 ### Step 3: Setup the `.env` file
 
