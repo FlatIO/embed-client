@@ -1,10 +1,27 @@
+require('dotenv').config();
+
 module.exports = function (config) {
+  // Mocha configuration
+  const mocha = {
+    timeout: '30000ms',
+  };
+
+  // If a test grep is provided, only run the tests that match the grep.
+  if (process.env.TEST_GREP) {
+    mocha.grep = process.env.TEST_GREP;
+  }
+
   var configuration = {
     frameworks: ['mocha'],
     client: {
-      mocha: {
-        timeout: '30000ms',
-        // grep: 'GREP'
+      mocha,
+      env: {
+        FLAT_EMBED_APP_ID: process.env.FLAT_EMBED_APP_ID,
+        FLAT_EMBED_BASE_URL: process.env.FLAT_EMBED_BASE_URL,
+        FLAT_EMBED_PUBLIC_SCORE: process.env.FLAT_EMBED_PUBLIC_SCORE,
+        FLAT_EMBED_QUARTET_SCORE: process.env.FLAT_EMBED_QUARTET_SCORE,
+        FLAT_EMBED_PRIVATE_LINK_SCORE: process.env.FLAT_EMBED_PRIVATE_LINK_SCORE,
+        FLAT_EMBED_PRIVATE_LINK_SHARING_KEY: process.env.FLAT_EMBED_PRIVATE_LINK_SHARING_KEY,
       },
     },
     reporters: ['mocha'],

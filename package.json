@@ -39,6 +39,7 @@
     "test": "tsc && pnpm run prettier:check && npm run eslint && npm run test:karma",
     "eslint": "eslint src --max-warnings=0",
     "prettier:check": "prettier --check .",
+    "prettier:write": "prettier --write .",
     "test:karma": "karma start --single-run",
     "test:karma-watch": "karma start --single-run=false --auto-watch",
     "prepare": "husky install"
@@ -50,6 +51,7 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^7.0.0",
     "@typescript-eslint/parser": "^6.12.0",
+    "dotenv": "^16.4.4",
     "eslint": "^8.54.0",
     "eslint-config-prettier": "^9.0.0",
     "husky": "^8.0.3",
