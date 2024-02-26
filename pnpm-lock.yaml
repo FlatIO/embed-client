@@ -24,8 +24,8 @@ devDependencies:
     specifier: ^8.0.3
     version: 8.0.3
   karma:
-    specifier: 6.4.2
-    version: 6.4.2
+    specifier: 6.4.3
+    version: 6.4.3
   karma-chrome-launcher:
     specifier: 3.2.0
     version: 3.2.0
@@ -34,7 +34,7 @@ devDependencies:
     version: 2.0.1
   karma-mocha-reporter:
     specifier: ^2.2.5
-    version: 2.2.5(karma@6.4.2)
+    version: 2.2.5(karma@6.4.3)
   lint-staged:
     specifier: ^15.1.0
     version: 15.2.2
@@ -1909,13 +1909,13 @@ packages:
       which: 1.3.1
     dev: true
 
-  /karma-mocha-reporter@2.2.5(karma@6.4.2):
+  /karma-mocha-reporter@2.2.5(karma@6.4.3):
     resolution: {integrity: sha512-Hr6nhkIp0GIJJrvzY8JFeHpQZNseuIakGac4bpw8K1+5F0tLb6l7uvXRa8mt2Z+NVwYgCct4QAfp2R2QP6o00w==}
     peerDependencies:
       karma: '>=0.13'
     dependencies:
       chalk: 2.4.2
-      karma: 6.4.2
+      karma: 6.4.3
       log-symbols: 2.2.0
       strip-ansi: 4.0.0
     dev: true
@@ -1926,8 +1926,8 @@ packages:
       minimist: 1.2.8
     dev: true
 
-  /karma@6.4.2:
-    resolution: {integrity: sha512-C6SU/53LB31BEgRg+omznBEMY4SjHU3ricV6zBcAe1EeILKkeScr+fZXtaI5WyDbkVowJxxAI6h73NcFPmXolQ==}
+  /karma@6.4.3:
+    resolution: {integrity: sha512-LuucC/RE92tJ8mlCwqEoRWXP38UMAqpnq98vktmS9SznSoUPPUJQbc91dHcxcunROvfQjdORVA/YFviH+Xci9Q==}
     engines: {node: '>= 10'}
     hasBin: true
     dependencies:
