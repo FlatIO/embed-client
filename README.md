@@ -1317,23 +1317,42 @@ The payload of this event is the same as the returned value from [`getNoteDetail
 
 ### Event: `rangeSelection`
 
-This event is triggered when a range of notes is selected or the selection changed.
+This event is triggered when a range of notes is selected or the selection
+changed.
+The `noteIdx` for the `right` location is inclusive, the range selection ends
+after the designated note.
 
 ```json
 {
-  "from": {
-    "partIdx": 0,
-    "measureIdx": 1,
-    "staffIdx": 0,
-    "voiceIdx": 0,
-    "noteIdx": 2
+  "left": {
+    "measureUuid": "ee882ed1-083a-3caa-34c4-cba4f0c28198",
+    "staffUuid": "77ce0d0c-8c09-ae97-bc58-6e8f63dffaa7",
+    "partUuid": "9a12babc-8397-f9d2-5da3-7688384a55cc",
+    "voiceUuid": "8b19453c-f6fd-c9f3-41f0-e678b002d80e",
+    "noteIdx": 1,
+    "line": 3
   },
-  "to": {
-    "partIdx": 0,
-    "measureIdx": 3,
-    "staffIdx": 0,
-    "voiceIdx": 0,
-    "noteIdx": 5
+  "right": {
+    "noteIdx": 2,
+    "measureUuid": "49fda575-db0a-065d-98a9-8214388ee8f6",
+    "partUuid": "1bace7c1-13e8-e513-4dbf-a28b0feaeaa3",
+    "staffUuid": "f03b9986-4d12-5081-c934-a6e8d6b299e3",
+    "voiceUuid": "862c3d23-974e-d648-6057-f8e27c585f16"
+  },
+  "up": {
+    "measureUuid": "ee882ed1-083a-3caa-34c4-cba4f0c28198",
+    "staffUuid": "77ce0d0c-8c09-ae97-bc58-6e8f63dffaa7",
+    "partUuid": "9a12babc-8397-f9d2-5da3-7688384a55cc",
+    "voiceUuid": "8b19453c-f6fd-c9f3-41f0-e678b002d80e",
+    "noteIdx": 1,
+    "line": 3
+  },
+  "down": {
+    "noteIdx": 2,
+    "measureUuid": "49fda575-db0a-065d-98a9-8214388ee8f6",
+    "partUuid": "1bace7c1-13e8-e513-4dbf-a28b0feaeaa3",
+    "staffUuid": "f03b9986-4d12-5081-c934-a6e8d6b299e3",
+    "voiceUuid": "862c3d23-974e-d648-6057-f8e27c585f16"
   }
 }
 ```
