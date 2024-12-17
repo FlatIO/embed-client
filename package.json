@@ -42,7 +42,7 @@
     "prettier:write": "prettier --write .",
     "test:karma": "karma start --single-run",
     "test:karma-watch": "karma start --single-run=false --auto-watch",
-    "prepare": "husky install"
+    "prepare": "husky"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown",
