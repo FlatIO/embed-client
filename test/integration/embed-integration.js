@@ -10,6 +10,10 @@ const PRIVATE_LINK_SHARING_KEY =
   window.__karma__.config.env.FLAT_EMBED_PRIVATE_LINK_SHARING_KEY ||
   '3f70cc5ecf5e4248055bbe7502a9514cfe619c53b4e248144e470bb5f08c5ecf880cf3eda5679c6b19f646a98ec0bd06d892ee1fd6896e20de0365ed0a42fc00';
 
+/**
+ * #full: Tests that can run on full editor
+ */
+
 describe('Integration - Embed', () => {
   // On failure, clean dom
   afterEach(() => {
@@ -19,6 +23,26 @@ describe('Integration - Embed', () => {
       // console.debug(err);
     }
   });
+
+  function createEmbedForScoreId(score, embedParams = {}) {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+
+    const isCustomUrl = BASE_URL.includes('blank');
+    const baseUrl = BASE_URL.replace('blank', score);
+
+    const embed = new Flat.Embed(container, {
+      baseUrl,
+      isCustomUrl,
+      score,
+      embedParams: {
+        ...embedParams,
+        appId: APP_ID,
+      },
+    });
+
+    return { embed, container };
+  }
 
   describe('Loading embed', () => {
     it('should instance an Embed using a container', done => {
@@ -141,6 +165,7 @@ describe('Integration - Embed', () => {
           return embed.getFlatScoreMetadata();
         })
         .then(meta => {
+          // console.log('META', meta);
           assert.equal(meta.title, 'House of the Rising Sun');
           container.parentNode.removeChild(container);
           done();
@@ -148,13 +173,14 @@ describe('Integration - Embed', () => {
     });
   });
 
-  describe('JSON import/export', () => {
+  describe('JSON import/export #full', () => {
     it('should import a Flat JSON file then export it', done => {
       var container = document.createElement('div');
       document.body.appendChild(container);
 
       var embed = new Flat.Embed(container, {
         baseUrl: BASE_URL,
+        isCustomUrl: BASE_URL.includes('blank'),
         embedParams: {
           appId: APP_ID,
         },
@@ -192,6 +218,7 @@ describe('Integration - Embed', () => {
 
       var embed = new Flat.Embed(container, {
         baseUrl: BASE_URL,
+        isCustomUrl: BASE_URL.includes('blank'),
         embedParams: {
           appId: APP_ID,
         },
@@ -217,6 +244,7 @@ describe('Integration - Embed', () => {
 
       var embed = new Flat.Embed(container, {
         baseUrl: BASE_URL,
+        isCustomUrl: BASE_URL.includes('blank'),
         embedParams: {
           appId: APP_ID,
         },
@@ -254,6 +282,7 @@ describe('Integration - Embed', () => {
 
       var embed = new Flat.Embed(container, {
         baseUrl: BASE_URL,
+        isCustomUrl: BASE_URL.includes('blank'),
         embedParams: {
           appId: APP_ID,
         },
@@ -291,6 +320,7 @@ describe('Integration - Embed', () => {
 
       var embed = new Flat.Embed(container, {
         baseUrl: BASE_URL,
+        isCustomUrl: BASE_URL.includes('blank'),
         embedParams: {
           appId: APP_ID,
         },
@@ -322,6 +352,7 @@ describe('Integration - Embed', () => {
 
       var embed = new Flat.Embed(container, {
         baseUrl: BASE_URL,
+        isCustomUrl: BASE_URL.includes('blank'),
         embedParams: {
           appId: APP_ID,
         },
@@ -365,6 +396,7 @@ describe('Integration - Embed', () => {
 
       var embed = new Flat.Embed(container, {
         baseUrl: BASE_URL,
+        isCustomUrl: BASE_URL.includes('blank'),
         embedParams: {
           appId: APP_ID,
         },
@@ -422,85 +454,43 @@ describe('Integration - Embed', () => {
     });
   });
 
-  describe('PNG export', () => {
+  describe('PNG export #full', () => {
     it('should export in PNG (no options)', done => {
-      var container = document.createElement('div');
-      document.body.appendChild(container);
-
-      var embed = new Flat.Embed(container, {
-        score: PUBLIC_SCORE,
-        baseUrl: BASE_URL,
-        embedParams: {
-          appId: APP_ID,
-          layout: 'page',
-        },
-      });
+      const { embed } = createEmbedForScoreId(PUBLIC_SCORE);
 
       embed.getPNG().then(png => {
         assert.ok(png instanceof Uint8Array);
         assert.ok(png.length > 0);
-        container.parentNode.removeChild(container);
         done();
       });
     });
 
     it('should export in PNG (data Url)', done => {
-      var container = document.createElement('div');
-      document.body.appendChild(container);
-
-      var embed = new Flat.Embed(container, {
-        score: PUBLIC_SCORE,
-        baseUrl: BASE_URL,
-        embedParams: {
-          appId: APP_ID,
-          layout: 'page',
-        },
-      });
+      const { embed } = createEmbedForScoreId(PUBLIC_SCORE);
 
       embed.getPNG({ result: 'dataURL' }).then(png => {
         assert.equal(typeof png, 'string');
         assert.equal(png.indexOf('data:image/png;base64,'), 0);
-        container.parentNode.removeChild(container);
         done();
       });
     });
   });
 
-  describe('MIDI export', () => {
+  describe('MIDI export #full', () => {
     it('should export in MIDI', done => {
-      var container = document.createElement('div');
-      document.body.appendChild(container);
-
-      var embed = new Flat.Embed(container, {
-        score: PUBLIC_SCORE,
-        baseUrl: BASE_URL,
-        embedParams: {
-          appId: APP_ID,
-          layout: 'page',
-        },
-      });
+      const { embed } = createEmbedForScoreId(PUBLIC_SCORE);
 
       embed.getMIDI().then(midi => {
         assert.ok(midi instanceof Uint8Array);
         assert.ok(midi.length > 0);
-        container.parentNode.removeChild(container);
         done();
       });
     });
   });
 
-  describe('Cursor position', () => {
+  describe('Cursor position #full', () => {
     it('should get the cursor position (default: 0)', done => {
-      var container = document.createElement('div');
-      document.body.appendChild(container);
-
-      var embed = new Flat.Embed(container, {
-        baseUrl: BASE_URL,
-        score: PUBLIC_SCORE,
-        embedParams: {
-          appId: APP_ID,
-        },
-      });
+      const { embed } = createEmbedForScoreId(PUBLIC_SCORE);
       embed
         .getCursorPosition()
         .then(position => {
@@ -513,7 +503,6 @@ describe('Integration - Embed', () => {
           assert.ok(position.staffUuid);
           assert.ok(position.measureUuid);
           assert.ok(position.voiceUuid);
-          container.parentNode.removeChild(container);
           done();
         })
         .catch(error => {
@@ -522,16 +511,7 @@ describe('Integration - Embed', () => {
     });
 
     it('should set the cursor position then get it', done => {
-      var container = document.createElement('div');
-      document.body.appendChild(container);
-
-      var embed = new Flat.Embed(container, {
-        baseUrl: BASE_URL,
-        score: PUBLIC_SCORE,
-        embedParams: {
-          appId: APP_ID,
-        },
-      });
+      const { embed } = createEmbedForScoreId(PUBLIC_SCORE);
 
       embed
         .setCursorPosition({
@@ -556,7 +536,6 @@ describe('Integration - Embed', () => {
           assert.equal(position.voiceIdxInStaff, 0);
           assert.equal(position.measureIdx, 2);
           assert.equal(position.noteIdx, 1);
-          container.parentNode.removeChild(container);
           done();
         })
         .catch(error => {
@@ -565,16 +544,7 @@ describe('Integration - Embed', () => {
     });
 
     it('should fail to set cursor with missing param', done => {
-      var container = document.createElement('div');
-      document.body.appendChild(container);
-
-      var embed = new Flat.Embed(container, {
-        baseUrl: BASE_URL,
-        score: PUBLIC_SCORE,
-        embedParams: {
-          appId: APP_ID,
-        },
-      });
+      const { embed } = createEmbedForScoreId(PUBLIC_SCORE);
 
       embed
         .setCursorPosition({
@@ -583,22 +553,12 @@ describe('Integration - Embed', () => {
         .catch(error => {
           assert.equal(error.code, 'InvalidMeasureUuid');
           assert.equal(error.message, 'The measureUuid <undefined> is invalid.');
-          container.parentNode.removeChild(container);
           done();
         });
     });
 
     it('should set fail to set cursor with bad param value', done => {
-      var container = document.createElement('div');
-      document.body.appendChild(container);
-
-      var embed = new Flat.Embed(container, {
-        baseUrl: BASE_URL,
-        score: PUBLIC_SCORE,
-        embedParams: {
-          appId: APP_ID,
-        },
-      });
+      const { embed } = createEmbedForScoreId(PUBLIC_SCORE);
 
       embed
         .setCursorPosition({
@@ -610,25 +570,14 @@ describe('Integration - Embed', () => {
         })
         .catch(error => {
           assert.equal(error.message, 'Parameter measureIdx should be a number, not boolean');
-          container.parentNode.removeChild(container);
           done();
         });
     });
   });
 
-  describe('Focus score', () => {
+  describe('Focus score #full', () => {
     it('should focus the score', done => {
-      var container = document.createElement('div');
-      document.body.appendChild(container);
-
-      var embed = new Flat.Embed(container, {
-        score: PUBLIC_SCORE,
-        baseUrl: BASE_URL,
-        embedParams: {
-          appId: APP_ID,
-          layout: 'page',
-        },
-      });
+      const { embed } = createEmbedForScoreId(PUBLIC_SCORE);
 
       embed
         .ready()
@@ -638,25 +587,14 @@ describe('Integration - Embed', () => {
         })
         .then(() => {
           assert.equal(document.activeElement.nodeName, 'IFRAME');
-          container.parentNode.removeChild(container);
           done();
         });
     });
   });
 
-  describe('Zoom', () => {
+  describe('Zoom #full', () => {
     it('should load an embed in page mode and have the zoom auto set', done => {
-      var container = document.createElement('div');
-      document.body.appendChild(container);
-
-      var embed = new Flat.Embed(container, {
-        score: PUBLIC_SCORE,
-        baseUrl: BASE_URL,
-        embedParams: {
-          appId: APP_ID,
-          layout: 'page',
-        },
-      });
+      const { embed } = createEmbedForScoreId(PUBLIC_SCORE);
 
       embed
         .getAutoZoom(state => {
@@ -682,23 +620,12 @@ describe('Integration - Embed', () => {
         })
         .then(autoZoom => {
           assert.ok(!autoZoom);
-          container.parentNode.removeChild(container);
           done();
         });
     });
 
     it('should set a new zoom value & disable auto-zoom', done => {
-      var container = document.createElement('div');
-      document.body.appendChild(container);
-
-      var embed = new Flat.Embed(container, {
-        score: PUBLIC_SCORE,
-        baseUrl: BASE_URL,
-        embedParams: {
-          appId: APP_ID,
-          layout: 'page',
-        },
-      });
+      const { embed } = createEmbedForScoreId(PUBLIC_SCORE);
 
       embed
         .setZoom(2, zoom => {
@@ -714,27 +641,16 @@ describe('Integration - Embed', () => {
         })
         .then(state => {
           assert.equal(state, false);
-          container.parentNode.removeChild(container);
           done();
         });
     });
   });
 
-  describe('Playback', () => {
+  describe('Playback #full', () => {
     it('should play get `play` event', done => {
-      var container = document.createElement('div');
-      document.body.appendChild(container);
-
-      var embed = new Flat.Embed(container, {
-        score: PUBLIC_SCORE,
-        baseUrl: BASE_URL,
-        embedParams: {
-          appId: APP_ID,
-        },
-      });
+      const { embed } = createEmbedForScoreId(PUBLIC_SCORE);
 
       embed.on('play', () => {
-        container.parentNode.removeChild(container);
         done();
       });
 
@@ -742,43 +658,19 @@ describe('Integration - Embed', () => {
     });
 
     it('should play get `playbackPosition` event', done => {
-      var container = document.createElement('div');
-      document.body.appendChild(container);
-
-      var embed = new Flat.Embed(container, {
-        score: PUBLIC_SCORE,
-        baseUrl: BASE_URL,
-        embedParams: {
-          appId: APP_ID,
-        },
-      });
-
+      const { embed } = createEmbedForScoreId(PUBLIC_SCORE);
       embed.on('playbackPosition', pos => {
         assert.ok(pos.currentMeasure >= 0, 'currentMeasure');
-        if (container) {
-          container.parentNode.removeChild(container);
-          container = null;
-          done();
-        }
+        done();
       });
 
       embed.play();
     });
 
     it('should play then pause and get `pause` event', done => {
-      var container = document.createElement('div');
-      document.body.appendChild(container);
-
-      var embed = new Flat.Embed(container, {
-        score: PUBLIC_SCORE,
-        baseUrl: BASE_URL,
-        embedParams: {
-          appId: APP_ID,
-        },
-      });
+      const { embed } = createEmbedForScoreId(PUBLIC_SCORE);
 
       embed.on('pause', () => {
-        container.parentNode.removeChild(container);
         done();
       });
 
@@ -788,19 +680,9 @@ describe('Integration - Embed', () => {
     });
 
     it('should play then stop and get `stop` event', done => {
-      var container = document.createElement('div');
-      document.body.appendChild(container);
-
-      var embed = new Flat.Embed(container, {
-        score: PUBLIC_SCORE,
-        baseUrl: BASE_URL,
-        embedParams: {
-          appId: APP_ID,
-        },
-      });
+      const { embed } = createEmbedForScoreId(PUBLIC_SCORE);
 
       embed.on('stop', () => {
-        container.parentNode.removeChild(container);
         done();
       });
 
@@ -812,16 +694,7 @@ describe('Integration - Embed', () => {
 
   describe('Parts display', () => {
     it('should get all the parts by default', async () => {
-      var container = document.createElement('div');
-      document.body.appendChild(container);
-
-      var embed = new Flat.Embed(container, {
-        baseUrl: BASE_URL,
-        score: QUARTET_SCORE,
-        embedParams: {
-          appId: APP_ID,
-        },
-      });
+      const { embed } = createEmbedForScoreId(QUARTET_SCORE);
 
       const allParts = await embed.getParts();
 
@@ -855,23 +728,15 @@ describe('Integration - Embed', () => {
     });
 
     it('should only display the parts from qs ?parts (name)', async () => {
-      var container = document.createElement('div');
-      document.body.appendChild(container);
-
-      var embed = new Flat.Embed(container, {
-        baseUrl: BASE_URL,
-        score: QUARTET_SCORE,
-        embedParams: {
-          appId: APP_ID,
-          parts: 'Viola,Cello',
-        },
+      const { embed } = createEmbedForScoreId(QUARTET_SCORE, {
+        parts: 'Viola,Cello',
       });
 
       const allParts = await embed.getParts();
-      assert.equal(allParts.length, 4);
+      assert.equal(allParts.length, 4, 'all parts');
 
       const parts = await embed.getDisplayedParts();
-      assert.equal(parts.length, 2);
+      assert.equal(parts.length, 2, 'displayed parts');
       assert.equal(parts[0].idx, 1);
       assert.equal(parts[0].name, 'Viola');
       assert.equal(parts[1].idx, 2);
@@ -879,23 +744,15 @@ describe('Integration - Embed', () => {
     });
 
     it('should only display the parts from qs ?parts (idx)', async () => {
-      var container = document.createElement('div');
-      document.body.appendChild(container);
-
-      var embed = new Flat.Embed(container, {
-        baseUrl: BASE_URL,
-        score: QUARTET_SCORE,
-        embedParams: {
-          appId: APP_ID,
-          parts: '0,2',
-        },
+      const { embed } = createEmbedForScoreId(QUARTET_SCORE, {
+        parts: '0,2',
       });
 
       const allParts = await embed.getParts();
-      assert.equal(allParts.length, 4);
+      assert.equal(allParts.length, 4, 'all parts');
 
       const parts = await embed.getDisplayedParts();
-      assert.equal(parts.length, 2);
+      assert.equal(parts.length, 2, 'displayed parts');
       assert.equal(parts[0].idx, 0);
       assert.equal(parts[0].name, 'Violin');
       assert.equal(parts[1].idx, 2);
@@ -903,16 +760,8 @@ describe('Integration - Embed', () => {
     });
 
     it('should update the displayed part using setDisplayedParts()', async () => {
-      var container = document.createElement('div');
-      document.body.appendChild(container);
-
-      var embed = new Flat.Embed(container, {
-        baseUrl: BASE_URL,
-        score: QUARTET_SCORE,
-        embedParams: {
-          appId: APP_ID,
-          parts: '0,2',
-        },
+      const { embed } = createEmbedForScoreId(QUARTET_SCORE, {
+        parts: '0,2',
       });
 
       const allParts = await embed.getParts();
@@ -941,19 +790,10 @@ describe('Integration - Embed', () => {
     });
   });
 
-  describe('getNbMeasures', () => {
+  describe('getNbMeasures #full', () => {
     it('basic', async () => {
-      // Giv3n
-      const container = document.createElement('div');
-      document.body.appendChild(container);
-
-      const embed = new Flat.Embed(container, {
-        baseUrl: BASE_URL,
-        score: QUARTET_SCORE,
-        embedParams: {
-          appId: APP_ID,
-        },
-      });
+      // Given
+      const { embed } = createEmbedForScoreId(QUARTET_SCORE);
 
       // When
       const result = await embed.getNbMeasures();
@@ -963,19 +803,10 @@ describe('Integration - Embed', () => {
     });
   });
 
-  describe('getMeasuresUuids', () => {
+  describe('getMeasuresUuids #full', () => {
     it('basic', async () => {
-      // Giv3n
-      const container = document.createElement('div');
-      document.body.appendChild(container);
-
-      const embed = new Flat.Embed(container, {
-        baseUrl: BASE_URL,
-        score: QUARTET_SCORE,
-        embedParams: {
-          appId: APP_ID,
-        },
-      });
+      // Given
+      const { embed } = createEmbedForScoreId(QUARTET_SCORE);
 
       // When
       const result = await embed.getMeasuresUuids();
@@ -985,19 +816,9 @@ describe('Integration - Embed', () => {
     });
   });
 
-  describe('getNbParts', () => {
+  describe('getNbParts #full', () => {
     it('basic', async () => {
-      // Giv3n
-      const container = document.createElement('div');
-      document.body.appendChild(container);
-
-      const embed = new Flat.Embed(container, {
-        baseUrl: BASE_URL,
-        score: QUARTET_SCORE,
-        embedParams: {
-          appId: APP_ID,
-        },
-      });
+      const { embed } = createEmbedForScoreId(QUARTET_SCORE);
 
       // When
       const result = await embed.getNbParts();
@@ -1007,19 +828,10 @@ describe('Integration - Embed', () => {
     });
   });
 
-  describe('getPartsUuids', () => {
+  describe('getPartsUuids #full', () => {
     it('basic', async () => {
-      // Giv3n
-      const container = document.createElement('div');
-      document.body.appendChild(container);
-
-      const embed = new Flat.Embed(container, {
-        baseUrl: BASE_URL,
-        score: QUARTET_SCORE,
-        embedParams: {
-          appId: APP_ID,
-        },
-      });
+      // Given
+      const { embed } = createEmbedForScoreId(QUARTET_SCORE);
 
       // When
       const result = await embed.getPartsUuids();
@@ -1034,19 +846,10 @@ describe('Integration - Embed', () => {
     });
   });
 
-  describe('getMeasureVoicesUuids', () => {
+  describe('getMeasureVoicesUuids #full', () => {
     it('basic', async () => {
-      // Giv3n
-      const container = document.createElement('div');
-      document.body.appendChild(container);
-
-      const embed = new Flat.Embed(container, {
-        baseUrl: BASE_URL,
-        score: QUARTET_SCORE,
-        embedParams: {
-          appId: APP_ID,
-        },
-      });
+      // Given
+      const { embed } = createEmbedForScoreId(QUARTET_SCORE);
 
       // When
       const result = await embed.getMeasureVoicesUuids({
@@ -1059,19 +862,10 @@ describe('Integration - Embed', () => {
     });
   });
 
-  describe('getMeasureNbNotes', () => {
+  describe('getMeasureNbNotes #full', () => {
     it('basic', async () => {
-      // Giv3n
-      const container = document.createElement('div');
-      document.body.appendChild(container);
-
-      const embed = new Flat.Embed(container, {
-        baseUrl: BASE_URL,
-        score: QUARTET_SCORE,
-        embedParams: {
-          appId: APP_ID,
-        },
-      });
+      // Given
+      const { embed } = createEmbedForScoreId(QUARTET_SCORE);
 
       // When
       const result = await embed.getMeasureNbNotes({
@@ -1085,19 +879,10 @@ describe('Integration - Embed', () => {
     });
   });
 
-  describe('getNoteData', () => {
+  describe('getNoteData #full', () => {
     it('basic', async () => {
-      // Giv3n
-      const container = document.createElement('div');
-      document.body.appendChild(container);
-
-      const embed = new Flat.Embed(container, {
-        baseUrl: BASE_URL,
-        score: QUARTET_SCORE,
-        embedParams: {
-          appId: APP_ID,
-        },
-      });
+      // Given
+      const { embed } = createEmbedForScoreId(QUARTET_SCORE);
 
       // When
       const result = await embed.getNoteData({
@@ -1127,19 +912,10 @@ describe('Integration - Embed', () => {
     });
   });
 
-  describe('playbackPositionToNoteIdx', () => {
+  describe('playbackPositionToNoteIdx #full', () => {
     it('basic', async () => {
-      // Giv3n
-      const container = document.createElement('div');
-      document.body.appendChild(container);
-
-      const embed = new Flat.Embed(container, {
-        baseUrl: BASE_URL,
-        score: QUARTET_SCORE,
-        embedParams: {
-          appId: APP_ID,
-        },
-      });
+      // Given
+      const { embed } = createEmbedForScoreId(QUARTET_SCORE);
 
       // When
       const result = await embed.playbackPositionToNoteIdx({
@@ -1156,19 +932,10 @@ describe('Integration - Embed', () => {
     });
   });
 
-  describe('go', () => {
+  describe('go #full', () => {
     it('goLeft', async () => {
-      // Giv3n
-      const container = document.createElement('div');
-      document.body.appendChild(container);
-
-      const embed = new Flat.Embed(container, {
-        baseUrl: BASE_URL,
-        score: QUARTET_SCORE,
-        embedParams: {
-          appId: APP_ID,
-        },
-      });
+      // Given
+      const { embed } = createEmbedForScoreId(QUARTET_SCORE);
 
       // When
       await embed.goRight();
@@ -1178,17 +945,9 @@ describe('Integration - Embed', () => {
       assert.strictEqual(pos.noteIdx, 1);
     });
     it('goRight', async () => {
-      // Giv3n
-      const container = document.createElement('div');
-      document.body.appendChild(container);
+      // Given
+      const { embed } = createEmbedForScoreId(QUARTET_SCORE);
 
-      const embed = new Flat.Embed(container, {
-        baseUrl: BASE_URL,
-        score: QUARTET_SCORE,
-        embedParams: {
-          appId: APP_ID,
-        },
-      });
       await embed.goRight();
 
       // When
@@ -1200,18 +959,9 @@ describe('Integration - Embed', () => {
     });
   });
 
-  describe('Metronome mode', () => {
+  describe('Metronome mode #full', () => {
     it('should change between metronome modes', async () => {
-      var container = document.createElement('div');
-      document.body.appendChild(container);
-
-      var embed = new Flat.Embed(container, {
-        baseUrl: BASE_URL,
-        score: QUARTET_SCORE,
-        embedParams: {
-          appId: APP_ID,
-        },
-      });
+      const { embed } = createEmbedForScoreId(QUARTET_SCORE);
 
       let mode;
 
@@ -1227,18 +977,9 @@ describe('Integration - Embed', () => {
     });
   });
 
-  describe('Playback speed', () => {
+  describe('Playback speed #full', () => {
     it('should change between different playback speeds', async () => {
-      var container = document.createElement('div');
-      document.body.appendChild(container);
-
-      var embed = new Flat.Embed(container, {
-        baseUrl: BASE_URL,
-        score: QUARTET_SCORE,
-        embedParams: {
-          appId: APP_ID,
-        },
-      });
+      const { embed } = createEmbedForScoreId(QUARTET_SCORE);
 
       let speed;
 
@@ -1254,18 +995,9 @@ describe('Integration - Embed', () => {
     });
   });
 
-  describe('Volume', () => {
+  describe('Volume #full', () => {
     it('should set & get the mast volume', async () => {
-      var container = document.createElement('div');
-      document.body.appendChild(container);
-
-      var embed = new Flat.Embed(container, {
-        baseUrl: BASE_URL,
-        score: QUARTET_SCORE,
-        embedParams: {
-          appId: APP_ID,
-        },
-      });
+      const { embed } = createEmbedForScoreId(QUARTET_SCORE);
 
       // default volume
       assert.strictEqual(await embed.getMasterVolume(), 100);

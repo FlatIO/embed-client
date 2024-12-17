@@ -9,7 +9,9 @@ export function buildIframeUrl(parameters: EmbedParameters) {
   let url = parameters.baseUrl || 'https://flat-embed.com';
 
   // Score id or blank embed
-  url += '/' + (parameters.score || 'blank');
+  if (!parameters.isCustomUrl) {
+    url += '/' + (parameters.score || 'blank');
+  }
 
   // Build qs parameters
   const urlParameters: Record<string, string | number | boolean> = Object.assign(
@@ -23,7 +25,7 @@ export function buildIframeUrl(parameters: EmbedParameters) {
     .map(k => `${encodeURIComponent(k)}=${encodeURIComponent(urlParameters[k])}`)
     .join('&');
 
-  return url + '?' + qs;
+  return `${url}?${qs}`;
 }
 
 /**

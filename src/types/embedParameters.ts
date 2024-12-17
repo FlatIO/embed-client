@@ -199,6 +199,9 @@ export interface EmbedParameters {
   /** Base URL for the embed */
   baseUrl?: string;
 
+  /** Fully custom URL, will only add query strings */
+  isCustomUrl?: string;
+
   /** Lazy loading of the iframe */
   lazy?: boolean;
 
