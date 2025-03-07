@@ -342,7 +342,7 @@ Load a MIDI score, which must be passed as `ArrayBuffer`.
 Example to load MIDI file:
 
 ```js
-// Loading any MXL file here, for example a file from a public Flat score
+// Loading any MIDI file here, for example a file from a public Flat score
 fetch('https://api.flat.io/v2/scores/56ae21579a127715a02901a6/revisions/last/midi')
   .then(function (response) {
     return response.arrayBuffer();
