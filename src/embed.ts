@@ -161,7 +161,6 @@ class Embed {
    * Load a MusicXML score
    *
    * @param score The MusicXML file
-   * @return {Promise}
    * @reject {Error} Unable to load the score
    */
   loadMusicXML(score: string | Uint8Array) {
@@ -169,10 +168,19 @@ class Embed {
   }
 
   /**
+   * Load a MIDI score
+   *
+   * @param score The MIDI file
+   * @reject {Error} Unable to load the score
+   */
+  loadMIDI(score: Uint8Array): Promise<void> {
+    return this.call('loadMIDI', score) as Promise<void>;
+  }
+
+  /**
    * Load a Flat JSON score
    *
    * @param score The JSON of the score
-   * @return {Promise}
    * @reject {Error} Unable to load the score
    */
   loadJSON(score: string | Record<string, unknown>) {

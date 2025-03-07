@@ -124,6 +124,7 @@ When instantiating `Flat.Embed`, you can pass options in the second parameter. T
   - [`getEmbedConfig`](#getembedconfig-promiseobject-error): Get the global config of the embed
   - [`loadFlatScore`](#loadflatscorescore-mixed-promisevoid-apierror): Load a score hosted on Flat
   - [`loadMusicXML`](#loadmusicxmlscore-mixed-promisevoid-error): Load MusicXML file (compressed or not)
+  - [`loadMIDI`](#loadmidiscore-uint8array-promisevoid-error): Load MIDI file
   - [`loadJSON`](#loadjsonscore-object-promisevoid-error): Load Flat JSON file
   - [`getMusicXML`](#getmusicxmloptions-object-promisestringuint8array-error): Get the score in MusicXML (compressed or not)
   - [`getJSON`](#getjson-object): Get the score data in Flat JSON format
@@ -325,6 +326,30 @@ fetch('https://api.flat.io/v2/scores/56ae21579a127715a02901a6/revisions/last/xml
   .then(function (mxl) {
     // Got the plain XML score as an `String`, load it in the embed
     return embed.loadMusicXML(mxl);
+  })
+  .then(function () {
+    // Score loaded in the embed
+  })
+  .catch(function (error) {
+    // Unable to load the score
+  });
+```
+
+### `loadMIDI(score: Uint8Array): Promise<void, Error>`
+
+Load a MIDI score, which must be passed as `ArrayBuffer`.
+
+Example to load MIDI file:
+
+```js
+// Loading any MXL file here, for example a file from a public Flat score
+fetch('https://api.flat.io/v2/scores/56ae21579a127715a02901a6/revisions/last/midi')
+  .then(function (response) {
+    return response.arrayBuffer();
+  })
+  .then(function (mxl) {
+    // Got the compressed score as an `ArrayBuffer`, load it in the embed
+    return embed.loadMIDI(mxl);
   })
   .then(function () {
     // Score loaded in the embed

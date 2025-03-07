@@ -476,7 +476,45 @@ describe('Integration - Embed', () => {
     });
   });
 
-  describe('MIDI export #full', () => {
+  describe('MIDI import/export #full', () => {
+    it('shoud load a MIDI file in a blank embed', done => {
+      var container = document.createElement('div');
+      document.body.appendChild(container);
+
+      var embed = new Flat.Embed(container, {
+        baseUrl: BASE_URL,
+        isCustomUrl: BASE_URL.includes('blank'),
+        embedParams: {
+          appId: APP_ID,
+        },
+      });
+
+      fetch('/base/test/integration/fixtures/test.mid')
+        .then(response => {
+          return response.arrayBuffer();
+        })
+        .then(midi => {
+          return embed.loadMIDI(midi);
+        })
+        .then(() => {
+          return embed.getJSON();
+        })
+        .then(json => {
+          assert.ok(json['score-partwise']);
+          assert.deepEqual(json['score-partwise'].credit, [
+            {
+              'credit-type': 'title',
+              'credit-words': 'Test MIDI',
+            },
+          ]);
+          container.parentNode.removeChild(container);
+          done();
+        })
+        .catch(error => {
+          assert.ifError(error);
+        });
+    });
+
     it('should export in MIDI', done => {
       const { embed } = createEmbedForScoreId(PUBLIC_SCORE);
 
