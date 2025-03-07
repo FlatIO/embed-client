@@ -1,5 +1,9 @@
 # Changelog
 
+## 2024-03-10: v2.4.0
+
+- Added method `loadMIDI`
+
 ## 2024-01-03: v2.3.0
 
 - Added `lazy` option to add a `loading="lazy"` attribute to the created iframe
