@@ -476,7 +476,7 @@ describe('Integration - Embed', () => {
     });
   });
 
-  describe('MIDI import/export #full', () => {
+  describe('MIDI import/export', () => {
     it('shoud load a MIDI file in a blank embed', done => {
       var container = document.createElement('div');
       document.body.appendChild(container);
@@ -515,7 +515,7 @@ describe('Integration - Embed', () => {
         });
     });
 
-    it('should export in MIDI', done => {
+    it('should export in MIDI #full', done => {
       const { embed } = createEmbedForScoreId(PUBLIC_SCORE);
 
       embed.getMIDI().then(midi => {
