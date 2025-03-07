@@ -347,9 +347,9 @@ fetch('https://api.flat.io/v2/scores/56ae21579a127715a02901a6/revisions/last/mid
   .then(function (response) {
     return response.arrayBuffer();
   })
-  .then(function (mxl) {
+  .then(function (midi) {
     // Got the compressed score as an `ArrayBuffer`, load it in the embed
-    return embed.loadMIDI(mxl);
+    return embed.loadMIDI(midi);
   })
   .then(function () {
     // Score loaded in the embed
