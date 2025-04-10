@@ -1083,4 +1083,27 @@ describe('Integration - Embed', () => {
       });
     });
   });
+
+  describe('Mode parameter', () => {
+    it('should include mode parameter in EmbedUrlParameters', done => {
+      const container = document.createElement('div');
+      document.body.appendChild(container);
+
+      const embed = new Flat.Embed(container, {
+        baseUrl: BASE_URL,
+        score: PUBLIC_SCORE,
+        embedParams: {
+          appId: APP_ID,
+          mode: 'edit',
+        },
+      });
+
+      embed.ready().then(() => {
+        const iframeSrc = embed.element.getAttribute('src');
+        assert.ok(iframeSrc.includes('mode=edit'));
+        container.parentNode.removeChild(container);
+        done();
+      });
+    });
+  });
 });
