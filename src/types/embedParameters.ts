@@ -181,6 +181,9 @@ export interface EmbedUrlParameters {
 
   /** Always enable quarter tone edition (default = false) */
   useQuarterTone?: boolean;
+
+  /** Editor mode (default = view) */
+  mode?: 'view' | 'edit';
 }
 
 /**

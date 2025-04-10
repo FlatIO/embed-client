@@ -1217,7 +1217,7 @@ var embed = new Flat.Embed(container, {
 
 ## Events API
 
-Events are broadcasted following actions made by the end-user or you with the JavaScript API. You can subscribe to an event using the method [`on`](#onevent-string-callback-function-void), and unsubscribe using [`off`](#onevent-string-callback-function-void). When an event includes some data, this data will be available in the first parameter of the listener callback.
+Events are broadcasted following actions made by the end-user or you with the JavaScript API. You can subscribe to an event using the method [`on`](#onevent-string-callback-function-void), and unsubscribe using [`off`](#offevent-string-callback-function-void). When an event includes some data, this data will be available in the first parameter of the listener callback.
 
 ### Event: `scoreLoaded`
 
