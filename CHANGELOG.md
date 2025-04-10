@@ -1,6 +1,10 @@
 # Changelog
 
-## 2024-03-10: v2.4.0
+## 2025-04-10: v2.4.1
+
+- Added missing `mode` to `EmbedUrlParameters` TypeScript interface
+
+## 2025-03-10: v2.4.0
 
 - Added method `loadMIDI`
 
