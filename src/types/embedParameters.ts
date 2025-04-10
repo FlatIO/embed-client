@@ -29,6 +29,16 @@ export interface EmbedUrlParameters {
   appId?: string;
 
   /**
+   * Embed mode
+   *
+   * 2 modes are available:
+   * - `view`: Viewer mode (default)
+   * - `edit`: Editor mode, allows the user to edit the score with an emphemeral embedded editor.
+   *   Learn more: https://flat.io/developers/docs/embed/javascript-editor
+   **/
+  mode?: 'view' | 'edit';
+
+  /**
    * Optional: User ID of end-user for billing & analytics
    *
    * This user identifier:
@@ -181,9 +191,6 @@ export interface EmbedUrlParameters {
 
   /** Always enable quarter tone edition (default = false) */
   useQuarterTone?: boolean;
-
-  /** Editor mode (default = view) */
-  mode?: 'view' | 'edit';
 }
 
 /**
