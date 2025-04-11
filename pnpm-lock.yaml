@@ -16,7 +16,7 @@ importers:
         version: 6.21.0(eslint@8.56.0)(typescript@5.8.3)
       dotenv:
         specifier: ^16.4.4
-        version: 16.4.7
+        version: 16.5.0
       eslint:
         specifier: ^8.54.0
         version: 8.56.0
@@ -880,8 +880,8 @@ packages:
   dom-serialize@2.2.1:
     resolution: {integrity: sha512-Yra4DbvoW7/Z6LBN560ZwXMjoNOSAN2wRsKFGc4iBeso+mpIA6qj1vfdf9HpMaKAqG6wXTy+1SYEzmNpKXOSsQ==}
 
-  dotenv@16.4.7:
-    resolution: {integrity: sha512-47qPchRCykZC03FhkYAhrvwU4xDBFIj1QPqaarj6mdM/hgUzfPHcpkHJOn3mJAufFeeAxAzeGsr5X0M4k6fLZQ==}
+  dotenv@16.5.0:
+    resolution: {integrity: sha512-m/C+AwOAr9/W1UOIZUo232ejMNnJAJtYQjUbHoNTBNTJSvqzzDh7vnrei3o3r3m9blf6ZoDkvcw0VmozNRFJxg==}
     engines: {node: '>=12'}
 
   eastasianwidth@0.2.0:
@@ -2779,7 +2779,7 @@ snapshots:
       extend: 3.0.2
       void-elements: 2.0.1
 
-  dotenv@16.4.7: {}
+  dotenv@16.5.0: {}
 
   eastasianwidth@0.2.0: {}
 
