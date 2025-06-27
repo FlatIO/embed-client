@@ -582,7 +582,7 @@ embed
   });
 ```
 
-## `mutePart({ partUuid: string }): Promise<void, Error>`
+### `mutePart({ partUuid: string }): Promise<void, Error>`
 
 Mute a part
 
@@ -592,7 +592,7 @@ embed.mutePart({ partUuid: 'c86be847-a7a1-54fb-44fc-a6564d7eb75c' }).then(functi
 });
 ```
 
-## `unmutePart({ partUuid: string }): Promise<void, Error>`
+### `unmutePart({ partUuid: string }): Promise<void, Error>`
 
 Unmute a part
 
@@ -602,7 +602,7 @@ embed.unmutePart({ partUuid: 'c86be847-a7a1-54fb-44fc-a6564d7eb75c' }).then(func
 });
 ```
 
-## `setPartSoloMode({ partUuid: string }): Promise<void, Error>`
+### `setPartSoloMode({ partUuid: string }): Promise<void, Error>`
 
 Enable the solo mode for a part
 
@@ -612,7 +612,7 @@ embed.setPartSoloMode({ partUuid: 'c86be847-a7a1-54fb-44fc-a6564d7eb75c' }).then
 });
 ```
 
-## `unsetPartSoloMode({ partUuid: string }): Promise<void, Error>`
+### `unsetPartSoloMode({ partUuid: string }): Promise<void, Error>`
 
 Disable the solo mode for a part
 
