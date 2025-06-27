@@ -18,6 +18,14 @@ interface ParameterInfo {
   type: string;
   optional: boolean;
   description?: string;
+  properties?: PropertyInfo[];
+}
+
+interface PropertyInfo {
+  name: string;
+  type: string;
+  optional: boolean;
+  description?: string;
 }
 
 // Method categories
@@ -172,12 +180,48 @@ function parseTypeDefinitions(filePath: string): MethodInfo[] {
       const name = node.name?.getText() || '';
       if (!name || name === 'constructor' || name === 'call') return;
 
-      const parameters: ParameterInfo[] = node.parameters.map(param => ({
-        name: param.name.getText(),
-        type: param.type?.getText() || 'any',
-        optional: !!param.questionToken,
-        description: extractJSDoc(param),
-      }));
+      const parameters: ParameterInfo[] = node.parameters.map(param => {
+        let typeText = param.type?.getText() || 'any';
+        const properties: PropertyInfo[] = [];
+
+        // Extract property information from object types
+        if (param.type && ts.isTypeLiteralNode(param.type)) {
+          param.type.members.forEach(member => {
+            if (ts.isPropertySignature(member) && member.name) {
+              const propName = member.name.getText();
+              const propType = member.type?.getText() || 'any';
+              const propOptional = !!member.questionToken;
+              const propDesc = extractJSDoc(member);
+
+              properties.push({
+                name: propName,
+                type: propType,
+                optional: propOptional,
+                description: propDesc,
+              });
+            }
+          });
+
+          // Keep the original type text but clean it up
+          // Don't simplify to 'object' - we want to preserve the type information
+        }
+
+        // Clean up type text that contains JSDoc comments
+        if (typeText.includes('/**') && typeText.includes('*/')) {
+          // Remove JSDoc comments from within the type definition
+          typeText = typeText.replace(/\/\*\*[^*]*\*+(?:[^/*][^*]*\*+)*\//g, '').trim();
+          // Clean up extra whitespace
+          typeText = typeText.replace(/\s+/g, ' ');
+        }
+
+        return {
+          name: param.name.getText(),
+          type: typeText,
+          optional: !!param.questionToken,
+          description: extractJSDoc(param),
+          properties,
+        };
+      });
 
       const returnType = node.type?.getText() || 'void';
       const description = extractJSDoc(node);
@@ -225,6 +269,16 @@ function parseTypeDefinitions(filePath: string): MethodInfo[] {
   return methods;
 }
 
+function loadMethodExample(methodName: string): string | null {
+  const examplePath = join(__dirname, 'method-examples', `${methodName}.ts`);
+  if (existsSync(examplePath)) {
+    const content = readFileSync(examplePath, 'utf-8');
+    // Remove any lines that are just comments at the start
+    return content.trim();
+  }
+  return null;
+}
+
 function generateMethodMarkdown(method: MethodInfo): string {
   let md = `### ${method.name}() {#${method.name.toLowerCase()}}
 
@@ -239,9 +293,17 @@ ${method.signature}
   if (method.parameters.length > 0) {
     md += '**Parameters:**\n\n';
     method.parameters.forEach(param => {
-      // Check if parameter is an object with properties
-      if (param.type.includes('{') && param.type.includes('}')) {
-        // Extract object properties
+      // Use extracted properties if available
+      if (param.properties && param.properties.length > 0) {
+        param.properties.forEach(prop => {
+          md += `- \`${param.name}.${prop.name}\``;
+          if (prop.optional) md += ' *(optional)*';
+          md += ` - \`${prop.type}\``;
+          if (prop.description) md += `: ${prop.description}`;
+          md += '\n';
+        });
+      } else if (param.type.includes('{') && param.type.includes('}')) {
+        // Fallback to regex extraction for object properties
         const objMatch = param.type.match(/\{([^}]+)\}/);
         if (objMatch) {
           const props = objMatch[1]
@@ -267,6 +329,23 @@ ${method.signature}
   }
 
   md += `**Returns:** \`${method.returnType}\`\n\n`;
+
+  // Check for custom example file first
+  const customExample = loadMethodExample(method.name);
+  if (customExample) {
+    md += `**Example:**
+
+\`\`\`typescript
+const embed = new Embed('container', config);
+
+${customExample}
+\`\`\`
+
+---
+
+`;
+    return md;
+  }
 
   // Generate better examples
   let exampleCall = '';
@@ -343,8 +422,13 @@ ${method.signature}
         }
         return `['item1', 'item2']`;
       }
+      if (p.type.includes('string | Uint8Array')) {
+        // This will be handled by the custom example file if it exists
+        return `data`;
+      }
       if (p.type.includes('string')) {
-        if (p.name === 'score') return `'5ce6a27f052b2a74a91f4a6d'`;
+        if (p.name === 'score' && method.name !== 'loadMusicXML')
+          return `'5ce6a27f052b2a74a91f4a6d'`;
         if (p.name === 'event') return `'play'`;
         if (p.name === 'partUuid') return `'00000000-0000-0000-0000-000000000001'`;
         if (p.name === 'mode') return `'edit'`;
@@ -363,7 +447,11 @@ ${method.signature}
         return `true`;
       }
       if (p.type.includes('Uint8Array')) {
-        exampleSetup = `// Load a file first\nconst fileBuffer = await fetch('/path/to/score.mid').then(r => r.arrayBuffer());\nconst uint8Array = new Uint8Array(fileBuffer);\n\n`;
+        if (method.name === 'loadMIDI') {
+          exampleSetup = `// Load a MIDI file\nconst fileBuffer = await fetch('/path/to/score.mid').then(r => r.arrayBuffer());\nconst uint8Array = new Uint8Array(fileBuffer);\n\n`;
+        } else {
+          exampleSetup = `// Load a file first\nconst fileBuffer = await fetch('/path/to/file').then(r => r.arrayBuffer());\nconst uint8Array = new Uint8Array(fileBuffer);\n\n`;
+        }
         return `uint8Array`;
       }
       if (p.type === 'MetronomeMode') return `1`; // CONTINUOUS
