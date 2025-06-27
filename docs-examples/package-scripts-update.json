@@ -1,0 +1,26 @@
+{
+  "scripts": {
+    "existing-scripts": "...",
+
+    "// Documentation Generation": "",
+    "docs:generate": "node ./docs-examples/build-docs.js",
+    "docs:watch": "nodemon --watch src --watch dist/embed.d.ts --exec 'npm run docs:generate'",
+    "docs:serve": "cd dev-docs && npm run dev",
+    "docs:build": "npm run build && npm run docs:generate && cd dev-docs && npm run build",
+
+    "// Combined workflows": "",
+    "dev": "concurrently \"npm run build:watch\" \"npm run docs:watch\" \"npm run docs:serve\"",
+    "prepublishOnly": "npm run build && npm run docs:generate"
+  },
+
+  "devDependencies": {
+    "existing-deps": "...",
+
+    "// Documentation tooling": "",
+    "@typescript-eslint/parser": "^5.0.0",
+    "nodemon": "^3.0.0",
+    "concurrently": "^8.0.0",
+    "typescript": "^5.0.0",
+    "ts-node": "^10.0.0"
+  }
+}

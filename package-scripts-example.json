@@ -1,0 +1,12 @@
+{
+  "description": "Add these scripts to your package.json",
+  "scripts": {
+    "docs:generate": "tsx scripts/generate-api-docs.ts",
+    "docs:dev": "cd ../dev-docs && pnpm dev",
+    "docs:build": "npm run build && npm run docs:generate && cd ../dev-docs && pnpm build",
+    "prepublishOnly": "npm run build && npm run docs:generate"
+  },
+  "devDependencies": {
+    "tsx": "^4.0.0"
+  }
+}
