@@ -43,7 +43,7 @@
     "test:karma": "karma start --single-run",
     "test:karma-watch": "karma start --single-run=false --auto-watch",
     "prepare": "husky",
-    "generate:docs": "npx tsx scripts/generate-api-docs.ts"
+    "generate:docs": "npx tsx scripts/update-version-in-docs.ts && npx tsx scripts/generate-api-docs.ts"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown",
