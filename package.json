@@ -42,7 +42,8 @@
     "prettier:write": "prettier --write .",
     "test:karma": "karma start --single-run",
     "test:karma-watch": "karma start --single-run=false --auto-watch",
-    "prepare": "husky"
+    "prepare": "husky",
+    "generate:docs": "npx tsx scripts/generate-api-docs.ts"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown",

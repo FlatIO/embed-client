@@ -296,11 +296,11 @@ ${method.signature}
               let value = '';
               if (propType.includes('string')) {
                 if (propName === 'partUuid') {
-                  value = "'part-123-uuid'";
+                  value = "'00000000-0000-0000-0000-000000000001'";
                 } else if (propName === 'measureUuid') {
-                  value = "'measure-456-uuid'";
+                  value = "'00000000-0000-0000-0000-000000000002'";
                 } else if (propName === 'voiceUuid') {
-                  value = "'voice-789-uuid'";
+                  value = "'00000000-0000-0000-0000-000000000003'";
                 } else if (propName === 'id') {
                   value = "'track-id'";
                 } else if (propName === 'score') {
@@ -346,7 +346,7 @@ ${method.signature}
       if (p.type.includes('string')) {
         if (p.name === 'score') return `'5ce6a27f052b2a74a91f4a6d'`;
         if (p.name === 'event') return `'play'`;
-        if (p.name === 'partUuid') return `'part-123-uuid'`;
+        if (p.name === 'partUuid') return `'00000000-0000-0000-0000-000000000001'`;
         if (p.name === 'mode') return `'edit'`;
         return `'value'`;
       }
