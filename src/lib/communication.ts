@@ -1,5 +1,5 @@
-import Embed from '../embed';
-import { EmbedMessageReceived } from '../types';
+import type Embed from '../embed';
+import type { EmbedMessageReceived } from '../types';
 
 /**
  * Send a message to the embed via postMessage

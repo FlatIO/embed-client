@@ -1,5 +1,5 @@
 import type Embed from '../embed';
-import {
+import type {
   EmbedMessageReceived,
   EmbedMessageReceivedEvent,
   EmbedMessageReceivedMethod,
@@ -17,7 +17,6 @@ class EmbedCallback {
     this.embed = embed;
     this.promises = {};
     this.eventCallbacks = {};
-    return this;
   }
 
   pushCall(

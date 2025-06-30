@@ -1,6 +1,6 @@
 require('dotenv').config();
 
-module.exports = function (config) {
+module.exports = config => {
   // Mocha configuration
   const mocha = {
     timeout: '30000ms',

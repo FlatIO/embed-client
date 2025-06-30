@@ -1,4 +1,4 @@
-import { EmbedParameters } from '../types';
+import type { EmbedParameters } from '../types';
 
 /**
  * Build url for the new iframe
@@ -10,7 +10,7 @@ export function buildIframeUrl(parameters: EmbedParameters) {
 
   // Score id or blank embed
   if (!parameters.isCustomUrl) {
-    url += '/' + (parameters.score || 'blank');
+    url += `/${parameters.score || 'blank'}`;
   }
 
   // Build qs parameters

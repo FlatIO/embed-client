@@ -39,25 +39,20 @@
   "scripts": {
     "clean": "rm build/*",
     "build": "tsc && vite build",
-    "test": "tsc && pnpm run prettier:check && npm run eslint && npm run test:karma",
-    "eslint": "eslint src --max-warnings=0",
-    "prettier:check": "prettier --check .",
-    "prettier:write": "prettier --write .",
+    "test": "tsc && pnpm run biome:check && npm run test:karma",
+    "biome:check": "biome check .",
+    "biome:fix": "biome check --write .",
     "test:karma": "karma start --single-run",
     "test:karma-watch": "karma start --single-run=false --auto-watch",
     "prepare": "husky",
     "generate:docs": "npx tsx scripts/update-version-in-docs.ts && npx tsx scripts/generate-api-docs.ts"
   },
   "lint-staged": {
-    "**/*": "prettier --write --ignore-unknown",
-    "{src,test}/**/*.{js,ts}": "eslint"
+    "**/*": "biome check --write --no-errors-on-unmatched --files-ignore-unknown=true"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^7.0.0",
-    "@typescript-eslint/parser": "^6.12.0",
+    "@biomejs/biome": "^2.0.0",
     "dotenv": "^16.4.4",
-    "eslint": "^8.54.0",
-    "eslint-config-prettier": "^10.0.2",
     "husky": "^9.1.7",
     "karma": "6.4.4",
     "karma-chrome-launcher": "3.2.0",
@@ -65,7 +60,6 @@
     "karma-mocha-reporter": "^2.2.5",
     "lint-staged": "^15.1.0",
     "mocha": "^11.0.1",
-    "prettier": "^3.1.0",
     "typescript": "^5.3.2",
     "vite": "^6.0.3",
     "vite-plugin-dts": "^4.3.0"

@@ -1,4 +1,4 @@
-import { EmbedEventName } from './events';
+import type { EmbedEventName } from './events';
 
 /**
  * A response from a method call from the embed
