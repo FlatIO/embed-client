@@ -1,7 +1,7 @@
 #!/usr/bin/env ts-node
 
-import { readFileSync, writeFileSync, existsSync } from 'fs';
-import { join } from 'path';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
 
 function updateVersionInFile(filePath: string, currentVersion: string): void {
   const content = readFileSync(filePath, 'utf-8');

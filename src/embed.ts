@@ -1,27 +1,27 @@
 import './lib/compatibility';
 
+import EmbedCallback from './lib/callback';
+import { parseMessage, postMessage } from './lib/communication';
 import { normalizeElement } from './lib/dom';
 import { createEmbedIframe } from './lib/embed';
-import { postMessage, parseMessage } from './lib/communication';
-import EmbedCallback from './lib/callback';
 import type {
   EmbedEventName,
   EmbedMessageReceived,
   EmbedMessageReceivedEvent,
   EmbedMessageReceivedMethod,
   EmbedParameters,
-  ScoreTrackConfiguration,
-  PartConfiguration,
+  MeasureDetails,
+  MetronomeMode,
   NoteCursorPosition,
   NoteCursorPositionOptional,
-  MeasureDetails,
   NoteDetails,
-  MetronomeMode,
+  PartConfiguration,
   PlaybackPosition,
+  ScoreTrackConfiguration,
 } from './types';
 
-const embeds = new WeakMap();
-const embedsReady = new WeakMap();
+const embeds = new WeakMap<HTMLIFrameElement, Embed>();
+const embedsReady = new WeakMap<HTMLIFrameElement, Promise<void>>();
 
 class Embed {
   origin: string = '*';
@@ -35,19 +35,22 @@ class Embed {
    * @param parameters Parameters for the new iframe
    */
   constructor(element: HTMLIFrameElement | HTMLElement | string, parameters: EmbedParameters = {}) {
-    element = normalizeElement(element);
+    const normalizedElement = normalizeElement(element);
 
     // Keep a single object instance per iframe
-    if (embeds.has(element)) {
-      return embeds.get(element);
+    if (normalizedElement instanceof HTMLIFrameElement && embeds.has(normalizedElement)) {
+      return embeds.get(normalizedElement) as Embed;
     }
 
     // Create new element iframe if needed
-    if (element.nodeName !== 'IFRAME') {
-      element = createEmbedIframe(element, parameters);
+    let iframeElement: HTMLIFrameElement;
+    if (normalizedElement.nodeName !== 'IFRAME') {
+      iframeElement = createEmbedIframe(normalizedElement, parameters);
+    } else {
+      iframeElement = normalizedElement as HTMLIFrameElement;
     }
 
-    this.element = element as HTMLIFrameElement;
+    this.element = iframeElement;
     this.embedCallback = new EmbedCallback(this);
 
     const onReady = new Promise<void>(resolve => {
@@ -88,7 +91,7 @@ class Embed {
   }
 
   ready() {
-    return embedsReady.get(this.element);
+    return embedsReady.get(this.element) || Promise.resolve();
   }
 
   /**
