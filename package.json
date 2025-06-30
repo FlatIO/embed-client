@@ -52,7 +52,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.0.0",
-    "dotenv": "^16.4.4",
+    "dotenv": "^17.0.0",
     "husky": "^9.1.7",
     "karma": "6.4.4",
     "karma-chrome-launcher": "3.2.0",

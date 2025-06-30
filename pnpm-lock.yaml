@@ -12,8 +12,8 @@ importers:
         specifier: ^2.0.0
         version: 2.0.6
       dotenv:
-        specifier: ^16.4.4
-        version: 16.4.7
+        specifier: ^17.0.0
+        version: 17.0.0
       husky:
         specifier: ^9.1.7
         version: 9.1.7
@@ -753,8 +753,8 @@ packages:
   dom-serialize@2.2.1:
     resolution: {integrity: sha512-Yra4DbvoW7/Z6LBN560ZwXMjoNOSAN2wRsKFGc4iBeso+mpIA6qj1vfdf9HpMaKAqG6wXTy+1SYEzmNpKXOSsQ==}
 
-  dotenv@16.4.7:
-    resolution: {integrity: sha512-47qPchRCykZC03FhkYAhrvwU4xDBFIj1QPqaarj6mdM/hgUzfPHcpkHJOn3mJAufFeeAxAzeGsr5X0M4k6fLZQ==}
+  dotenv@17.0.0:
+    resolution: {integrity: sha512-A0BJ5lrpJVSfnMMXjmeO0xUnoxqsBHWCoqqTnGwGYVdnctqXXUEhJOO7LxmgxJon9tEZFGpe0xPRX0h2v3AANQ==}
     engines: {node: '>=12'}
 
   eastasianwidth@0.2.0:
@@ -2279,7 +2279,7 @@ snapshots:
       extend: 3.0.2
       void-elements: 2.0.1
 
-  dotenv@16.4.7: {}
+  dotenv@17.0.0: {}
 
   eastasianwidth@0.2.0: {}
 
