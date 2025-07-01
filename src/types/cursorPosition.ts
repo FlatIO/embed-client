@@ -1,32 +1,39 @@
+/**
+ * Complete cursor position information within a score
+ */
 export interface NoteCursorPosition {
-  // Index of the part
+  /** Zero-based index of the part */
   partIdx: number;
-  // UUID of the part
+  /** Unique identifier of the part */
   partUuid: string;
 
-  // Index of the staff
+  /** Zero-based index of the staff within the part */
   staffIdx: number;
-  // UUID of the staff
+  /** Unique identifier of the staff */
   staffUuid: string;
 
-  // Index of the voice in the staff
+  /** Zero-based index of the voice within the staff */
   voiceIdxInStaff: number;
-  // UUID of the voice
+  /** Unique identifier of the voice */
   voiceUuid: string;
 
-  // Index of the measure
+  /** Zero-based index of the measure */
   measureIdx: number;
-  // UUID of the measure
+  /** Unique identifier of the measure */
   measureUuid: string;
 
-  // Index of the note
+  /** Zero-based index of the note within the voice */
   noteIdx: number;
-  // Line number
+  /** Staff line number (0 = bottom line) */
   line: number;
-  // Divisions per quarter
+  /** Divisions per quarter note (timing resolution) */
   dpq: number;
-  // Time position in seconds
+  /** Absolute time position in seconds from the beginning */
   timePos: number;
 }
 
+/**
+ * Partial cursor position for setting cursor location
+ * All fields are optional - unspecified fields remain unchanged
+ */
 export type NoteCursorPositionOptional = Partial<NoteCursorPosition>;

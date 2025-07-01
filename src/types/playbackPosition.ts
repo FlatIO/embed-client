@@ -1,7 +1,9 @@
+/**
+ * Current playback position information
+ */
 export interface PlaybackPosition {
-  // playing: boolean,
-  // pausing: boolean,
-  // playbackSpeed: number,
-  currentMeasure: number; // The index of the measure being played
-  quarterFromMeasureStart: number; // The time from the beginning of the meaasure, expressed as quarter notes
+  /** Zero-based index of the measure being played */
+  currentMeasure: number;
+  /** Time from the beginning of the measure, expressed in quarter notes */
+  quarterFromMeasureStart: number;
 }

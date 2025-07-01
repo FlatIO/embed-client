@@ -1,24 +1,32 @@
+/**
+ * Instrument template information
+ */
 interface FlatInstrumentTemplate {
-  // The group of the instrument
+  /** The group/family of the instrument (e.g., 'strings', 'woodwinds', 'brass') */
   group: string;
-  // The name of the instrument
+  /** The specific instrument name (e.g., 'violin', 'flute', 'trumpet') */
   instrument: string;
+  /** The listed group category for the instrument */
+  listedGroup: string;
 }
 
+/**
+ * Configuration and information for a musical part/instrument
+ */
 export interface PartConfiguration {
-  // The index of the part
+  /** The zero-based index of the part in the score */
   idx: number;
-  // The UUID of the part
+  /** The unique identifier (UUID) of the part */
   uuid: string;
 
-  // The name of the part
+  /** The full display name of the part (e.g., "Violin 1") */
   name: string;
-  // The abbreviated name of the part
+  /** The abbreviated name of the part (e.g., "Vln. 1") */
   abbreviation: string;
 
-  // The instrument template for the part
+  /** The instrument template information for this part */
   instrumentTemplate: FlatInstrumentTemplate;
 
-  // Whether the part is transposing
+  /** Whether this is a transposing instrument (e.g., clarinet, trumpet) */
   isTransposing: boolean;
 }

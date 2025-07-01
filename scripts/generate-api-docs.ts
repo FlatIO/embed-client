@@ -1,8 +1,11 @@
 #!/usr/bin/env ts-node
 
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import * as ts from 'typescript';
+
+// Map to store complex type definitions
+const complexTypes = new Map<string, string>();
 
 interface MethodInfo {
   name: string;
@@ -11,6 +14,10 @@ interface MethodInfo {
   returnType: string;
   description?: string;
   category?: string;
+  examples?: string[];
+  see?: string[];
+  note?: string;
+  throws?: string[];
 }
 
 interface ParameterInfo {
@@ -29,6 +36,226 @@ interface PropertyInfo {
 }
 
 // Method categories
+function extractJSDoc(node: ts.Node): {
+  description?: string;
+  examples?: string[];
+  see?: string[];
+  note?: string;
+  throws?: string[];
+  hasParams?: boolean;
+} {
+  const fullText = node.getFullText();
+  const commentRanges = ts.getLeadingCommentRanges(fullText, 0);
+
+  if (commentRanges && commentRanges.length > 0) {
+    const comment = fullText.substring(commentRanges[0].pos, commentRanges[0].end);
+    // Extract all JSDoc content
+    const lines = comment.split('\n');
+    const descLines: string[] = [];
+    const examples: string[] = [];
+    const see: string[] = [];
+    const throws: string[] = [];
+    let note: string | undefined;
+    let currentTag = 'description';
+    let currentContent: string[] = [];
+    let hasParams = false;
+    const paramNames: string[] = [];
+    let inParamBlock = false;
+
+    for (const line of lines) {
+      const trimmed = line.trim();
+      // Skip JSDoc markers
+      if (trimmed === '/**' || trimmed === '*/') {
+        continue;
+      }
+
+      // Check if we're entering a @param block
+      if (trimmed.includes('@param')) {
+        hasParams = true;
+        inParamBlock = true;
+        // Extract parameter name from @param tag
+        // Handle both "@param {type} name" and "@param name"
+        const paramMatch = trimmed.match(/@param\s+(?:\{[^}]+\}\s+)?(\w+(?:\.\w+)?)/);
+        if (paramMatch) {
+          paramNames.push(paramMatch[1]);
+        }
+        continue;
+      }
+
+      // Skip other tags that are handled separately
+      if (
+        trimmed.includes('@return') ||
+        trimmed.includes('@reject') ||
+        trimmed.includes('@fulfill') ||
+        trimmed.includes('@fullfill') ||
+        trimmed.includes('TODO:')
+      ) {
+        inParamBlock = false;
+        continue;
+      }
+
+      // If we're in a param block and this line is indented (part of param description), skip it
+      if (inParamBlock && trimmed && !trimmed.startsWith('* @') && !trimmed.startsWith('*@')) {
+        // This is a continuation of the @param description
+        continue;
+      } else if (trimmed.startsWith('* @') || trimmed.startsWith('*@')) {
+        // We've hit another tag, so we're no longer in a param block
+        inParamBlock = false;
+      }
+
+      // Remove leading asterisk and whitespace
+      const cleaned = line.replace(/^\s*\*\s?/, '');
+
+      // Check for tag changes
+      if (trimmed.startsWith('* @example') || trimmed.startsWith('*@example')) {
+        // Save previous example if any
+        if (currentTag === 'example' && currentContent.length > 0) {
+          examples.push(currentContent.join('\n').trim());
+        }
+        currentTag = 'example';
+        currentContent = [];
+        // Extract inline example if present
+        const inlineExample = cleaned.replace('@example', '').trim();
+        if (inlineExample) {
+          currentContent.push(inlineExample);
+        }
+      } else if (trimmed.startsWith('* @see') || trimmed.startsWith('*@see')) {
+        currentTag = 'see';
+        const seeContent = cleaned.replace('@see', '').trim();
+        if (seeContent) {
+          see.push(seeContent);
+        }
+      } else if (trimmed.startsWith('* @note') || trimmed.startsWith('*@note')) {
+        currentTag = 'note';
+        const noteContent = cleaned.replace('@note', '').trim();
+        if (noteContent) {
+          note = noteContent;
+        }
+      } else if (trimmed.startsWith('* @throws') || trimmed.startsWith('*@throws')) {
+        currentTag = 'throws';
+        const throwsContent = cleaned.replace('@throws', '').trim();
+        if (throwsContent) {
+          throws.push(throwsContent);
+        }
+      } else {
+        // Continue with current tag
+        if (
+          currentTag === 'description' &&
+          cleaned.trim() &&
+          !cleaned.includes('{object}') &&
+          !cleaned.includes('{array}')
+        ) {
+          // Preserve list items that start with "- " by adding them on new lines
+          if (cleaned.trim().match(/^-\s+/)) {
+            // This is a list item - format it nicely
+            let listItem = cleaned.trim();
+
+            // Format numbered enum values (e.g., "- 0: COUNT_IN - Description")
+            const enumMatch = listItem.match(/^-\s+(\d+):\s+([A-Z_]+)\s*-?\s*(.*)$/);
+            if (enumMatch) {
+              const [, num, constant, desc] = enumMatch;
+              listItem = `- \`${num}\`: **${constant}** - ${desc}`;
+            }
+            // Format numeric values with descriptions (e.g., "- 0.2: 20% speed (very slow)")
+            else if (listItem.match(/^-\s+[\d.]+:\s+/)) {
+              const numericMatch = listItem.match(/^-\s+([\d.]+):\s+(.*)$/);
+              if (numericMatch) {
+                const [, num, desc] = numericMatch;
+                listItem = `- \`${num}\`: ${desc}`;
+              }
+            }
+            // Format parameter descriptions (e.g., "- partUuid: The unique identifier")
+            else {
+              const paramMatch = listItem.match(/^-\s+`?(\w+)`?:\s+(.*)$/);
+              if (paramMatch) {
+                const [, param, desc] = paramMatch;
+                // Add backticks to quoted values in the description
+                let formattedDesc = desc;
+                // Replace 'value' patterns with `value`
+                formattedDesc = formattedDesc.replace(/'([^']+)'/g, '`$1`');
+                listItem = `- \`${param}\`: ${formattedDesc}`;
+              } else {
+                // Handle list items without parameter names (just descriptions)
+                // Replace 'value' patterns with `value`
+                listItem = listItem.replace(/'([^']+)'/g, '`$1`');
+              }
+            }
+
+            descLines.push(`\n${listItem}`);
+          } else {
+            descLines.push(cleaned.trim());
+          }
+        } else if (currentTag === 'example') {
+          currentContent.push(cleaned);
+        } else if (currentTag === 'note' && cleaned.trim()) {
+          note = (note ? `${note} ` : '') + cleaned.trim();
+        }
+      }
+    }
+
+    // Add the last example if any
+    if (currentTag === 'example' && currentContent.length > 0) {
+      examples.push(currentContent.join('\n').trim());
+    }
+
+    // Join description lines, preserving newlines for list items
+    let description: string | undefined;
+    if (descLines.length > 0) {
+      const parts: string[] = [];
+      let currentPart = '';
+
+      for (const line of descLines) {
+        if (line.startsWith('\n')) {
+          // This is a list item, add current part and start new
+          if (currentPart) {
+            parts.push(currentPart);
+          }
+
+          const lineContent = line.trim();
+
+          // Filter out parameter descriptions if we have @param tags
+          if (hasParams && lineContent.startsWith('-')) {
+            // Check if this list item is describing a parameter
+            const isParamDesc = paramNames.some(paramName => {
+              // Check for patterns like "- paramName:" or "- `paramName`:"
+              return lineContent.match(new RegExp(`^-\\s+\`?${paramName}\`?:`));
+            });
+
+            if (isParamDesc) {
+              // Skip this line as it's a parameter description that will be in Parameters section
+              currentPart = '';
+              continue;
+            }
+          }
+
+          parts.push(lineContent);
+          currentPart = '';
+        } else {
+          // Regular text, accumulate with space
+          currentPart = currentPart ? `${currentPart} ${line}` : line;
+        }
+      }
+
+      // Add any remaining text
+      if (currentPart) {
+        parts.push(currentPart);
+      }
+
+      description = parts.join('\n').trim();
+    }
+
+    return {
+      description: description,
+      examples: examples.length > 0 ? examples : undefined,
+      see: see.length > 0 ? see : undefined,
+      note: note,
+      throws: throws.length > 0 ? throws : undefined,
+      hasParams: hasParams,
+    };
+  }
+  return {};
+}
+
 const METHOD_CATEGORIES: Record<string, string[]> = {
   events: ['on', 'off'],
   core: ['ready', 'getEmbedConfig', 'setEditorConfig'],
@@ -78,7 +305,7 @@ const METHOD_CATEGORIES: Record<string, string[]> = {
     'focusScore',
   ],
   display: ['fullscreen', 'getZoom', 'setZoom', 'getAutoZoom', 'setAutoZoom', 'print'],
-  analysis: [
+  data: [
     'getMeasureDetails',
     'getNoteDetails',
     'getNbMeasures',
@@ -114,7 +341,7 @@ const CATEGORY_INFO: Record<string, { title: string; description: string }> = {
     title: 'Display & View',
     description: 'Control the visual presentation of the score',
   },
-  analysis: {
+  data: {
     title: 'Score Data & Structure',
     description: 'Access and query score structure, measures, notes, and metadata',
   },
@@ -132,48 +359,72 @@ const CATEGORY_INFO: Record<string, { title: string; description: string }> = {
   },
 };
 
+function parseTypeFile(filePath: string) {
+  const content = readFileSync(filePath, 'utf-8');
+  const sourceFile = ts.createSourceFile(filePath, content, ts.ScriptTarget.Latest, true);
+
+  function visit(node: ts.Node) {
+    // Collect interface definitions
+    if (ts.isInterfaceDeclaration(node)) {
+      const name = node.name.getText();
+      let typeDoc = `**${name}**\n\n`;
+
+      // Extract JSDoc if present
+      const jsDoc = extractJSDoc(node);
+      if (jsDoc.description) {
+        typeDoc += `${jsDoc.description}\n\n`;
+      }
+
+      // Add properties
+      if (node.members.length > 0) {
+        typeDoc += 'Properties:\n';
+        node.members.forEach(member => {
+          if (ts.isPropertySignature(member) && member.name) {
+            const propName = member.name.getText();
+            const propType = member.type?.getText() || 'any';
+            const optional = member.questionToken ? ' *(optional)*' : '';
+
+            // Get JSDoc comment text directly
+            let desc = '';
+            const jsDocComment = (member as any).jsDoc?.[0]?.comment;
+            if (jsDocComment) {
+              // Extract text from JSDoc comment, removing /** and */ markers
+              desc = jsDocComment.replace(/^\/\*\*\s*|\s*\*\/$/g, '').trim();
+              desc = desc ? ` - ${desc}` : '';
+            }
+
+            typeDoc += `- \`${propName}\`${optional}: \`${propType}\`${desc}\n`;
+          }
+        });
+      }
+
+      complexTypes.set(name, typeDoc);
+    }
+
+    // Collect type aliases
+    if (ts.isTypeAliasDeclaration(node)) {
+      const name = node.name.getText();
+      const type = node.type.getText();
+
+      // For union types, format them nicely
+      if (type.includes('|')) {
+        const values = type.split('|').map(v => v.trim().replace(/['"]/g, ''));
+        const typeDoc = `**${name}**\n\nPossible values: ${values.map(v => `\`${v}\``).join(', ')}`;
+        complexTypes.set(name, typeDoc);
+      }
+    }
+
+    ts.forEachChild(node, visit);
+  }
+
+  visit(sourceFile);
+}
+
 function parseTypeDefinitions(filePath: string): MethodInfo[] {
   const content = readFileSync(filePath, 'utf-8');
   const sourceFile = ts.createSourceFile(filePath, content, ts.ScriptTarget.Latest, true);
 
   const methods: MethodInfo[] = [];
-
-  function extractJSDoc(node: ts.Node): string | undefined {
-    const fullText = node.getFullText();
-    const commentRanges = ts.getLeadingCommentRanges(fullText, 0);
-
-    if (commentRanges && commentRanges.length > 0) {
-      const comment = fullText.substring(commentRanges[0].pos, commentRanges[0].end);
-      // Extract description from JSDoc
-      const lines = comment.split('\n');
-      const descLines: string[] = [];
-
-      for (const line of lines) {
-        const trimmed = line.trim();
-        // Skip JSDoc markers and param/return tags
-        if (
-          trimmed === '/**' ||
-          trimmed === '*/' ||
-          trimmed.includes('@param') ||
-          trimmed.includes('@return') ||
-          trimmed.includes('@reject') ||
-          trimmed.includes('@fulfill') ||
-          trimmed.includes('@fullfill') ||
-          trimmed.includes('TODO:')
-        ) {
-          continue;
-        }
-        // Remove leading asterisk and whitespace
-        const cleaned = line.replace(/^\s*\*\s?/, '').trim();
-        if (cleaned && !cleaned.includes('{object}') && !cleaned.includes('{array}')) {
-          descLines.push(cleaned);
-        }
-      }
-
-      return descLines.join(' ').trim();
-    }
-    return undefined;
-  }
 
   function visit(node: ts.Node) {
     if (ts.isMethodSignature(node) || ts.isMethodDeclaration(node)) {
@@ -191,13 +442,13 @@ function parseTypeDefinitions(filePath: string): MethodInfo[] {
               const propName = member.name.getText();
               const propType = member.type?.getText() || 'any';
               const propOptional = !!member.questionToken;
-              const propDesc = extractJSDoc(member);
+              const propJSDoc = extractJSDoc(member);
 
               properties.push({
                 name: propName,
                 type: propType,
                 optional: propOptional,
-                description: propDesc,
+                description: propJSDoc.description,
               });
             }
           });
@@ -214,17 +465,18 @@ function parseTypeDefinitions(filePath: string): MethodInfo[] {
           typeText = typeText.replace(/\s+/g, ' ');
         }
 
+        const paramJSDoc = extractJSDoc(param);
         return {
           name: param.name.getText(),
           type: typeText,
           optional: !!param.questionToken,
-          description: extractJSDoc(param),
+          description: paramJSDoc.description,
           properties,
         };
       });
 
       const returnType = node.type?.getText() || 'void';
-      const description = extractJSDoc(node);
+      const jsDoc = extractJSDoc(node);
 
       // Find category
       let category = 'uncategorized';
@@ -257,8 +509,12 @@ function parseTypeDefinitions(filePath: string): MethodInfo[] {
         signature,
         parameters,
         returnType,
-        description,
+        description: jsDoc.description,
         category,
+        examples: jsDoc.examples,
+        see: jsDoc.see,
+        note: jsDoc.note,
+        throws: jsDoc.throws,
       });
     }
 
@@ -280,26 +536,34 @@ function loadMethodExample(methodName: string): string | null {
 }
 
 function generateMethodMarkdown(method: MethodInfo): string {
-  let md = `### ${method.name}() {#${method.name.toLowerCase()}}
+  // Title
+  let md = `### ${method.name}() {#${method.name.toLowerCase()}}\n\n`;
 
-${method.description || 'No description available.'}
+  // Description
+  md += `${method.description || 'No description available.'}\n\n`;
 
-\`\`\`typescript
-${method.signature}
-\`\`\`
+  // Prototype
+  md += `\`\`\`typescript\n${method.signature}\n\`\`\`\n\n`;
 
-`;
-
+  // Parameters
   if (method.parameters.length > 0) {
     md += '**Parameters:**\n\n';
     method.parameters.forEach(param => {
+      // Check if this is a complex type we have documentation for
+      const cleanType = param.type.replace(/[\s\n]+/g, ' ').trim();
+      const isComplexType = complexTypes.has(cleanType);
+
       // Use extracted properties if available
       if (param.properties && param.properties.length > 0) {
         param.properties.forEach(prop => {
           md += `- \`${param.name}.${prop.name}\``;
           if (prop.optional) md += ' *(optional)*';
           md += ` - \`${prop.type}\``;
-          if (prop.description) md += `: ${prop.description}`;
+          if (prop.description) {
+            // Remove JSDoc comment markers from descriptions
+            const cleanDesc = prop.description.replace(/\/\*\*\s*|\s*\*\//g, '').trim();
+            md += `: ${cleanDesc}`;
+          }
           md += '\n';
         });
       } else if (param.type.includes('{') && param.type.includes('}')) {
@@ -323,17 +587,63 @@ ${method.signature}
         md += ` - \`${param.type}\``;
         if (param.description) md += `: ${param.description}`;
         md += '\n';
+
+        // If this is a complex type, add its documentation below
+        if (isComplexType) {
+          md += `\n<details>\n<summary>View <code>${cleanType}</code> type definition</summary>\n\n`;
+          md += `${complexTypes.get(cleanType)}\n`;
+          md += '</details>\n';
+        }
       }
     });
     md += '\n';
   }
 
-  md += `**Returns:** \`${method.returnType}\`\n\n`;
+  // Returns
+  md += `**Returns:** \`${method.returnType}\`\n`;
 
-  // Check for custom example file first
-  const customExample = loadMethodExample(method.name);
-  if (customExample) {
-    md += `**Example:**
+  // Check if return type is a complex type we have documentation for
+  const cleanReturnType = method.returnType.replace(/[\s\n]+/g, ' ').trim();
+  // Handle Promise<Type> by extracting the inner type
+  const promiseMatch = cleanReturnType.match(/^Promise<(.+)>$/);
+  const innerType = promiseMatch ? promiseMatch[1] : cleanReturnType;
+
+  if (complexTypes.has(innerType)) {
+    md += `\n<details>\n<summary>View <code>${innerType}</code> type definition</summary>\n\n`;
+    md += `${complexTypes.get(innerType)}\n`;
+    md += '</details>\n';
+  }
+
+  md += '\n';
+
+  // Throws
+  if (method.throws && method.throws.length > 0) {
+    md += '**Throws:**\n\n';
+    method.throws.forEach(t => {
+      // Format error types in throws descriptions
+      // e.g., "{TypeError} If the score format is invalid" -> "`TypeError` - If the score format is invalid"
+      const throwsMatch = t.match(/^\{([^}]+)\}\s*(.*)$/);
+      if (throwsMatch) {
+        const [, errorType, description] = throwsMatch;
+        md += `- \`${errorType}\` - ${description}\n`;
+      } else {
+        md += `- ${t}\n`;
+      }
+    });
+    md += '\n';
+  }
+
+  // Examples
+  if (method.examples && method.examples.length > 0) {
+    md += '**Examples:**\n\n';
+    method.examples.forEach((example, _idx) => {
+      md += `\`\`\`typescript\n${example}\n\`\`\`\n\n`;
+    });
+  } else {
+    // Check for custom example file
+    const customExample = loadMethodExample(method.name);
+    if (customExample) {
+      md += `**Example:**
 
 \`\`\`typescript
 const embed = new Embed('container', config);
@@ -341,165 +651,202 @@ const embed = new Embed('container', config);
 ${customExample}
 \`\`\`
 
----
-
 `;
-    return md;
-  }
+    } else {
+      // Generate default example
+      let exampleCall = '';
+      let exampleSetup = '';
 
-  // Generate better examples
-  let exampleCall = '';
-  let exampleSetup = '';
+      if (method.parameters.length === 0) {
+        exampleCall = `embed.${method.name}()`;
+      } else {
+        const exampleParams = method.parameters.map(p => {
+          // Handle object parameters
+          if (p.type.includes('{') && p.type.includes('}')) {
+            const objMatch = p.type.match(/\{([^}]+)\}/);
+            if (objMatch) {
+              const props = objMatch[1]
+                .split(';')
+                .map(prop => prop.trim())
+                .filter(prop => prop);
+              const objLines: string[] = [];
 
-  if (method.parameters.length === 0) {
-    exampleCall = `embed.${method.name}()`;
-  } else {
-    const exampleParams = method.parameters.map(p => {
-      // Handle object parameters
-      if (p.type.includes('{') && p.type.includes('}')) {
-        const objMatch = p.type.match(/\{([^}]+)\}/);
-        if (objMatch) {
-          const props = objMatch[1]
-            .split(';')
-            .map(prop => prop.trim())
-            .filter(prop => prop);
-          const objLines: string[] = [];
+              props.forEach(prop => {
+                const [propNameRaw, propType] = prop.split(':').map(s => s.trim());
+                if (propNameRaw && propType) {
+                  // Remove optional marker from property name
+                  const isOptional = propNameRaw.endsWith('?');
+                  const propName = propNameRaw.replace('?', '');
 
-          props.forEach(prop => {
-            const [propNameRaw, propType] = prop.split(':').map(s => s.trim());
-            if (propNameRaw && propType) {
-              // Remove optional marker from property name
-              const isOptional = propNameRaw.endsWith('?');
-              const propName = propNameRaw.replace('?', '');
+                  let value = '';
+                  if (propType.includes('string')) {
+                    if (propName === 'partUuid') {
+                      value = "'00000000-0000-0000-0000-000000000001'";
+                    } else if (propName === 'measureUuid') {
+                      value = "'00000000-0000-0000-0000-000000000002'";
+                    } else if (propName === 'voiceUuid') {
+                      value = "'00000000-0000-0000-0000-000000000003'";
+                    } else if (propName === 'id') {
+                      value = "'track-id'";
+                    } else if (propName === 'score') {
+                      value = "'5ce6a27f052b2a74a91f4a6d'";
+                    } else if (propName === 'sharingKey') {
+                      value = "'sharing-key-123'";
+                    } else {
+                      value = `'${propName}-value'`;
+                    }
+                  } else if (propType.includes('number')) {
+                    if (propName === 'volume') value = '75';
+                    else if (propName === 'reverberation') value = '50';
+                    else if (propName === 'noteIdx') value = '0';
+                    else if (propName === 'time') value = '10.5';
+                    else if (propName === 'dpi') value = '150';
+                    else value = '1';
+                  } else if (propType.includes('boolean')) {
+                    value = 'true';
+                  }
 
-              let value = '';
-              if (propType.includes('string')) {
-                if (propName === 'partUuid') {
-                  value = "'00000000-0000-0000-0000-000000000001'";
-                } else if (propName === 'measureUuid') {
-                  value = "'00000000-0000-0000-0000-000000000002'";
-                } else if (propName === 'voiceUuid') {
-                  value = "'00000000-0000-0000-0000-000000000003'";
-                } else if (propName === 'id') {
-                  value = "'track-id'";
-                } else if (propName === 'score') {
-                  value = "'5ce6a27f052b2a74a91f4a6d'";
-                } else if (propName === 'sharingKey') {
-                  value = "'sharing-key-123'";
-                } else {
-                  value = `'${propName}-value'`;
+                  // Only include optional properties sometimes for better examples
+                  if (!isOptional || propName === 'sharingKey') {
+                    objLines.push(`  ${propName}: ${value}`);
+                  }
                 }
-              } else if (propType.includes('number')) {
-                if (propName === 'volume') value = '75';
-                else if (propName === 'reverberation') value = '50';
-                else if (propName === 'noteIdx') value = '0';
-                else if (propName === 'time') value = '10.5';
-                else if (propName === 'dpi') value = '150';
-                else value = '1';
-              } else if (propType.includes('boolean')) {
-                value = 'true';
-              }
+              });
 
-              // Only include optional properties sometimes for better examples
-              if (!isOptional || propName === 'sharingKey') {
-                objLines.push(`  ${propName}: ${value}`);
+              if (objLines.length === 1) {
+                return `{ ${objLines[0].trim()} }`;
               }
+              return `{\n${objLines.join(',\n')}\n}`;
             }
-          });
-
-          if (objLines.length === 1) {
-            return `{ ${objLines[0].trim()} }`;
           }
-          return `{\n${objLines.join(',\n')}\n}`;
-        }
-      }
 
-      // Handle simple types
-      if (p.type.includes('string[]')) {
-        if (p.name === 'parts') {
-          exampleSetup = `// Get available parts first\nconst parts = await embed.getParts();\nconst partUuids = parts.map(p => p.uuid);\n\n`;
-          return 'partUuids.slice(0, 2)';
-        }
-        return `['item1', 'item2']`;
-      }
-      if (p.type.includes('string | Uint8Array')) {
-        // This will be handled by the custom example file if it exists
-        return `data`;
-      }
-      if (p.type.includes('string')) {
-        if (p.name === 'score' && method.name !== 'loadMusicXML')
-          return `'5ce6a27f052b2a74a91f4a6d'`;
-        if (p.name === 'event') return `'play'`;
-        if (p.name === 'partUuid') return `'00000000-0000-0000-0000-000000000001'`;
-        if (p.name === 'mode') return `'edit'`;
-        return `'value'`;
-      }
-      if (p.type.includes('number')) {
-        if (p.name === 'volume') return `75`;
-        if (p.name === 'zoom') return `1.5`;
-        if (p.name === 'speed') return `0.75`;
-        return `1`;
-      }
-      if (p.type.includes('boolean')) {
-        if (p.name === 'active') return 'true';
-        if (p.name === 'state') return 'true';
-        if (p.name === 'mute') return 'false';
-        return `true`;
-      }
-      if (p.type.includes('Uint8Array')) {
-        if (method.name === 'loadMIDI') {
-          exampleSetup = `// Load a MIDI file\nconst fileBuffer = await fetch('/path/to/score.mid').then(r => r.arrayBuffer());\nconst uint8Array = new Uint8Array(fileBuffer);\n\n`;
+          // Handle simple types
+          if (p.type.includes('string[]')) {
+            if (p.name === 'parts') {
+              exampleSetup = `// Get available parts first\nconst parts = await embed.getParts();\nconst partUuids = parts.map(p => p.uuid);\n\n`;
+              return 'partUuids.slice(0, 2)';
+            }
+            return `['item1', 'item2']`;
+          }
+          if (p.type.includes('string | Uint8Array')) {
+            // This will be handled by the custom example file if it exists
+            return `data`;
+          }
+          if (p.type.includes('string')) {
+            if (p.name === 'score' && method.name !== 'loadMusicXML')
+              return `'5ce6a27f052b2a74a91f4a6d'`;
+            if (p.name === 'event') return `'play'`;
+            if (p.name === 'partUuid') return `'00000000-0000-0000-0000-000000000001'`;
+            if (p.name === 'mode') return `'edit'`;
+            return `'value'`;
+          }
+          if (p.type.includes('number')) {
+            if (p.name === 'volume') return `75`;
+            if (p.name === 'zoom') return `1.5`;
+            if (p.name === 'speed') return `0.75`;
+            return `1`;
+          }
+          if (p.type.includes('boolean')) {
+            if (p.name === 'active') return 'true';
+            if (p.name === 'state') return 'true';
+            if (p.name === 'mute') return 'false';
+            return `true`;
+          }
+          if (p.type.includes('Uint8Array')) {
+            if (method.name === 'loadMIDI') {
+              exampleSetup = `// Load a MIDI file\nconst fileBuffer = await fetch('/path/to/score.mid').then(r => r.arrayBuffer());\nconst uint8Array = new Uint8Array(fileBuffer);\n\n`;
+            } else {
+              exampleSetup = `// Load a file first\nconst fileBuffer = await fetch('/path/to/file').then(r => r.arrayBuffer());\nconst uint8Array = new Uint8Array(fileBuffer);\n\n`;
+            }
+            return `uint8Array`;
+          }
+          if (p.type === 'MetronomeMode') return `1`; // CONTINUOUS
+          if (p.type === 'NoteCursorPositionOptional') {
+            return `{\n  partIdx: 0,\n  measureIdx: 2,\n  noteIdx: 1\n}`;
+          }
+          if (p.type === 'ScoreTrackConfiguration') {
+            return `{\n  id: 'backing-track',\n  type: 'audio',\n  url: 'https://example.com/track.mp3',\n  synchronizationPoints: [\n    { type: 'measure', measure: 0, time: 0 }\n  ]\n}`;
+          }
+          return `{}`;
+        });
+
+        // Format the call based on parameter complexity
+        const hasComplexParams = exampleParams.some(p => p.includes('\n'));
+        if (hasComplexParams && method.parameters.length === 1) {
+          exampleCall = `embed.${method.name}(${exampleParams[0]})`;
+        } else if (hasComplexParams) {
+          exampleCall = `embed.${method.name}(\n  ${exampleParams.join(',\n  ')}\n)`;
         } else {
-          exampleSetup = `// Load a file first\nconst fileBuffer = await fetch('/path/to/file').then(r => r.arrayBuffer());\nconst uint8Array = new Uint8Array(fileBuffer);\n\n`;
+          exampleCall = `embed.${method.name}(${exampleParams.join(', ')})`;
         }
-        return `uint8Array`;
       }
-      if (p.type === 'MetronomeMode') return `1`; // CONTINUOUS
-      if (p.type === 'NoteCursorPositionOptional') {
-        return `{\n  partIdx: 0,\n  measureIdx: 2,\n  noteIdx: 1\n}`;
+
+      // Add result handling for certain methods
+      let resultHandling = '';
+      if (method.returnType.includes('Promise')) {
+        if (method.name.startsWith('get') || method.name === 'ready') {
+          const resultVar =
+            method.name.replace(/^get/, '').charAt(0).toLowerCase() + method.name.slice(4);
+          resultHandling = `const ${resultVar} = await ${exampleCall};\nconsole.log(${resultVar});`;
+          exampleCall = resultHandling;
+        } else {
+          exampleCall = `await ${exampleCall};`;
+        }
+      } else {
+        exampleCall = `${exampleCall};`;
       }
-      if (p.type === 'ScoreTrackConfiguration') {
-        return `{\n  id: 'backing-track',\n  type: 'audio',\n  url: 'https://example.com/track.mp3',\n  synchronizationPoints: [\n    { type: 'measure', measure: 0, time: 0 }\n  ]\n}`;
-      }
-      return `{}`;
-    });
 
-    // Format the call based on parameter complexity
-    const hasComplexParams = exampleParams.some(p => p.includes('\n'));
-    if (hasComplexParams && method.parameters.length === 1) {
-      exampleCall = `embed.${method.name}(${exampleParams[0]})`;
-    } else if (hasComplexParams) {
-      exampleCall = `embed.${method.name}(\n  ${exampleParams.join(',\n  ')}\n)`;
-    } else {
-      exampleCall = `embed.${method.name}(${exampleParams.join(', ')})`;
-    }
-  }
-
-  // Add result handling for certain methods
-  let resultHandling = '';
-  if (method.returnType.includes('Promise')) {
-    if (method.name.startsWith('get') || method.name === 'ready') {
-      const resultVar =
-        method.name.replace(/^get/, '').charAt(0).toLowerCase() + method.name.slice(4);
-      resultHandling = `const ${resultVar} = await ${exampleCall};\nconsole.log(${resultVar});`;
-      exampleCall = resultHandling;
-    } else {
-      exampleCall = `await ${exampleCall};`;
-    }
-  } else {
-    exampleCall = `${exampleCall};`;
-  }
-
-  md += `**Example:**
+      md += `**Example:**
 
 \`\`\`typescript
 const embed = new Embed('container', config);
 ${exampleSetup}${exampleCall}
 \`\`\`
 
----
-
 `;
+    }
+  }
+
+  // Note
+  if (method.note) {
+    md += `**Note:** ${method.note}\n\n`;
+  }
+
+  // See also
+  if (method.see && method.see.length > 0) {
+    md += '**See also:**\n\n';
+    method.see.forEach(s => {
+      // Parse @see references that might be {@link methodName} or {@link URL} format
+      const linkMatch = s.match(/\{@link\s+([^}]+)\}/);
+      if (linkMatch) {
+        const linkedTarget = linkMatch[1].trim();
+
+        // Check if it's a URL
+        if (linkedTarget.startsWith('http://') || linkedTarget.startsWith('https://')) {
+          // Create clean text for common Flat API URLs
+          let linkText = linkedTarget;
+          if (linkedTarget.includes('flat.io/developers/api/reference/#operation/')) {
+            const operationName = linkedTarget.split('#operation/')[1];
+            linkText = `Flat API Reference - ${operationName}`;
+          } else if (linkedTarget.includes('flat.io/developers/')) {
+            linkText = 'Flat Developers Documentation';
+          }
+          md += `- [${linkText}](${linkedTarget})\n`;
+        } else {
+          // It's a method reference
+          md += `- [\`${linkedTarget}()\`](#${linkedTarget.toLowerCase()})`;
+          const remaining = s.replace(linkMatch[0], '').trim();
+          if (remaining) md += ` ${remaining}`;
+          md += '\n';
+        }
+      } else {
+        md += `- ${s}\n`;
+      }
+    });
+    md += '\n';
+  }
+
+  md += '---\n\n';
 
   return md;
 }
@@ -517,6 +864,8 @@ title: ${info.title}
 description: ${info.description}
 outline: deep
 ---
+
+<!-- This file is automatically generated by embed-client pnpm generate:docs. DO NOT manually update this file. -->
 
 # ${info.title}
 
@@ -553,6 +902,8 @@ function generateIndexPage(allMethods: MethodInfo[]): string {
 title: API Reference
 description: Complete reference for the Flat Embed JavaScript SDK
 ---
+
+<!-- This file is automatically generated by embed-client pnpm generate:docs. DO NOT manually update this file. -->
 
 # API Reference
 
@@ -600,6 +951,18 @@ async function main() {
   if (!existsSync(typeDefsPath)) {
     console.error('❌ TypeScript definitions not found. Run `npm run build` first.');
     process.exit(1);
+  }
+
+  // Parse type files first to collect complex type definitions
+  const typesDir = join(__dirname, '../dist/types');
+  if (existsSync(typesDir)) {
+    const typeFiles = readdirSync(typesDir).filter(file => file.endsWith('.d.ts'));
+
+    typeFiles.forEach(file => {
+      const filePath = join(typesDir, file);
+      parseTypeFile(filePath);
+    });
+    console.log(`✅ Loaded ${complexTypes.size} type definitions`);
   }
 
   const methods = parseTypeDefinitions(typeDefsPath);
