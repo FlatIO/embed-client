@@ -10,4 +10,5 @@ export * from './note';
 export * from './part';
 export * from './playbackPosition';
 // Score
+export * from './scoreDetails';
 export * from './scoreTrack';

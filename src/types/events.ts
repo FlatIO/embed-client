@@ -1,3 +1,6 @@
+/**
+ * Available embed events that can be subscribed to
+ */
 export const EVENTS_NAMES = [
   'ready',
   'scoreLoaded',
@@ -11,6 +14,10 @@ export const EVENTS_NAMES = [
   'pause',
   'stop',
   'playbackPosition',
+  'restrictedFeatureAttempt',
 ] as const;
 
+/**
+ * Embed event name type
+ */
 export type EmbedEventName = (typeof EVENTS_NAMES)[number];
