@@ -154,7 +154,7 @@ Our SDK provides 60+ methods to control and interact with embedded scores:
 - **[Parts & Instruments](https://flat.io/developers/docs/embed/api/parts)** - Manage score parts
 - **[Navigation & Cursor](https://flat.io/developers/docs/embed/api/navigation)** - Navigate through scores
 - **[Display & View](https://flat.io/developers/docs/embed/api/display)** - Control visual presentation
-- **[Score Data & Structure](https://flat.io/developers/docs/embed/api/analysis)** - Query score structure
+- **[Score Data & Structure](https://flat.io/developers/docs/embed/api/data)** - Query score structure
 - **[Audio/Video Tracks](https://flat.io/developers/docs/embed/api/tracks)** - Synchronize external media
 
 📚 **[View the complete API documentation →](https://flat.io/developers/docs/embed/api/)**
