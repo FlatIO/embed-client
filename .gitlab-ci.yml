@@ -16,17 +16,11 @@ build:
     - pnpm install -d --frozen-lockfile
     - pnpm build
 
-eslint:
+biome:
   stage: QA
   allow_failure: true
   script:
-    - pnpm run eslint
-
-prettier:
-  stage: QA
-  allow_failure: true
-  script:
-    - npx prettier --check .
+    - pnpm run biome:check
 
 chrome_stable:
   stage: Test
