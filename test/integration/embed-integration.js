@@ -581,16 +581,19 @@ describe('Integration - Embed', () => {
         });
     });
 
-    it('should fail to set cursor with missing param', done => {
+    it('should fallback missing elements of cursor position', done => {
       const { embed } = createEmbedForScoreId(PUBLIC_SCORE);
 
       embed
         .setCursorPosition({
           noteIdx: 1,
         })
-        .catch(error => {
-          assert.equal(error.code, 'InvalidMeasureUuid');
-          assert.equal(error.message, 'The measureUuid <undefined> is invalid.');
+        .then(position => {
+          assert.equal(position.partIdx, 0);
+          assert.equal(position.staffIdx, 0);
+          assert.equal(position.voiceIdxInStaff, 0);
+          assert.equal(position.measureIdx, 0);
+          assert.equal(position.noteIdx, 0);// First measure only have 1 note
           done();
         });
     });
