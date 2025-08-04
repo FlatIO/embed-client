@@ -1,5 +1,9 @@
 # Changelog
 
+## 2025-08-04: v2.5.0
+
+- Enhanced TypeScript types and new documentation
+
 ## 2025-04-10: v2.4.1
 
 - Added missing `mode` to `EmbedUrlParameters` TypeScript interface
