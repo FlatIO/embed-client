@@ -25,4 +25,4 @@ jobs:
       - run: pnpm install -d --frozen-lockfile
       - run: pnpm build
       - run: pnpm test
-      - run: npm publish
+      - run: npm publish --access public
