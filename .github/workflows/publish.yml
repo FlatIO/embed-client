@@ -20,7 +20,7 @@ jobs:
           node-version: 22.x
       - uses: pnpm/action-setup@v2
         with:
-          version: 9.15.0
+          version: 10.17.1
       - run: pnpm install -d --frozen-lockfile
       - run: pnpm build
       - run: pnpm test
