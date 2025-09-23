@@ -1,5 +1,9 @@
 # Changelog
 
+## 2025-09-23: v2.6.1
+
+- NPM Trusted publishing
+
 ## 2025-08-04: v2.5.0
 
 - Enhanced TypeScript types and new documentation
