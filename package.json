@@ -15,7 +15,10 @@
     }
   },
   "types": "./dist/embed.d.ts",
-  "repository": "FlatIO/embed-client",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FlatIO/embed-client.git"
+  },
   "keywords": [
     "flat.io",
     "flat",
