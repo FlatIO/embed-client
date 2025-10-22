@@ -1,14 +1,22 @@
 /** Display locale for the Embed */
-export type FlatLocale =
+export type FlatLocales =
+  | 'da'
+  | 'de'
   | 'en'
   | 'en-GB'
   | 'es'
+  | 'fi'
+  | 'fil'
   | 'fr'
-  | 'de'
+  | 'fr-CA'
+  | 'hi'
+  | 'id'
   | 'it'
   | 'ja'
   | 'ja-HIRA'
   | 'ko'
+  | 'ms'
+  | 'nb'
   | 'nl'
   | 'pl'
   | 'pt'
@@ -17,7 +25,9 @@ export type FlatLocale =
   | 'ru'
   | 'sv'
   | 'tr'
-  | 'zh-Hans';
+  | 'zh-Hans'
+  | 'zh-HK'
+  | 'zh-TW';
 
 /**
  * Optional configuration and customization options
@@ -56,7 +66,7 @@ export interface EmbedUrlParameters {
   sharingKey?: string;
 
   /** Embed locale */
-  locale?: FlatLocale;
+  locale?: FlatLocales;
 
   /** Display the score in responsive, page or track mode */
   layout?: 'responsive' | 'page' | 'track';
