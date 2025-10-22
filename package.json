@@ -54,17 +54,17 @@
     "**/*": "biome check --write --no-errors-on-unmatched --files-ignore-unknown=true"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.1.2",
+    "@biomejs/biome": "^2.2.7",
     "dotenv": "^17.2.0",
     "husky": "^9.1.7",
     "karma": "6.4.4",
     "karma-chrome-launcher": "3.2.0",
     "karma-mocha": "2.0.1",
     "karma-mocha-reporter": "^2.2.5",
-    "lint-staged": "^16.1.2",
+    "lint-staged": "^16.2.5",
     "mocha": "^11.7.1",
     "typescript": "^5.8.3",
-    "vite": "^7.0.5",
+    "vite": "^7.1.11",
     "vite-plugin-dts": "^4.5.4"
   }
 }
