@@ -61,3 +61,4 @@ typings/
 .env
 
 CLAUDE.md
+.DS_Store
