@@ -1,6 +1,10 @@
 # Changelog
 
-## 2025-09-23: v2.6.1
+## 2025-10-22: v2.6.0
+
+- Added support for new locales: Danish (`da`), Finnish (`fi`), Filipino (`fil`), French Canadian (`fr-CA`), Hindi (`hi`), Indonesian (`id`), Malay (`ms`), Norwegian Bokmål (`nb`), Traditional Chinese Hong Kong (`zh-HK`), and Traditional Chinese Taiwan (`zh-TW`)
+
+## 2025-09-23: v2.5.1
 
 - NPM Trusted publishing
 
