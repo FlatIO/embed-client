@@ -25,13 +25,17 @@ Or use the latest UMD version hosted on our CDN:
 <script src="https://prod.flat-cdn.com/embed-js/v2.6.0/embed.min.js"></script>
 ```
 
-## Packages
+## 📦 Packages
 
 This repository is structured as a monorepo with multiple packages:
 
-- **[`flat-embed`](packages/core)** - Core JavaScript/TypeScript SDK (you're looking at it!)
-- **[`@flat/embed-react`](packages/react)** - React components and hooks
-- **[`@flat/embed-vue`](packages/vue)** - Vue 3 components and composables
+| Package | Description | Documentation |
+|---------|-------------|---------------|
+| **[flat-embed](./packages/core)** | Core JavaScript/TypeScript SDK | [README](./packages/core/README.md) |
+| **[@flat/embed-react](./packages/react)** | React components and hooks | [README](./packages/react/README.md) |
+| **[@flat/embed-vue](./packages/vue)** | Vue 3 components and composables | [README](./packages/vue/README.md) |
+
+### Quick Install
 
 Choose the package that fits your framework:
 
@@ -44,6 +48,46 @@ npm install @flat/embed-react
 
 # For Vue 3 projects
 npm install @flat/embed-vue
+```
+
+### Quick Examples
+
+#### Vanilla JavaScript
+```js
+import Embed from 'flat-embed';
+
+const embed = new Embed(container, {
+  score: '56ae21579a127715a02901a6',
+  embedParams: { appId: 'your-app-id' }
+});
+```
+
+#### React
+```tsx
+import { FlatEmbed } from '@flat/embed-react';
+
+<FlatEmbed
+  score="56ae21579a127715a02901a6"
+  appId="your-app-id"
+  height="600px"
+  onPlay={() => console.log('Playing')}
+/>
+```
+
+#### Vue 3
+```vue
+<script setup>
+import { FlatEmbed } from '@flat/embed-vue';
+</script>
+
+<template>
+  <FlatEmbed
+    score="56ae21579a127715a02901a6"
+    app-id="your-app-id"
+    height="600px"
+    @play="() => console.log('Playing')"
+  />
+</template>
 ```
 
 ## Getting Started

@@ -132,6 +132,8 @@ export const FlatEmbed = forwardRef<FlatEmbedHandle, FlatEmbedProps>((props, ref
     const embed = embedRef.current;
     if (!embed || !isReady) return;
 
+    // Note: Using 'as any' cast due to event handler signature mismatch in flat-embed types
+    // The actual event data types are correct (NoteCursorPosition, PlaybackPosition, etc.)
     if (onScoreLoaded) embed.on('scoreLoaded', onScoreLoaded);
     if (onCursorPosition) embed.on('cursorPosition', onCursorPosition as any);
     if (onCursorContext) embed.on('cursorContext', onCursorContext as any);
@@ -201,11 +203,3 @@ export const FlatEmbed = forwardRef<FlatEmbedHandle, FlatEmbedProps>((props, ref
 });
 
 FlatEmbed.displayName = 'FlatEmbed';
-
-// Add id prop type
-declare module './types' {
-  interface FlatEmbedProps {
-    /** Unique ID for this embed (used with FlatEmbedProvider) */
-    id?: string;
-  }
-}

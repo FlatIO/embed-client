@@ -55,8 +55,8 @@ const getConfig = () => {
   };
 };
 
-// Dev mode warnings
-if (import.meta.env.DEV) {
+// Dev mode warnings (check for development environment - works with any bundler)
+if (typeof process !== 'undefined' && process.env && process.env.NODE_ENV === 'development') {
   const config = getConfig();
   if (!config.embedParams?.appId) {
     console.warn(
@@ -66,6 +66,24 @@ if (import.meta.env.DEV) {
     );
   }
 }
+
+// Store event handlers for cleanup
+const eventHandlers = {
+  scoreLoaded: () => emit('scoreLoaded'),
+  // Note: Using 'as any' cast due to event handler signature mismatch in flat-embed types
+  // The actual event data types are correct (NoteCursorPosition, PlaybackPosition, etc.)
+  cursorPosition: ((pos: NoteCursorPosition) => emit('cursorPosition', pos)) as any,
+  cursorContext: ((ctx: unknown) => emit('cursorContext', ctx)) as any,
+  measureDetails: ((details: MeasureDetails) => emit('measureDetails', details)) as any,
+  noteDetails: ((details: NoteDetails) => emit('noteDetails', details)) as any,
+  rangeSelection: ((range: unknown) => emit('rangeSelection', range)) as any,
+  fullscreen: ((isFs: boolean) => emit('fullscreen', isFs)) as any,
+  play: () => emit('play'),
+  pause: () => emit('pause'),
+  stop: () => emit('stop'),
+  playbackPosition: ((pos: PlaybackPosition) => emit('playbackPosition', pos)) as any,
+  restrictedFeatureAttempt: ((feature: string) => emit('restrictedFeatureAttempt', feature)) as any,
+};
 
 // Initialize embed
 onMounted(() => {
@@ -81,19 +99,19 @@ onMounted(() => {
     emit('ready');
   });
 
-  // Subscribe to events with proper types
-  embed.on('scoreLoaded', () => emit('scoreLoaded'));
-  embed.on('cursorPosition', ((pos: NoteCursorPosition) => emit('cursorPosition', pos)) as any);
-  embed.on('cursorContext', ((ctx: unknown) => emit('cursorContext', ctx)) as any);
-  embed.on('measureDetails', ((details: MeasureDetails) => emit('measureDetails', details)) as any);
-  embed.on('noteDetails', ((details: NoteDetails) => emit('noteDetails', details)) as any);
-  embed.on('rangeSelection', ((range: unknown) => emit('rangeSelection', range)) as any);
-  embed.on('fullscreen', ((isFs: boolean) => emit('fullscreen', isFs)) as any);
-  embed.on('play', () => emit('play'));
-  embed.on('pause', () => emit('pause'));
-  embed.on('stop', () => emit('stop'));
-  embed.on('playbackPosition', ((pos: PlaybackPosition) => emit('playbackPosition', pos)) as any);
-  embed.on('restrictedFeatureAttempt', ((feature: string) => emit('restrictedFeatureAttempt', feature)) as any);
+  // Subscribe to events
+  embed.on('scoreLoaded', eventHandlers.scoreLoaded);
+  embed.on('cursorPosition', eventHandlers.cursorPosition);
+  embed.on('cursorContext', eventHandlers.cursorContext);
+  embed.on('measureDetails', eventHandlers.measureDetails);
+  embed.on('noteDetails', eventHandlers.noteDetails);
+  embed.on('rangeSelection', eventHandlers.rangeSelection);
+  embed.on('fullscreen', eventHandlers.fullscreen);
+  embed.on('play', eventHandlers.play);
+  embed.on('pause', eventHandlers.pause);
+  embed.on('stop', eventHandlers.stop);
+  embed.on('playbackPosition', eventHandlers.playbackPosition);
+  embed.on('restrictedFeatureAttempt', eventHandlers.restrictedFeatureAttempt);
 
   // Register with context if available
   if (context && props.id) {
@@ -103,6 +121,24 @@ onMounted(() => {
 
 // Cleanup
 onUnmounted(() => {
+  const embed = embedRef.value;
+
+  // Unsubscribe from all events to prevent memory leaks
+  if (embed) {
+    embed.off('scoreLoaded', eventHandlers.scoreLoaded);
+    embed.off('cursorPosition', eventHandlers.cursorPosition);
+    embed.off('cursorContext', eventHandlers.cursorContext);
+    embed.off('measureDetails', eventHandlers.measureDetails);
+    embed.off('noteDetails', eventHandlers.noteDetails);
+    embed.off('rangeSelection', eventHandlers.rangeSelection);
+    embed.off('fullscreen', eventHandlers.fullscreen);
+    embed.off('play', eventHandlers.play);
+    embed.off('pause', eventHandlers.pause);
+    embed.off('stop', eventHandlers.stop);
+    embed.off('playbackPosition', eventHandlers.playbackPosition);
+    embed.off('restrictedFeatureAttempt', eventHandlers.restrictedFeatureAttempt);
+  }
+
   if (context && props.id) {
     context.unregisterEmbed(props.id);
   }
@@ -110,10 +146,10 @@ onUnmounted(() => {
   isReady.value = false;
 });
 
-// Expose embed instance for template refs
+// Expose embed instance so users can call methods via ref
+// Users access methods like: embedRef.value.play()
 defineExpose({
-  embed: embedRef,
-  ...embedRef.value,
+  embedRef,
 });
 </script>
 

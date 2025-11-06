@@ -141,6 +141,7 @@ export function useFlatEmbed(options: UseFlatEmbedOptions): UseFlatEmbedReturn {
     };
 
     // Subscribe to events
+    // Note: Using 'as any' cast due to event handler signature mismatch in flat-embed types
     embed.on('play', handlePlay);
     embed.on('pause', handlePause);
     embed.on('stop', handleStop);

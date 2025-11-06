@@ -76,8 +76,8 @@ export function useFlatEmbed(
   const cursorPosition = ref<NoteCursorPosition | null>(null);
   const playbackPosition = ref<PlaybackPosition | null>(null);
 
-  // Dev mode warnings
-  if (import.meta.env.DEV) {
+  // Dev mode warnings (check for development environment - works with any bundler)
+  if (typeof process !== 'undefined' && process.env && process.env.NODE_ENV === 'development') {
     if (!embedParams?.appId) {
       console.warn(
         '[@flat/embed-vue] Missing appId in embedParams.\n' +
@@ -135,6 +135,7 @@ export function useFlatEmbed(
     embedInstance.on('play', handlePlay);
     embedInstance.on('pause', handlePause);
     embedInstance.on('stop', handleStop);
+    // Note: Using 'as any' cast due to event handler signature mismatch in flat-embed types
     embedInstance.on('cursorPosition', handleCursorPosition as any);
     embedInstance.on('playbackPosition', handlePlaybackPosition as any);
 

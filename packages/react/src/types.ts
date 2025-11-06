@@ -138,6 +138,11 @@ export interface FlatEmbedProps extends FlatEmbedEventHandlers {
    * Additional inline styles for the container
    */
   style?: React.CSSProperties;
+
+  /**
+   * Unique ID for this embed (used with FlatEmbedProvider)
+   */
+  id?: string;
 }
 
 /**
