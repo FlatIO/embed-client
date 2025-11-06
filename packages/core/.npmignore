@@ -1,0 +1,24 @@
+# Scripts that shouldn't be in npm package
+scripts/generate-api-docs.ts
+
+# Development files
+.git/
+.github/
+.husky/
+.vscode/
+*.log
+.DS_Store
+
+# Source files (already handled by files field in package.json)
+src/
+test/
+
+# Build tools config
+vite.config.js
+tsconfig.json
+karma.conf.js
+.eslintrc.js
+.prettierrc
+.gitignore
+.editorconfig
+rollup.config.js

@@ -10,6 +10,7 @@ import type {
   EmbedMessageReceivedEvent,
   EmbedMessageReceivedMethod,
   EmbedParameters,
+  EmbedUrlParameters,
   MeasureDetails,
   MetronomeMode,
   NoteCursorPosition,
@@ -1746,3 +1747,18 @@ class Embed {
 }
 
 export default Embed;
+
+export type {
+  EmbedEventName,
+  EmbedParameters,
+  EmbedUrlParameters,
+  MeasureDetails,
+  MetronomeMode,
+  NoteCursorPosition,
+  NoteCursorPositionOptional,
+  NoteDetails,
+  PartConfiguration,
+  PlaybackPosition,
+  ScoreTrackConfiguration,
+  ScoreDetails,
+};

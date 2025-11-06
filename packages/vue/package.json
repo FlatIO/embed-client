@@ -1,0 +1,60 @@
+{
+  "name": "@flat/embed-vue",
+  "version": "1.0.0",
+  "description": "Vue components for Flat's Sheet Music Embed",
+  "license": "Apache-2.0",
+  "author": "Flat Team <developers@flat.io>",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./testing": {
+      "import": "./dist/testing.js",
+      "types": "./dist/testing.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FlatIO/embed-client.git",
+    "directory": "packages/vue"
+  },
+  "keywords": [
+    "flat.io",
+    "flat",
+    "vue",
+    "music",
+    "sheet music",
+    "embed",
+    "component"
+  ],
+  "scripts": {
+    "build": "tsc && vite build",
+    "clean": "rm -rf dist",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "peerDependencies": {
+    "flat-embed": "workspace:*",
+    "vue": ">=3.0.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.1",
+    "@vue/test-utils": "^2.4.6",
+    "jsdom": "^25.0.1",
+    "typescript": "^5.8.3",
+    "vite": "^7.1.11",
+    "vite-plugin-dts": "^4.5.4",
+    "vitest": "^2.1.8",
+    "vue": "^3.5.13",
+    "vue-tsc": "^2.1.10"
+  }
+}
