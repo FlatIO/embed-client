@@ -7,17 +7,30 @@ on:
     branches: [master]
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package: [core, react, vue]
     steps:
       - uses: actions/checkout@v4
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22.x
       - uses: pnpm/action-setup@v2
         with:
-          version: 10.17.1
-      - run: pnpm install -d --frozen-lockfile
-      - run: pnpm build
-      - run: pnpm test
+          version: 10.19.0
+
+      - name: Install dependencies
+        run: pnpm install -d --frozen-lockfile
+
+      - name: Build all packages
+        run: pnpm build
+
+      - name: Run linting
+        run: pnpm biome:check
+
+      - name: Run tests for ${{ matrix.package }}
+        run: cd packages/${{ matrix.package }} && pnpm test
+        continue-on-error: ${{ matrix.package == 'vue' }}  # Vue package not implemented yet

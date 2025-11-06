@@ -1,29 +1,97 @@
-name: Publish Package
+name: Publish Packages
 
 on:
   push:
     tags:
-      - 'v*'
+      - 'v*'          # flat-embed core package
+      - 'react-v*'    # @flat/embed-react package
+      - 'vue-v*'      # @flat/embed-vue package
 
 permissions:
   id-token: write  # Required for OIDC
   contents: read
 
 jobs:
-  publish:
+  publish-core:
+    if: startsWith(github.ref, 'refs/tags/v') && !contains(github.ref, 'react-') && !contains(github.ref, 'vue-')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22.x
           registry-url: 'https://registry.npmjs.org'
       - uses: pnpm/action-setup@v2
         with:
-          version: 10.17.1
-      - run: npm install -g npm@latest
-      - run: pnpm install -d --frozen-lockfile
-      - run: pnpm build
-      - run: pnpm test
-      - run: npm publish --access public
+          version: 10.19.0
+
+      - name: Install dependencies
+        run: pnpm install -d --frozen-lockfile
+
+      - name: Build packages
+        run: pnpm build
+
+      - name: Run tests
+        run: cd packages/core && pnpm test
+
+      - name: Publish flat-embed
+        run: cd packages/core && npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  publish-react:
+    if: startsWith(github.ref, 'refs/tags/react-v')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          registry-url: 'https://registry.npmjs.org'
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 10.19.0
+
+      - name: Install dependencies
+        run: pnpm install -d --frozen-lockfile
+
+      - name: Build packages
+        run: pnpm build
+
+      - name: Run tests
+        run: cd packages/react && pnpm test
+
+      - name: Publish @flat/embed-react
+        run: cd packages/react && npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  publish-vue:
+    if: startsWith(github.ref, 'refs/tags/vue-v')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          registry-url: 'https://registry.npmjs.org'
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 10.19.0
+
+      - name: Install dependencies
+        run: pnpm install -d --frozen-lockfile
+
+      - name: Build packages
+        run: pnpm build
+
+      - name: Run tests
+        run: cd packages/vue && pnpm test
+
+      - name: Publish @flat/embed-vue
+        run: cd packages/vue && npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

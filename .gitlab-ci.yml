@@ -10,7 +10,8 @@ build:
     name: '$CI_PIPELINE_ID-$CI_COMMIT_SHA'
     paths:
       - node_modules/
-      - dist/
+      - packages/*/node_modules/
+      - packages/*/dist/
     expire_in: 2 days
   script:
     - pnpm install -d --frozen-lockfile
@@ -22,13 +23,24 @@ biome:
   script:
     - pnpm run biome:check
 
-chrome_stable:
+test_core:
   stage: Test
   image: flat/chrome-stable
   script:
     - node -v
     - google-chrome --version
-    - pnpm test
+    - cd packages/core && pnpm test
+
+test_react:
+  stage: Test
+  script:
+    - cd packages/react && pnpm test
+
+test_vue:
+  stage: Test
+  allow_failure: true  # Vue package not implemented yet
+  script:
+    - cd packages/vue && pnpm test
 
 release_s3:
   stage: Release
@@ -38,8 +50,8 @@ release_s3:
   script:
     - GIT_TAG=$(git describe --tags)
     # compat with old rollup build and public UMD urls
-    - cp dist/flat-embed.umd.js dist/embed.min.js
+    - cp packages/core/dist/flat-embed.umd.js packages/core/dist/embed.min.js
     # only upload types to npm packages, not needed on cdn
-    - find dist -name "*.d.ts" -delete
-    - s3cmd -c /root/.s3cfg.prod-static sync --no-mime-magic --guess-mime-type --no-preserve dist/ s3://prod.flat-cdn.com/embed-js/${GIT_TAG}/
-    - s3cmd -c /root/.s3cfg.prod-static-wasabi sync --acl-public --no-mime-magic --guess-mime-type --no-preserve dist/ s3://prod.flat-cdn.com/embed-js/${GIT_TAG}/
+    - find packages/core/dist -name "*.d.ts" -delete
+    - s3cmd -c /root/.s3cfg.prod-static sync --no-mime-magic --guess-mime-type --no-preserve packages/core/dist/ s3://prod.flat-cdn.com/embed-js/${GIT_TAG}/
+    - s3cmd -c /root/.s3cfg.prod-static-wasabi sync --acl-public --no-mime-magic --guess-mime-type --no-preserve packages/core/dist/ s3://prod.flat-cdn.com/embed-js/${GIT_TAG}/
