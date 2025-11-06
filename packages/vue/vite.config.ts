@@ -7,8 +7,8 @@ export default defineConfig({
   plugins: [
     vue(),
     dts({
-      include: ['src/**/*'],
-      exclude: ['**/*.test.ts'],
+      include: ['src/**/*.ts', 'src/**/*.vue'],
+      exclude: ['**/*.test.ts', 'src/testing.ts'],
       rollupTypes: true,
     }),
   ],
@@ -24,6 +24,10 @@ export default defineConfig({
       external: ['vue', 'flat-embed'],
       output: {
         preserveModules: false,
+        assetFileNames: (assetInfo) => {
+          if (assetInfo.name === 'style.css') return 'index.css';
+          return assetInfo.name || '';
+        },
         globals: {
           vue: 'Vue',
         },
