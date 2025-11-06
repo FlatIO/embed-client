@@ -33,4 +33,3 @@ jobs:
 
       - name: Run tests for ${{ matrix.package }}
         run: cd packages/${{ matrix.package }} && pnpm test
-        continue-on-error: ${{ matrix.package == 'vue' }}  # Vue package not implemented yet
