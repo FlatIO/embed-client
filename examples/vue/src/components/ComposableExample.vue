@@ -35,6 +35,7 @@ const containerRef = ref<HTMLDivElement>();
 const { isReady, isPlaying, cursorPosition, playbackPosition, play, pause, stop, loadScore } =
   useFlatEmbed(containerRef, {
     score: '56ae21579a127715a02901a6',
+    embedParams: { appId: 'your-app-id' },
   });
 
 const handleLoadNewScore = async () => {

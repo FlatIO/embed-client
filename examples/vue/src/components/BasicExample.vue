@@ -11,6 +11,7 @@
     <FlatEmbed
       ref="embedRef"
       score="56ae21579a127715a02901a6"
+      app-id="your-app-id"
       width="100%"
       height="450px"
       @scoreLoaded="status = 'Score loaded'"

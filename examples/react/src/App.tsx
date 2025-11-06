@@ -40,6 +40,7 @@ function BasicExample() {
       <FlatEmbed
         ref={embedRef}
         score="56ae21579a127715a02901a6"
+        appId="your-app-id"
         width="100%"
         height="450px"
         onScoreLoaded={() => setStatus('Score loaded')}
@@ -64,6 +65,7 @@ function HookExample() {
     loadScore,
   } = useFlatEmbed(containerRef, {
     score: '56ae21579a127715a02901a6',
+    embedParams: { appId: 'your-app-id' },
   });
 
   const handleLoadNewScore = async () => {

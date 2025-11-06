@@ -146,10 +146,25 @@ onUnmounted(() => {
   isReady.value = false;
 });
 
-// Expose embed instance so users can call methods via ref
-// Users access methods like: embedRef.value.play()
+// Expose embed methods directly so users can call ref.value.play()
+// We expose common methods with proper typing
 defineExpose({
-  embedRef,
+  // Expose the raw embed for direct access to all methods
+  get embed() {
+    return embedRef.value;
+  },
+  // Most commonly used methods with proper type safety
+  play: () => embedRef.value?.play(),
+  pause: () => embedRef.value?.pause(),
+  stop: () => embedRef.value?.stop(),
+  ready: () => embedRef.value?.ready(),
+  loadFlatScore: (scoreId: string) => embedRef.value?.loadFlatScore(scoreId),
+  getZoom: () => embedRef.value?.getZoom(),
+  setZoom: (zoom: number) => embedRef.value?.setZoom(zoom),
+  getMusicXML: () => embedRef.value?.getMusicXML(),
+  getJSON: () => embedRef.value?.getJSON(),
+  fullscreen: (mode: boolean) => embedRef.value?.fullscreen(mode),
+  // For less common methods, users can access via the embed getter
 });
 </script>
 
