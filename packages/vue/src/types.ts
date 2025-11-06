@@ -249,20 +249,3 @@ export interface FlatEmbedProviderProps {
   /** Shared locale for all embeds */
   locale?: string;
 }
-
-/**
- * Props for EmbedSkeleton component
- */
-export interface EmbedSkeletonProps {
-  /** Width of the skeleton */
-  width?: string;
-
-  /** Height of the skeleton */
-  height?: string;
-
-  /** Whether to show animation */
-  animated?: boolean;
-
-  /** Use pulse animation instead of shimmer */
-  pulse?: boolean;
-}

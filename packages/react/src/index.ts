@@ -14,9 +14,6 @@ export { useFlatEmbed } from './useFlatEmbed';
 // Provider and context
 export { FlatEmbedProvider, useFlatEmbedContext } from './FlatEmbedProvider';
 
-// Components
-export { EmbedSkeleton } from './EmbedSkeleton';
-
 // Types
 export type {
   FlatEmbedConfig,
@@ -27,7 +24,6 @@ export type {
   UseFlatEmbedReturn,
   FlatEmbedContextValue,
   FlatEmbedProviderProps,
-  EmbedSkeletonProps,
 } from './types';
 
 // Re-export useful types from flat-embed

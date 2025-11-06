@@ -15,9 +15,6 @@ export { useFlatEmbedContext } from './composables/useFlatEmbedContext';
 // Provider
 export { default as FlatEmbedProvider } from './FlatEmbedProvider.vue';
 
-// Components
-export { default as EmbedSkeleton } from './EmbedSkeleton.vue';
-
 // Types
 export type {
   FlatEmbedConfig,
@@ -28,7 +25,6 @@ export type {
   UseFlatEmbedReturn,
   FlatEmbedContextValue,
   FlatEmbedProviderProps,
-  EmbedSkeletonProps,
 } from './types';
 
 // Re-export useful types from flat-embed

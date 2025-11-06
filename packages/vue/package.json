@@ -12,7 +12,6 @@
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
-    "./dist/embed-vue.css": "./dist/embed-vue.css",
     "./testing": {
       "import": "./dist/testing.js",
       "types": "./dist/testing.d.ts"
