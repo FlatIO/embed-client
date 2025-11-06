@@ -8,6 +8,5 @@
 </template>
 
 <script setup lang="ts">
-import BasicExample from './components/BasicExample.vue';
-import ComposableExample from './components/ComposableExample.vue';
+
 </script>

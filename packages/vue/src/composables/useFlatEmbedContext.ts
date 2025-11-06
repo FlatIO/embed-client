@@ -1,7 +1,8 @@
-import { inject, type InjectionKey } from 'vue';
-import type { FlatEmbedContextValue } from '../types';
+import { type InjectionKey, inject } from "vue";
+import type { FlatEmbedContextValue } from "../types";
 
-export const FlatEmbedContextKey: InjectionKey<FlatEmbedContextValue> = Symbol('FlatEmbedContext');
+export const FlatEmbedContextKey: InjectionKey<FlatEmbedContextValue> =
+	Symbol("FlatEmbedContext");
 
 /**
  * Hook to access the FlatEmbedContext
@@ -19,5 +20,5 @@ export const FlatEmbedContextKey: InjectionKey<FlatEmbedContextValue> = Symbol('
  * ```
  */
 export function useFlatEmbedContext(): FlatEmbedContextValue | null {
-  return inject(FlatEmbedContextKey, null);
+	return inject(FlatEmbedContextKey, null);
 }

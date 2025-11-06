@@ -27,18 +27,26 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { useFlatEmbed } from '@flat/embed-vue';
+import { useFlatEmbed } from "@flat/embed-vue";
+import { ref } from "vue";
 
 const containerRef = ref<HTMLDivElement>();
 
-const { isReady, isPlaying, cursorPosition, playbackPosition, play, pause, stop, loadScore } =
-  useFlatEmbed(containerRef, {
-    score: '56ae21579a127715a02901a6',
-    embedParams: { appId: 'your-app-id' },
-  });
+const {
+	isReady,
+	isPlaying,
+	cursorPosition,
+	playbackPosition,
+	play,
+	pause,
+	stop,
+	loadScore,
+} = useFlatEmbed(containerRef, {
+	score: "56ae21579a127715a02901a6",
+	embedParams: { appId: "your-app-id" },
+});
 
 const handleLoadNewScore = async () => {
-  await loadScore('5bac04bf5a50cd288c95048e');
+	await loadScore("5bac04bf5a50cd288c95048e");
 };
 </script>

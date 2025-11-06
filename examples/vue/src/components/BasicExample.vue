@@ -22,19 +22,19 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { FlatEmbed, type FlatEmbedHandle } from '@flat/embed-vue';
+import type { FlatEmbedHandle } from "@flat/embed-vue";
+import { ref } from "vue";
 
 const embedRef = ref<FlatEmbedHandle>();
-const status = ref('Not loaded');
+const status = ref("Not loaded");
 
 const handlePlay = async () => {
-  await embedRef.value?.play();
-  status.value = 'Playing';
+	await embedRef.value?.play();
+	status.value = "Playing";
 };
 
 const handlePause = async () => {
-  await embedRef.value?.pause();
-  status.value = 'Paused';
+	await embedRef.value?.pause();
+	status.value = "Paused";
 };
 </script>

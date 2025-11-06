@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref, provide } from 'vue';
-import type Embed from 'flat-embed';
-import type { FlatEmbedContextValue, FlatEmbedProviderProps } from './types';
-import { FlatEmbedContextKey } from './composables/useFlatEmbedContext';
+import type Embed from "flat-embed";
+import { provide, ref } from "vue";
+import { FlatEmbedContextKey } from "./composables/useFlatEmbedContext";
+import type { FlatEmbedContextValue, FlatEmbedProviderProps } from "./types";
 
 /**
  * Provider for managing multiple FlatEmbed instances
@@ -33,24 +33,24 @@ const props = defineProps<FlatEmbedProviderProps>();
 const embeds = ref<Record<string, Embed | null>>({});
 
 const registerEmbed = (id: string, embed: Embed) => {
-  embeds.value = { ...embeds.value, [id]: embed };
+	embeds.value = { ...embeds.value, [id]: embed };
 };
 
 const unregisterEmbed = (id: string) => {
-  const { [id]: _, ...rest } = embeds.value;
-  embeds.value = rest;
+	const { [id]: _, ...rest } = embeds.value;
+	embeds.value = rest;
 };
 
 const getEmbed = (id: string) => {
-  return embeds.value[id] ?? null;
+	return embeds.value[id] ?? null;
 };
 
 const contextValue: FlatEmbedContextValue = {
-  embeds,
-  getEmbed,
-  registerEmbed,
-  unregisterEmbed,
-  appId: props.appId,
+	embeds,
+	getEmbed,
+	registerEmbed,
+	unregisterEmbed,
+	appId: props.appId,
 };
 
 // Provide context

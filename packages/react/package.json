@@ -1,66 +1,66 @@
 {
-  "name": "@flat/embed-react",
-  "version": "1.0.0",
-  "description": "React components for Flat's Sheet Music Embed",
-  "license": "Apache-2.0",
-  "author": "Flat Team <developers@flat.io>",
-  "type": "module",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
-    },
-    "./testing": {
-      "import": "./dist/testing.js",
-      "types": "./dist/testing.d.ts"
-    }
-  },
-  "files": [
-    "dist",
-    "README.md"
-  ],
-  "sideEffects": false,
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/FlatIO/embed-client.git",
-    "directory": "packages/react"
-  },
-  "keywords": [
-    "flat.io",
-    "flat",
-    "react",
-    "music",
-    "sheet music",
-    "embed",
-    "component"
-  ],
-  "scripts": {
-    "build": "tsc && vite build",
-    "clean": "rm -rf dist",
-    "test": "vitest run",
-    "test:watch": "vitest"
-  },
-  "dependencies": {
-    "flat-embed": "workspace:^"
-  },
-  "peerDependencies": {
-    "react": ">=16.8.0",
-    "react-dom": ">=16.8.0"
-  },
-  "devDependencies": {
-    "@testing-library/react": "^16.1.0",
-    "@testing-library/user-event": "^14.5.2",
-    "@types/react": "^18.3.12",
-    "@types/react-dom": "^18.3.1",
-    "@vitejs/plugin-react": "^4.3.4",
-    "jsdom": "^25.0.1",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "typescript": "^5.8.3",
-    "vite": "^7.1.11",
-    "vite-plugin-dts": "^4.5.4",
-    "vitest": "^2.1.8"
-  }
+	"name": "@flat/embed-react",
+	"version": "1.0.0",
+	"description": "React components for Flat's Sheet Music Embed",
+	"license": "Apache-2.0",
+	"author": "Flat Team <developers@flat.io>",
+	"type": "module",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"import": "./dist/index.js",
+			"types": "./dist/index.d.ts"
+		},
+		"./testing": {
+			"import": "./dist/testing.js",
+			"types": "./dist/testing.d.ts"
+		}
+	},
+	"files": [
+		"dist",
+		"README.md"
+	],
+	"sideEffects": false,
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/FlatIO/embed-client.git",
+		"directory": "packages/react"
+	},
+	"keywords": [
+		"flat.io",
+		"flat",
+		"react",
+		"music",
+		"sheet music",
+		"embed",
+		"component"
+	],
+	"scripts": {
+		"build": "tsc && vite build",
+		"clean": "rm -rf dist",
+		"test": "vitest run",
+		"test:watch": "vitest"
+	},
+	"dependencies": {
+		"flat-embed": "workspace:^"
+	},
+	"peerDependencies": {
+		"react": ">=16.8.0",
+		"react-dom": ">=16.8.0"
+	},
+	"devDependencies": {
+		"@testing-library/react": "^16.1.0",
+		"@testing-library/user-event": "^14.5.2",
+		"@types/react": "^18.3.26",
+		"@types/react-dom": "^18.3.7",
+		"@vitejs/plugin-react": "^5.1.0",
+		"jsdom": "^25.0.1",
+		"react": "^18.3.1",
+		"react-dom": "^18.3.1",
+		"typescript": "^5.9.3",
+		"vite": "^7.2.1",
+		"vite-plugin-dts": "^4.5.4",
+		"vitest": "^2.1.8"
+	}
 }

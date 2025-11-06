@@ -1,38 +1,38 @@
 {
-  "name": "flat-embed-monorepo",
-  "version": "2.6.0",
-  "private": true,
-  "description": "Flat Sheet Music Embed - Monorepo with React and Vue packages",
-  "license": "Apache-2.0",
-  "author": "Flat Team <developers@flat.io>",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/FlatIO/embed-client.git"
-  },
-  "scripts": {
-    "build": "pnpm -r --filter './packages/*' build",
-    "test": "pnpm -r test",
-    "biome:check": "biome check .",
-    "biome:fix": "biome check --write .",
-    "clean": "pnpm -r run clean",
-    "prepare": "husky",
-    "generate:docs": "npx tsx scripts/update-version-in-docs.ts && npx tsx scripts/generate-api-docs.ts"
-  },
-  "lint-staged": {
-    "**/*": "biome check --write --no-errors-on-unmatched --files-ignore-unknown=true"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "^2.2.7",
-    "dotenv": "^17.2.0",
-    "husky": "^9.1.7",
-    "karma": "6.4.4",
-    "karma-chrome-launcher": "3.2.0",
-    "karma-mocha": "2.0.1",
-    "karma-mocha-reporter": "^2.2.5",
-    "lint-staged": "^16.2.5",
-    "mocha": "^11.7.1",
-    "typescript": "^5.8.3",
-    "vite": "^7.1.11",
-    "vite-plugin-dts": "^4.5.4"
-  }
+	"name": "flat-embed-monorepo",
+	"version": "2.6.0",
+	"private": true,
+	"description": "Flat Sheet Music Embed - Monorepo with React and Vue packages",
+	"license": "Apache-2.0",
+	"author": "Flat Team <developers@flat.io>",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/FlatIO/embed-client.git"
+	},
+	"scripts": {
+		"build": "pnpm -r --filter './packages/*' build",
+		"test": "pnpm -r test",
+		"biome:check": "biome check .",
+		"biome:fix": "biome check --write .",
+		"clean": "pnpm -r run clean",
+		"prepare": "husky",
+		"generate:docs": "npx tsx scripts/update-version-in-docs.ts && npx tsx scripts/generate-api-docs.ts"
+	},
+	"lint-staged": {
+		"**/*": "biome check --write --no-errors-on-unmatched --files-ignore-unknown=true"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.3.4",
+		"dotenv": "^17.2.0",
+		"husky": "^9.1.7",
+		"karma": "6.4.4",
+		"karma-chrome-launcher": "3.2.0",
+		"karma-mocha": "2.0.1",
+		"karma-mocha-reporter": "^2.2.5",
+		"lint-staged": "^16.2.5",
+		"mocha": "^11.7.1",
+		"typescript": "^5.9.3",
+		"vite": "^7.2.1",
+		"vite-plugin-dts": "^4.5.4"
+	}
 }

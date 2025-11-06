@@ -1,6 +1,12 @@
-import React, { createContext, useContext, useState, useCallback, useMemo } from 'react';
-import type Embed from 'flat-embed';
-import type { FlatEmbedContextValue, FlatEmbedProviderProps } from './types';
+import type Embed from "flat-embed";
+import {
+	createContext,
+	useCallback,
+	useContext,
+	useMemo,
+	useState,
+} from "react";
+import type { FlatEmbedContextValue, FlatEmbedProviderProps } from "./types";
 
 const FlatEmbedContext = createContext<FlatEmbedContextValue | null>(null);
 
@@ -28,36 +34,47 @@ const FlatEmbedContext = createContext<FlatEmbedContextValue | null>(null);
  * }
  * ```
  */
-export function FlatEmbedProvider({ children, appId, locale }: FlatEmbedProviderProps) {
-  const [embeds, setEmbeds] = useState<Record<string, Embed | null>>({});
+export function FlatEmbedProvider({
+	children,
+	appId,
+	locale,
+}: FlatEmbedProviderProps) {
+	const [embeds, setEmbeds] = useState<Record<string, Embed | null>>({});
 
-  const registerEmbed = useCallback((id: string, embed: Embed) => {
-    setEmbeds((prev) => ({ ...prev, [id]: embed }));
-  }, []);
+	const registerEmbed = useCallback((id: string, embed: Embed) => {
+		setEmbeds((prev) => ({ ...prev, [id]: embed }));
+	}, []);
 
-  const unregisterEmbed = useCallback((id: string) => {
-    setEmbeds((prev) => {
-      const { [id]: _, ...rest } = prev;
-      return rest;
-    });
-  }, []);
+	const unregisterEmbed = useCallback((id: string) => {
+		setEmbeds((prev) => {
+			const { [id]: _, ...rest } = prev;
+			return rest;
+		});
+	}, []);
 
-  const getEmbed = useCallback((id: string) => {
-    return embeds[id] ?? null;
-  }, [embeds]);
+	const getEmbed = useCallback(
+		(id: string) => {
+			return embeds[id] ?? null;
+		},
+		[embeds],
+	);
 
-  const value = useMemo<FlatEmbedContextValue>(
-    () => ({
-      embeds,
-      getEmbed,
-      registerEmbed,
-      unregisterEmbed,
-      appId,
-    }),
-    [embeds, getEmbed, registerEmbed, unregisterEmbed, appId]
-  );
+	const value = useMemo<FlatEmbedContextValue>(
+		() => ({
+			embeds,
+			getEmbed,
+			registerEmbed,
+			unregisterEmbed,
+			appId,
+		}),
+		[embeds, getEmbed, registerEmbed, unregisterEmbed, appId],
+	);
 
-  return <FlatEmbedContext.Provider value={value}>{children}</FlatEmbedContext.Provider>;
+	return (
+		<FlatEmbedContext.Provider value={value}>
+			{children}
+		</FlatEmbedContext.Provider>
+	);
 }
 
 /**
@@ -76,5 +93,5 @@ export function FlatEmbedProvider({ children, appId, locale }: FlatEmbedProvider
  * ```
  */
 export function useFlatEmbedContext(): FlatEmbedContextValue | null {
-  return useContext(FlatEmbedContext);
+	return useContext(FlatEmbedContext);
 }

@@ -5,37 +5,35 @@
  * https://flat.io/developers/docs/embed/
  */
 
+// Re-export useful types from flat-embed
+export type {
+	EmbedEventName,
+	EmbedParameters,
+	EmbedUrlParameters,
+	MeasureDetails,
+	MetronomeMode,
+	NoteCursorPosition,
+	NoteDetails,
+	PartConfiguration,
+	PlaybackPosition,
+	ScoreTrackConfiguration,
+} from "flat-embed";
 // Main component
-export { FlatEmbed } from './FlatEmbed';
-
-// Hooks
-export { useFlatEmbed } from './useFlatEmbed';
+export { FlatEmbed } from "./FlatEmbed";
 
 // Provider and context
-export { FlatEmbedProvider, useFlatEmbedContext } from './FlatEmbedProvider';
+export { FlatEmbedProvider, useFlatEmbedContext } from "./FlatEmbedProvider";
 
 // Types
 export type {
-  FlatEmbedConfig,
-  FlatEmbedProps,
-  FlatEmbedHandle,
-  FlatEmbedEventHandlers,
-  UseFlatEmbedOptions,
-  UseFlatEmbedReturn,
-  FlatEmbedContextValue,
-  FlatEmbedProviderProps,
-} from './types';
-
-// Re-export useful types from flat-embed
-export type {
-  EmbedParameters,
-  EmbedUrlParameters,
-  EmbedEventName,
-  NoteCursorPosition,
-  PlaybackPosition,
-  MeasureDetails,
-  NoteDetails,
-  PartConfiguration,
-  ScoreTrackConfiguration,
-  MetronomeMode,
-} from 'flat-embed';
+	FlatEmbedConfig,
+	FlatEmbedContextValue,
+	FlatEmbedEventHandlers,
+	FlatEmbedHandle,
+	FlatEmbedProps,
+	FlatEmbedProviderProps,
+	UseFlatEmbedOptions,
+	UseFlatEmbedReturn,
+} from "./types";
+// Hooks
+export { useFlatEmbed } from "./useFlatEmbed";
