@@ -25,6 +25,27 @@ Or use the latest UMD version hosted on our CDN:
 <script src="https://prod.flat-cdn.com/embed-js/v2.6.0/embed.min.js"></script>
 ```
 
+## Packages
+
+This repository is structured as a monorepo with multiple packages:
+
+- **[`flat-embed`](packages/core)** - Core JavaScript/TypeScript SDK (you're looking at it!)
+- **[`@flat/embed-react`](packages/react)** - React components and hooks
+- **[`@flat/embed-vue`](packages/vue)** - Vue 3 components and composables
+
+Choose the package that fits your framework:
+
+```bash
+# For vanilla JavaScript/TypeScript projects
+npm install flat-embed
+
+# For React projects
+npm install @flat/embed-react
+
+# For Vue 3 projects
+npm install @flat/embed-vue
+```
+
 ## Getting Started
 
 The simplest way to get started is to pass a DOM element to our embed that will be used as container. By default, this one will completely fit its container:

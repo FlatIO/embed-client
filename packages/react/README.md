@@ -188,19 +188,24 @@ function GlobalControls() {
 
 ## Loading States
 
-Built-in skeleton component:
+Use the `useFlatEmbed` hook to implement custom loading states:
 
 ```tsx
-import { FlatEmbed, EmbedSkeleton } from '@flat/embed-react';
+import { useFlatEmbed } from '@flat/embed-react';
 
-<FlatEmbed
-  score="..."
-  appId="..."
-  loading={<EmbedSkeleton animated />}
-/>
+function MyEmbed() {
+  const { embedRef, isReady } = useFlatEmbed({
+    score: '...',
+    embedParams: { appId: '...' },
+  });
 
-// Or use standalone
-{!isReady && <EmbedSkeleton height="600px" pulse />}
+  return (
+    <div>
+      {!isReady && <div>Loading score...</div>}
+      <div ref={embedRef} style={{ height: '600px' }} />
+    </div>
+  );
+}
 ```
 
 ## Accessibility

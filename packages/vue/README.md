@@ -185,22 +185,23 @@ const playAll = async () => {
 
 ## Loading States
 
-Built-in skeleton component:
+Use the `useFlatEmbed` composable to implement custom loading states:
 
 ```vue
 <script setup>
-import { FlatEmbed, EmbedSkeleton } from '@flat/embed-vue';
+import { useFlatEmbed } from '@flat/embed-vue';
+
+const { embedRef, isReady } = useFlatEmbed({
+  score: '...',
+  embedParams: { appId: '...' },
+});
 </script>
 
 <template>
-  <FlatEmbed score="..." app-id="...">
-    <template #loading>
-      <EmbedSkeleton animated />
-    </template>
-  </FlatEmbed>
-
-  <!-- Or use standalone -->
-  <EmbedSkeleton v-if="!isReady" height="600px" pulse />
+  <div>
+    <div v-if="!isReady">Loading score...</div>
+    <div ref="embedRef" style="height: 600px" />
+  </div>
 </template>
 ```
 
