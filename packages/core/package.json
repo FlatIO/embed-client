@@ -34,7 +34,8 @@
 		"embed"
 	],
 	"files": [
-		"dist"
+		"dist",
+		"README.md"
 	],
 	"engines": {
 		"node": ">=22.0.0"
