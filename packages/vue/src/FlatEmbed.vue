@@ -6,9 +6,14 @@ import type {
 	PlaybackPosition,
 } from "flat-embed";
 import Embed from "flat-embed";
-import { onMounted, onUnmounted, ref } from "vue";
+import { onMounted, onUnmounted, ref, useAttrs } from "vue";
 import { useFlatEmbedContext } from "./composables/useFlatEmbedContext";
 import type { FlatEmbedEmits, FlatEmbedProps } from "./types";
+
+// Extended Embed type with subscribedEvents for cleanup tracking
+interface EmbedWithSubscriptions extends Embed {
+	subscribedEvents?: string[];
+}
 
 /**
  * Vue component for Flat's Sheet Music Embed
@@ -34,11 +39,19 @@ const props = withDefaults(defineProps<FlatEmbedProps>(), {
 });
 
 const emit = defineEmits<FlatEmbedEmits>();
+const attrs = useAttrs();
 
 const containerRef = ref<HTMLDivElement | null>(null);
-const embedRef = ref<Embed | null>(null);
+const embedRef = ref<EmbedWithSubscriptions | null>(null);
 const isReady = ref(false);
 const context = useFlatEmbedContext();
+
+// Check if user provided a listener for this event
+// Event listeners in Vue are passed as onEventName in attrs
+const hasEvent = (eventName: keyof typeof eventHandlers): boolean => {
+	const attrName = `on${eventName.charAt(0).toUpperCase()}${eventName.slice(1)}`;
+	return attrName in attrs;
+};
 
 // Merge config from props
 const getConfig = () => {
@@ -109,19 +122,18 @@ onMounted(() => {
 		emit("ready");
 	});
 
-	// Subscribe to events
-	embed.on("scoreLoaded", eventHandlers.scoreLoaded);
-	embed.on("cursorPosition", eventHandlers.cursorPosition);
-	embed.on("cursorContext", eventHandlers.cursorContext);
-	embed.on("measureDetails", eventHandlers.measureDetails);
-	embed.on("noteDetails", eventHandlers.noteDetails);
-	embed.on("rangeSelection", eventHandlers.rangeSelection);
-	embed.on("fullscreen", eventHandlers.fullscreen);
-	embed.on("play", eventHandlers.play);
-	embed.on("pause", eventHandlers.pause);
-	embed.on("stop", eventHandlers.stop);
-	embed.on("playbackPosition", eventHandlers.playbackPosition);
-	embed.on("restrictedFeatureAttempt", eventHandlers.restrictedFeatureAttempt);
+	// Subscribe to events - only if the user provided handlers
+	const subscribedEvents: string[] = [];
+
+	for (const [eventName, handler] of Object.entries(eventHandlers)) {
+		if (hasEvent(eventName as keyof typeof eventHandlers)) {
+			embed.on(eventName as any, handler);
+			subscribedEvents.push(eventName);
+		}
+	}
+
+	// Store subscribed events for cleanup
+	embedRef.value.subscribedEvents = subscribedEvents;
 
 	// Register with context if available
 	if (context && props.id) {
@@ -134,22 +146,13 @@ onUnmounted(() => {
 	const embed = embedRef.value;
 
 	// Unsubscribe from all events to prevent memory leaks
-	if (embed) {
-		embed.off("scoreLoaded", eventHandlers.scoreLoaded);
-		embed.off("cursorPosition", eventHandlers.cursorPosition);
-		embed.off("cursorContext", eventHandlers.cursorContext);
-		embed.off("measureDetails", eventHandlers.measureDetails);
-		embed.off("noteDetails", eventHandlers.noteDetails);
-		embed.off("rangeSelection", eventHandlers.rangeSelection);
-		embed.off("fullscreen", eventHandlers.fullscreen);
-		embed.off("play", eventHandlers.play);
-		embed.off("pause", eventHandlers.pause);
-		embed.off("stop", eventHandlers.stop);
-		embed.off("playbackPosition", eventHandlers.playbackPosition);
-		embed.off(
-			"restrictedFeatureAttempt",
-			eventHandlers.restrictedFeatureAttempt,
-		);
+	if (embed?.subscribedEvents) {
+		for (const eventName of embed.subscribedEvents) {
+			embed.off(
+				eventName as any,
+				eventHandlers[eventName as keyof typeof eventHandlers],
+			);
+		}
 	}
 
 	if (context && props.id) {
@@ -159,26 +162,35 @@ onUnmounted(() => {
 	isReady.value = false;
 });
 
-// Expose embed methods directly so users can call ref.value.play()
-// We expose common methods with proper typing
-defineExpose({
-	// Expose the raw embed for direct access to all methods
-	get embed() {
-		return embedRef.value;
-	},
-	// Most commonly used methods with proper type safety
-	play: () => embedRef.value?.play(),
-	pause: () => embedRef.value?.pause(),
-	stop: () => embedRef.value?.stop(),
-	ready: () => embedRef.value?.ready(),
-	loadFlatScore: (scoreId: string) => embedRef.value?.loadFlatScore(scoreId),
-	getZoom: () => embedRef.value?.getZoom(),
-	setZoom: (zoom: number) => embedRef.value?.setZoom(zoom),
-	getMusicXML: () => embedRef.value?.getMusicXML(),
-	getJSON: () => embedRef.value?.getJSON(),
-	fullscreen: (mode: boolean) => embedRef.value?.fullscreen(mode),
-	// For less common methods, users can access via the embed getter
-});
+// Expose ALL embed methods automatically using a Proxy
+// This ensures new methods added to Embed are automatically available
+// without manual maintenance of this wrapper
+defineExpose(
+	new Proxy(
+		{},
+		{
+			get(_target, prop) {
+				const embed = embedRef.value;
+				if (!embed) return undefined;
+
+				// Special case: expose the raw embed instance
+				if (prop === "embed") {
+					return embed;
+				}
+
+				// Forward all property/method accesses to the embed instance
+				const value = embed[prop as keyof Embed];
+
+				// If it's a function, bind it to the embed instance
+				if (typeof value === "function") {
+					return (...args: any[]) => value.apply(embed, args);
+				}
+
+				return value;
+			},
+		},
+	) as Embed & { embed: Embed },
+);
 </script>
 
 <template>

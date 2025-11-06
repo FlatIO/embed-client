@@ -11,6 +11,11 @@ import {
 import { useFlatEmbedContext } from "./FlatEmbedProvider";
 import type { FlatEmbedConfig, FlatEmbedHandle, FlatEmbedProps } from "./types";
 
+// Extended Embed type with subscribedEvents for cleanup tracking
+interface EmbedWithSubscriptions extends Embed {
+	subscribedEvents?: string[];
+}
+
 /**
  * React component for Flat's Sheet Music Embed
  *
@@ -78,7 +83,7 @@ export const FlatEmbed = forwardRef<FlatEmbedHandle, FlatEmbedProps>(
 		} = props;
 
 		const containerRef = useRef<HTMLDivElement>(null);
-		const embedRef = useRef<Embed | null>(null);
+		const embedRef = useRef<EmbedWithSubscriptions | null>(null);
 		const [isReady, setIsReady] = useState(false);
 		const context = useFlatEmbedContext();
 
@@ -141,49 +146,52 @@ export const FlatEmbed = forwardRef<FlatEmbedHandle, FlatEmbedProps>(
 			};
 		}, [config, context, onReady, props.id]); // Only run once on mount
 
-		// Subscribe to events
+		// Subscribe to events - only if handlers are provided
 		useEffect(() => {
 			const embed = embedRef.current;
 			if (!embed || !isReady) return;
 
 			// Note: Using 'as any' cast due to event handler signature mismatch in flat-embed types
 			// The actual event data types are correct (NoteCursorPosition, PlaybackPosition, etc.)
-			if (onScoreLoaded) embed.on("scoreLoaded", onScoreLoaded);
-			if (onCursorPosition) embed.on("cursorPosition", onCursorPosition as any);
-			if (onCursorContext) embed.on("cursorContext", onCursorContext as any);
-			if (onMeasureDetails) embed.on("measureDetails", onMeasureDetails as any);
-			if (onNoteDetails) embed.on("noteDetails", onNoteDetails as any);
-			if (onRangeSelection) embed.on("rangeSelection", onRangeSelection as any);
-			if (onFullscreen) embed.on("fullscreen", onFullscreen as any);
-			if (onPlay) embed.on("play", onPlay);
-			if (onPause) embed.on("pause", onPause);
-			if (onStop) embed.on("stop", onStop);
-			if (onPlaybackPosition)
-				embed.on("playbackPosition", onPlaybackPosition as any);
-			if (onRestrictedFeatureAttempt)
-				embed.on("restrictedFeatureAttempt", onRestrictedFeatureAttempt as any);
+			const eventHandlers: Record<
+				string,
+				(() => void) | ((data: any) => void)
+			> = {
+				scoreLoaded: onScoreLoaded,
+				cursorPosition: onCursorPosition,
+				cursorContext: onCursorContext,
+				measureDetails: onMeasureDetails,
+				noteDetails: onNoteDetails,
+				rangeSelection: onRangeSelection,
+				fullscreen: onFullscreen,
+				play: onPlay,
+				pause: onPause,
+				stop: onStop,
+				playbackPosition: onPlaybackPosition,
+				restrictedFeatureAttempt: onRestrictedFeatureAttempt,
+			};
+
+			const subscribedEvents: string[] = [];
+
+			for (const [eventName, handler] of Object.entries(eventHandlers)) {
+				if (handler) {
+					embed.on(eventName as any, handler as any);
+					subscribedEvents.push(eventName);
+				}
+			}
+
+			// Store subscribed events for cleanup
+			embed.subscribedEvents = subscribedEvents;
 
 			return () => {
-				if (onScoreLoaded) embed.off("scoreLoaded", onScoreLoaded);
-				if (onCursorPosition)
-					embed.off("cursorPosition", onCursorPosition as any);
-				if (onCursorContext) embed.off("cursorContext", onCursorContext as any);
-				if (onMeasureDetails)
-					embed.off("measureDetails", onMeasureDetails as any);
-				if (onNoteDetails) embed.off("noteDetails", onNoteDetails as any);
-				if (onRangeSelection)
-					embed.off("rangeSelection", onRangeSelection as any);
-				if (onFullscreen) embed.off("fullscreen", onFullscreen as any);
-				if (onPlay) embed.off("play", onPlay);
-				if (onPause) embed.off("pause", onPause);
-				if (onStop) embed.off("stop", onStop);
-				if (onPlaybackPosition)
-					embed.off("playbackPosition", onPlaybackPosition as any);
-				if (onRestrictedFeatureAttempt)
-					embed.off(
-						"restrictedFeatureAttempt",
-						onRestrictedFeatureAttempt as any,
-					);
+				if (embed.subscribedEvents) {
+					for (const eventName of embed.subscribedEvents) {
+						const handler = eventHandlers[eventName];
+						if (handler) {
+							embed.off(eventName as any, handler as any);
+						}
+					}
+				}
 			};
 		}, [
 			isReady,
@@ -201,8 +209,27 @@ export const FlatEmbed = forwardRef<FlatEmbedHandle, FlatEmbedProps>(
 			onRestrictedFeatureAttempt,
 		]);
 
-		// Expose embed instance via ref
-		useImperativeHandle(ref, () => embedRef.current as Embed, []);
+		// Expose embed instance via ref using a Proxy to always access the latest embedRef value
+		useImperativeHandle(
+			ref,
+			() =>
+				new Proxy(
+					{},
+					{
+						get(_target, prop) {
+							const embed = embedRef.current;
+							if (!embed) return undefined;
+
+							const value = embed[prop as keyof Embed];
+							if (typeof value === "function") {
+								return (...args: any[]) => value.apply(embed, args);
+							}
+							return value;
+						},
+					},
+				) as Embed,
+			[],
+		);
 
 		const containerStyle: React.CSSProperties = {
 			width,
