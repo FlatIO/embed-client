@@ -183,7 +183,8 @@ defineExpose(
 
 				// If it's a function, bind it to the embed instance
 				if (typeof value === "function") {
-					return (...args: any[]) => value.apply(embed, args);
+					// biome-ignore lint/suspicious/noExplicitAny: Type signature from flat-embed requires any
+					return (value as any).bind(embed);
 				}
 
 				return value;

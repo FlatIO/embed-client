@@ -153,44 +153,70 @@ export const FlatEmbed = forwardRef<FlatEmbedHandle, FlatEmbedProps>(
 
 			// Note: Using 'as any' cast due to event handler signature mismatch in flat-embed types
 			// The actual event data types are correct (NoteCursorPosition, PlaybackPosition, etc.)
-			const eventHandlers: Record<
-				string,
-				(() => void) | ((data: any) => void)
-			> = {
-				scoreLoaded: onScoreLoaded,
-				cursorPosition: onCursorPosition,
-				cursorContext: onCursorContext,
-				measureDetails: onMeasureDetails,
-				noteDetails: onNoteDetails,
-				rangeSelection: onRangeSelection,
-				fullscreen: onFullscreen,
-				play: onPlay,
-				pause: onPause,
-				stop: onStop,
-				playbackPosition: onPlaybackPosition,
-				restrictedFeatureAttempt: onRestrictedFeatureAttempt,
-			};
+			const eventHandlers: Array<{
+				name: string;
+				handler: (() => void) | ((data: any) => void);
+			}> = [];
+
+			if (onScoreLoaded)
+				eventHandlers.push({ name: "scoreLoaded", handler: onScoreLoaded });
+			if (onCursorPosition)
+				eventHandlers.push({
+					name: "cursorPosition",
+					handler: onCursorPosition as any,
+				});
+			if (onCursorContext)
+				eventHandlers.push({
+					name: "cursorContext",
+					handler: onCursorContext as any,
+				});
+			if (onMeasureDetails)
+				eventHandlers.push({
+					name: "measureDetails",
+					handler: onMeasureDetails as any,
+				});
+			if (onNoteDetails)
+				eventHandlers.push({
+					name: "noteDetails",
+					handler: onNoteDetails as any,
+				});
+			if (onRangeSelection)
+				eventHandlers.push({
+					name: "rangeSelection",
+					handler: onRangeSelection as any,
+				});
+			if (onFullscreen)
+				eventHandlers.push({
+					name: "fullscreen",
+					handler: onFullscreen as any,
+				});
+			if (onPlay) eventHandlers.push({ name: "play", handler: onPlay });
+			if (onPause) eventHandlers.push({ name: "pause", handler: onPause });
+			if (onStop) eventHandlers.push({ name: "stop", handler: onStop });
+			if (onPlaybackPosition)
+				eventHandlers.push({
+					name: "playbackPosition",
+					handler: onPlaybackPosition as any,
+				});
+			if (onRestrictedFeatureAttempt)
+				eventHandlers.push({
+					name: "restrictedFeatureAttempt",
+					handler: onRestrictedFeatureAttempt as any,
+				});
 
 			const subscribedEvents: string[] = [];
 
-			for (const [eventName, handler] of Object.entries(eventHandlers)) {
-				if (handler) {
-					embed.on(eventName as any, handler as any);
-					subscribedEvents.push(eventName);
-				}
+			for (const { name, handler } of eventHandlers) {
+				embed.on(name as any, handler as any);
+				subscribedEvents.push(name);
 			}
 
 			// Store subscribed events for cleanup
 			embed.subscribedEvents = subscribedEvents;
 
 			return () => {
-				if (embed.subscribedEvents) {
-					for (const eventName of embed.subscribedEvents) {
-						const handler = eventHandlers[eventName];
-						if (handler) {
-							embed.off(eventName as any, handler as any);
-						}
-					}
+				for (const { name, handler } of eventHandlers) {
+					embed.off(name as any, handler as any);
 				}
 			};
 		}, [
@@ -222,7 +248,8 @@ export const FlatEmbed = forwardRef<FlatEmbedHandle, FlatEmbedProps>(
 
 							const value = embed[prop as keyof Embed];
 							if (typeof value === "function") {
-								return (...args: any[]) => value.apply(embed, args);
+								// biome-ignore lint/suspicious/noExplicitAny: Type signature from flat-embed requires any
+								return (value as any).bind(embed);
 							}
 							return value;
 						},
