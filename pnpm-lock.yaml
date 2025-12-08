@@ -40,10 +40,10 @@ importers:
         version: 5.9.3
       vite:
         specifier: ^7.1.11
-        version: 7.2.6(@types/node@24.0.15)(yaml@2.8.1)
+        version: 7.2.7(@types/node@24.0.15)(yaml@2.8.1)
       vite-plugin-dts:
         specifier: ^4.5.4
-        version: 4.5.4(@types/node@24.0.15)(rollup@4.53.3)(typescript@5.9.3)(vite@7.2.6(@types/node@24.0.15)(yaml@2.8.1))
+        version: 4.5.4(@types/node@24.0.15)(rollup@4.53.3)(typescript@5.9.3)(vite@7.2.7(@types/node@24.0.15)(yaml@2.8.1))
 
 packages:
 
@@ -1585,8 +1585,8 @@ packages:
       vite:
         optional: true
 
-  vite@7.2.6:
-    resolution: {integrity: sha512-tI2l/nFHC5rLh7+5+o7QjKjSR04ivXDF4jcgV0f/bTQ+OJiITy5S6gaynVsEM+7RqzufMnVbIon6Sr5x1SDYaQ==}
+  vite@7.2.7:
+    resolution: {integrity: sha512-ITcnkFeR3+fI8P1wMgItjGrR10170d8auB4EpMLPqmx6uxElH3a/hHGQabSHKdqd4FXWO1nFIp9rRn7JQ34ACQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
     peerDependencies:
@@ -3185,7 +3185,7 @@ snapshots:
 
   vary@1.1.2: {}
 
-  vite-plugin-dts@4.5.4(@types/node@24.0.15)(rollup@4.53.3)(typescript@5.9.3)(vite@7.2.6(@types/node@24.0.15)(yaml@2.8.1)):
+  vite-plugin-dts@4.5.4(@types/node@24.0.15)(rollup@4.53.3)(typescript@5.9.3)(vite@7.2.7(@types/node@24.0.15)(yaml@2.8.1)):
     dependencies:
       '@microsoft/api-extractor': 7.52.8(@types/node@24.0.15)
       '@rollup/pluginutils': 5.2.0(rollup@4.53.3)
@@ -3198,13 +3198,13 @@ snapshots:
       magic-string: 0.30.17
       typescript: 5.9.3
     optionalDependencies:
-      vite: 7.2.6(@types/node@24.0.15)(yaml@2.8.1)
+      vite: 7.2.7(@types/node@24.0.15)(yaml@2.8.1)
     transitivePeerDependencies:
       - '@types/node'
       - rollup
       - supports-color
 
-  vite@7.2.6(@types/node@24.0.15)(yaml@2.8.1):
+  vite@7.2.7(@types/node@24.0.15)(yaml@2.8.1):
     dependencies:
       esbuild: 0.25.12
       fdir: 6.5.0(picomatch@4.0.3)
