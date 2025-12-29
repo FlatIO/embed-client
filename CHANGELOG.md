@@ -1,5 +1,9 @@
 # Changelog
 
+## 2025-12-29: v2.7.0
+
+- Added event `embedSize`
+
 ## 2025-10-22: v2.6.0
 
 - Added support for new locales: Danish (`da`), Finnish (`fi`), Filipino (`fil`), French Canadian (`fr-CA`), Hindi (`hi`), Indonesian (`id`), Malay (`ms`), Norwegian Bokmål (`nb`), Traditional Chinese Hong Kong (`zh-HK`), and Traditional Chinese Taiwan (`zh-TW`)
