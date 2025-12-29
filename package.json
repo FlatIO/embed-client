@@ -42,10 +42,13 @@
   "scripts": {
     "clean": "rm build/*",
     "build": "tsc && vite build",
-    "test": "tsc && pnpm run biome:check && npm run test:karma",
+    "test": "tsc && pnpm run biome:check && npm run test:karma:all-displays",
     "biome:check": "biome check .",
     "biome:fix": "biome check --write .",
     "test:karma": "karma start --single-run",
+    "test:karma:old-display": "karma start --single-run",
+    "test:karma:new-display": "FLAT_EMBED_NEW_DISPLAY=true karma start --single-run",
+    "test:karma:all-displays": "npm run test:karma:old-display && npm run test:karma:new-display",
     "test:karma-watch": "karma start --single-run=false --auto-watch",
     "prepare": "husky",
     "generate:docs": "npx tsx scripts/update-version-in-docs.ts && npx tsx scripts/generate-api-docs.ts"

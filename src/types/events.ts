@@ -15,6 +15,7 @@ export const EVENTS_NAMES = [
   'stop',
   'playbackPosition',
   'restrictedFeatureAttempt',
+  'embedSize',
 ] as const;
 
 /**

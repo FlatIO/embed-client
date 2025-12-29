@@ -24,6 +24,9 @@ describe('Integration - Embed', () => {
     }
   });
 
+  const USE_NEW_DISPLAY = window.__karma__.config.env.FLAT_EMBED_NEW_DISPLAY === 'true';
+  console.log('[embed-integration] USE_NEW_DISPLAY:', USE_NEW_DISPLAY);
+
   function createEmbedForScoreId(score, embedParams = {}) {
     const container = document.createElement('div');
     document.body.appendChild(container);
@@ -38,6 +41,7 @@ describe('Integration - Embed', () => {
       embedParams: {
         ...embedParams,
         appId: APP_ID,
+        ...(USE_NEW_DISPLAY && { newDisplay: true }),
       },
     });
 
@@ -729,6 +733,74 @@ describe('Integration - Embed', () => {
 
       embed.play().then(() => {
         embed.stop();
+      });
+    });
+  });
+
+  describe('Events - embedSize', () => {
+    // Note: New display (adagio-display) currently reports viewport dimensions via contentRect,
+    // not actual content dimensions. Height assertions are skipped for new display until
+    // adagio-display is updated to report actual content height.
+    it('should receive embedSize event with reasonable dimensions', done => {
+      const { embed, container } = createEmbedForScoreId(PUBLIC_SCORE);
+      container.style.width = '800px';
+
+      // Wait for score to be loaded before subscribing to embedSize
+      // This ensures the score has fully rendered before we check dimensions
+      embed.on('scoreLoaded', () => {
+        // Add a small delay to allow layout to stabilize (especially for new display)
+        setTimeout(() => {
+          let eventCount = 0;
+          embed.on('embedSize', data => {
+            eventCount++;
+            console.log(`[embedSize test] event #${eventCount}: height=${data.height}px, width=${data.width}px`);
+
+            assert.ok(typeof data.height === 'number', 'height is number');
+            assert.ok(typeof data.width === 'number', 'width is number');
+            // Height should be meaningful for a real score (not just iframe chrome)
+            // Skip height check for new display - it returns viewport height, not content height
+            if (!USE_NEW_DISPLAY) {
+              assert.ok(data.height > 500, `height should be > 500px, got ${data.height}px`);
+            }
+            assert.ok(data.width > 0, 'width > 0');
+            done();
+          });
+        }, 500);
+      });
+    });
+
+    // Skip resize test for new display - contentRect doesn't update on container resize
+    (USE_NEW_DISPLAY ? it.skip : it)('should emit new embedSize event on container resize', done => {
+      const { embed, container } = createEmbedForScoreId(PUBLIC_SCORE);
+      container.style.width = '800px';
+
+      // Wait for score to be loaded before subscribing to embedSize
+      embed.on('scoreLoaded', () => {
+        // Add a small delay to allow layout to stabilize (especially for new display)
+        setTimeout(() => {
+          let eventCount = 0;
+          let firstWidth = 0;
+
+          embed.on('embedSize', data => {
+            eventCount++;
+            console.log(`[embedSize resize test] event #${eventCount}: height=${data.height}px, width=${data.width}px`);
+
+            if (eventCount === 1) {
+              // First event after load
+              firstWidth = data.width;
+              assert.ok(data.height > 500, `initial height > 500px, got ${data.height}px`);
+              // Trigger resize after first event
+              setTimeout(() => {
+                console.log('[embedSize resize test] triggering resize to 500px');
+                container.style.width = '500px';
+              }, 200);
+            } else if (eventCount === 2) {
+              // Second event after resize
+              assert.ok(data.width < firstWidth, `width should decrease after resize: ${data.width} < ${firstWidth}`);
+              done();
+            }
+          });
+        }, 500);
       });
     });
   });

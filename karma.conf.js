@@ -22,6 +22,7 @@ module.exports = config => {
         FLAT_EMBED_QUARTET_SCORE: process.env.FLAT_EMBED_QUARTET_SCORE,
         FLAT_EMBED_PRIVATE_LINK_SCORE: process.env.FLAT_EMBED_PRIVATE_LINK_SCORE,
         FLAT_EMBED_PRIVATE_LINK_SHARING_KEY: process.env.FLAT_EMBED_PRIVATE_LINK_SHARING_KEY,
+        FLAT_EMBED_NEW_DISPLAY: process.env.FLAT_EMBED_NEW_DISPLAY,
       },
     },
     reporters: ['mocha'],
