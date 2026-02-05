@@ -480,6 +480,43 @@ describe('Integration - Embed', () => {
     });
   });
 
+  describe('PDF export #full', () => {
+    it('should export in PDF (no options)', done => {
+      const { embed } = createEmbedForScoreId(PUBLIC_SCORE);
+
+      embed.getPDF().then(pdf => {
+        assert.ok(pdf instanceof Uint8Array);
+        assert.ok(pdf.length > 0);
+        // PDF magic bytes: %PDF
+        assert.equal(pdf[0], 0x25); // %
+        assert.equal(pdf[1], 0x50); // P
+        assert.equal(pdf[2], 0x44); // D
+        assert.equal(pdf[3], 0x46); // F
+        done();
+      });
+    });
+
+    it('should export in PDF (data URL)', done => {
+      const { embed } = createEmbedForScoreId(PUBLIC_SCORE);
+
+      embed.getPDF({ result: 'dataURL' }).then(pdf => {
+        assert.equal(typeof pdf, 'string');
+        assert.equal(pdf.indexOf('data:application/pdf;base64,'), 0);
+        done();
+      });
+    });
+
+    it('should export in PDF with concert pitch option', done => {
+      const { embed } = createEmbedForScoreId(PUBLIC_SCORE);
+
+      embed.getPDF({ isConcertPitch: true }).then(pdf => {
+        assert.ok(pdf instanceof Uint8Array);
+        assert.ok(pdf.length > 0);
+        done();
+      });
+    });
+  });
+
   describe('MIDI import/export', () => {
     it('shoud load a MIDI file in a blank embed', done => {
       var container = document.createElement('div');

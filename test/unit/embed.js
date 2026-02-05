@@ -173,4 +173,56 @@ describe('Unit - Embed tests', () => {
       container.removeChild(embed.element);
     });
   });
+
+  describe('getPDF method', () => {
+    it('should have getPDF method available', () => {
+      const container = document.getElementById('container');
+      const embed = new Flat.Embed(container, { score: '1234' });
+      assert.equal(typeof embed.getPDF, 'function');
+      container.removeChild(embed.element);
+    });
+
+    it('should reject when options is not an object', done => {
+      const container = document.getElementById('container');
+      const embed = new Flat.Embed(container, { score: '1234' });
+      embed.getPDF('invalid').catch(err => {
+        assert.ok(err instanceof TypeError);
+        assert.equal(err.message, 'Options must be an object');
+        container.removeChild(embed.element);
+        done();
+      });
+    });
+
+    it('should accept valid options object', () => {
+      const container = document.getElementById('container');
+      const embed = new Flat.Embed(container, { score: '1234' });
+      // This should not throw - the actual call will fail since no score is loaded,
+      // but the options validation should pass
+      const promise = embed.getPDF({
+        result: 'Uint8Array',
+        parts: ['uuid-1', 'uuid-2'],
+        isConcertPitch: true,
+        multiMeasuresRests: true,
+        outlineColoredNotes: true,
+      });
+      assert.ok(promise instanceof Promise);
+      container.removeChild(embed.element);
+    });
+
+    it('should accept empty options object', () => {
+      const container = document.getElementById('container');
+      const embed = new Flat.Embed(container, { score: '1234' });
+      const promise = embed.getPDF({});
+      assert.ok(promise instanceof Promise);
+      container.removeChild(embed.element);
+    });
+
+    it('should accept undefined options', () => {
+      const container = document.getElementById('container');
+      const embed = new Flat.Embed(container, { score: '1234' });
+      const promise = embed.getPDF();
+      assert.ok(promise instanceof Promise);
+      container.removeChild(embed.element);
+    });
+  });
 });
