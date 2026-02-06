@@ -16,6 +16,7 @@ export const EVENTS_NAMES = [
   'playbackPosition',
   'restrictedFeatureAttempt',
   'embedSize',
+  'exportProgress',
 ] as const;
 
 /**
