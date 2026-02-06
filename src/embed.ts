@@ -437,6 +437,70 @@ class Embed {
   }
 
   /**
+   * Convert the displayed score to MP3 audio
+   *
+   * Exports the currently loaded score as an MP3 audio file. The audio is rendered
+   * client-side using the browser's audio capabilities. This may take some time
+   * depending on the score length and complexity.
+   *
+   * @returns A promise that resolves with a Uint8Array containing the MP3 audio data
+   * @throws {Error} If no score is loaded or audio rendering fails
+   *
+   * @example
+   * // Get MP3 and play it
+   * const mp3Data = await embed.getMP3();
+   * const blob = new Blob([mp3Data], { type: 'audio/mpeg' });
+   * const url = URL.createObjectURL(blob);
+   * const audio = new Audio(url);
+   * audio.play();
+   *
+   * @example
+   * // Download MP3 file
+   * const mp3Data = await embed.getMP3();
+   * const blob = new Blob([mp3Data], { type: 'audio/mpeg' });
+   * const url = URL.createObjectURL(blob);
+   * const a = document.createElement('a');
+   * a.href = url;
+   * a.download = 'score.mp3';
+   * a.click();
+   */
+  getMP3(): Promise<Uint8Array> {
+    return this.call('getMP3').then(data => new Uint8Array(data as [number]));
+  }
+
+  /**
+   * Convert the displayed score to WAV audio
+   *
+   * Exports the currently loaded score as a WAV audio file. The audio is rendered
+   * client-side using the browser's audio capabilities. WAV files are uncompressed
+   * and larger than MP3 but provide lossless audio quality.
+   *
+   * @returns A promise that resolves with a Uint8Array containing the WAV audio data
+   * @throws {Error} If no score is loaded or audio rendering fails
+   *
+   * @example
+   * // Get WAV and play it
+   * const wavData = await embed.getWAV();
+   * const blob = new Blob([wavData], { type: 'audio/wav' });
+   * const url = URL.createObjectURL(blob);
+   * const audio = new Audio(url);
+   * audio.play();
+   *
+   * @example
+   * // Download WAV file
+   * const wavData = await embed.getWAV();
+   * const blob = new Blob([wavData], { type: 'audio/wav' });
+   * const url = URL.createObjectURL(blob);
+   * const a = document.createElement('a');
+   * a.href = url;
+   * a.download = 'score.wav';
+   * a.click();
+   */
+  getWAV(): Promise<Uint8Array> {
+    return this.call('getWAV').then(data => new Uint8Array(data as [number]));
+  }
+
+  /**
    * Convert the displayed score to PDF
    *
    * Exports the currently loaded score as a PDF file. The PDF is generated client-side
