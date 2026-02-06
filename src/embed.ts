@@ -437,6 +437,58 @@ class Embed {
   }
 
   /**
+   * Convert the displayed score to PDF
+   *
+   * Exports the currently loaded score as a PDF file. The PDF is generated client-side
+   * and includes all pages of the score with proper page layout.
+   *
+   * @param options - Export options:
+   *   - `parts`: Filter to specific parts (array of part UUIDs). If not specified, all parts are included.
+   *   - `isConcertPitch`: Export in concert pitch instead of transposed (default: false)
+   *   - `multiMeasuresRests`: Merge consecutive empty measures, useful for individual parts (default: false)
+   *   - `outlineColoredNotes`: Outline colored notes for B&W printing (default: false)
+   * @returns A promise that resolves with a Uint8Array containing the PDF data
+   * @throws {TypeError} If options parameter is invalid
+   * @throws {Error} If no score is loaded or conversion fails
+   *
+   * @example
+   * // Get PDF as Uint8Array
+   * const pdfData = await embed.getPDF();
+   * const blob = new Blob([pdfData], { type: 'application/pdf' });
+   *
+   * @example
+   * // Export specific parts with options
+   * const parts = await embed.getParts();
+   * const violinPdf = await embed.getPDF({
+   *   parts: [parts[0].uuid],
+   *   multiMeasuresRests: true,
+   *   isConcertPitch: true
+   * });
+   */
+  getPDF(options?: {
+    /** Filter to specific parts (array of part UUIDs) */
+    parts?: string[];
+    /** Export in concert pitch instead of transposed (default: false) */
+    isConcertPitch?: boolean;
+    /** Merge consecutive empty measures (default: false) */
+    multiMeasuresRests?: boolean;
+    /** Outline colored notes for B&W printing (default: false) */
+    outlineColoredNotes?: boolean;
+  }): Promise<Uint8Array> {
+    return new Promise((resolve, reject) => {
+      options = options || {};
+      if (typeof options !== 'object') {
+        return reject(new TypeError('Options must be an object'));
+      }
+      this.call('getPDF', options)
+        .then(data => {
+          resolve(new Uint8Array(data as [number]));
+        })
+        .catch(reject);
+    });
+  }
+
+  /**
    * Get the metadata of the score (for scores hosted on Flat)
    *
    * Retrieves metadata for scores that are hosted on Flat, including title, composer,
