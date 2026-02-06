@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-02-06: v2.8.0
+
+- Added method `getPDF` for PDF export
+
 ## 2025-12-29: v2.7.0
 
 - Added event `embedSize`
