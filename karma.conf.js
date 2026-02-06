@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({ quiet: true });
 
 module.exports = config => {
   // Mocha configuration
@@ -58,7 +58,7 @@ module.exports = config => {
     },
     singleRun: false,
     concurrency: Infinity,
-    browserNoActivityTimeout: 60000,
+    browserNoActivityTimeout: 180000, // 3 minutes for audio export tests
   };
 
   config.set(configuration);
