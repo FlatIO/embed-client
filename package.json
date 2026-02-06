@@ -51,7 +51,7 @@
     "test:karma:all-displays": "npm run test:karma:old-display && npm run test:karma:new-display",
     "test:karma-watch": "karma start --single-run=false --auto-watch",
     "prepare": "husky",
-    "generate:docs": "npx tsx scripts/update-version-in-docs.ts && npx tsx scripts/generate-api-docs.ts"
+    "generate:docs": "pnpm build && npx tsx scripts/update-version-in-docs.ts && npx tsx scripts/generate-api-docs.ts"
   },
   "lint-staged": {
     "**/*": "biome check --write --no-errors-on-unmatched --files-ignore-unknown=true"

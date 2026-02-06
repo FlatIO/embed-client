@@ -267,6 +267,7 @@ const METHOD_CATEGORIES: Record<string, string[]> = {
     'getMusicXML',
     'getJSON',
     'getPNG',
+    'getPDF',
     'getMIDI',
     'getFlatScoreMetadata',
   ],
@@ -859,6 +860,13 @@ function generateCategoryPage(category: string, methods: MethodInfo[]): string {
     return ''; // Skip generating events page as it has custom content
   }
 
+  if (!info) {
+    console.warn(
+      `  ⚠ Skipping unknown category: ${category} (methods: ${methods.map(m => m.name).join(', ')})`,
+    );
+    return '';
+  }
+
   return `---
 title: ${info.title}
 description: ${info.description}
@@ -994,6 +1002,7 @@ async function main() {
     }
 
     const content = generateCategoryPage(category, categoryMethods);
+    if (!content) return;
     const outputPath = join(outputDir, `${category}.md`);
     writeFileSync(outputPath, content);
     console.log(`  ✓ ${category}.md (${categoryMethods.length} methods)`);
