@@ -443,12 +443,11 @@ class Embed {
    * and includes all pages of the score with proper page layout.
    *
    * @param options - Export options:
-   *   - `result`: Output format - 'Uint8Array' (default) or 'dataURL'
    *   - `parts`: Filter to specific parts (array of part UUIDs). If not specified, all parts are included.
    *   - `isConcertPitch`: Export in concert pitch instead of transposed (default: false)
    *   - `multiMeasuresRests`: Merge consecutive empty measures, useful for individual parts (default: false)
    *   - `outlineColoredNotes`: Outline colored notes for B&W printing (default: false)
-   * @returns A promise that resolves with the PDF data
+   * @returns A promise that resolves with a Uint8Array containing the PDF data
    * @throws {TypeError} If options parameter is invalid
    * @throws {Error} If no score is loaded or conversion fails
    *
@@ -456,10 +455,6 @@ class Embed {
    * // Get PDF as Uint8Array
    * const pdfData = await embed.getPDF();
    * const blob = new Blob([pdfData], { type: 'application/pdf' });
-   *
-   * @example
-   * // Get PDF as data URL
-   * const dataUrl = await embed.getPDF({ result: 'dataURL' });
    *
    * @example
    * // Export specific parts with options
@@ -471,8 +466,6 @@ class Embed {
    * });
    */
   getPDF(options?: {
-    /** Export result (either a PDF returned as Uint8Array or in dataURL) */
-    result?: 'Uint8Array' | 'dataURL';
     /** Filter to specific parts (array of part UUIDs) */
     parts?: string[];
     /** Export in concert pitch instead of transposed (default: false) */
@@ -481,7 +474,7 @@ class Embed {
     multiMeasuresRests?: boolean;
     /** Outline colored notes for B&W printing (default: false) */
     outlineColoredNotes?: boolean;
-  }): Promise<Uint8Array | string> {
+  }): Promise<Uint8Array> {
     return new Promise((resolve, reject) => {
       options = options || {};
       if (typeof options !== 'object') {
@@ -489,9 +482,6 @@ class Embed {
       }
       this.call('getPDF', options)
         .then(data => {
-          if (typeof data === 'string') {
-            return resolve(data);
-          }
           resolve(new Uint8Array(data as [number]));
         })
         .catch(reject);

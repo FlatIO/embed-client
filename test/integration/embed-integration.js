@@ -496,16 +496,6 @@ describe('Integration - Embed', () => {
       });
     });
 
-    it('should export in PDF (data URL)', done => {
-      const { embed } = createEmbedForScoreId(PUBLIC_SCORE);
-
-      embed.getPDF({ result: 'dataURL' }).then(pdf => {
-        assert.equal(typeof pdf, 'string');
-        assert.equal(pdf.indexOf('data:application/pdf;base64,'), 0);
-        done();
-      });
-    });
-
     it('should export in PDF with concert pitch option', done => {
       const { embed } = createEmbedForScoreId(PUBLIC_SCORE);
 
