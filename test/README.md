@@ -19,6 +19,8 @@
 pnpm test
 ```
 
+This runs Vitest in browser mode (Chromium).
+
 ## Run specific test with TEST_GREP
 
 You can run specific test by using the `TEST_GREP` environment variable.
