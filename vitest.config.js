@@ -25,7 +25,11 @@ export default defineConfig({
     testNamePattern: process.env.TEST_GREP,
     browser: {
       enabled: true,
-      provider: playwright(),
+      provider: playwright({
+        launchOptions: {
+          args: ['--autoplay-policy=no-user-gesture-required'],
+        },
+      }),
       instances: [
         {
           browser: 'chromium',
