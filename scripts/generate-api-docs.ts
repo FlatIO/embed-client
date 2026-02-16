@@ -269,6 +269,8 @@ const METHOD_CATEGORIES: Record<string, string[]> = {
     'getPNG',
     'getPDF',
     'getMIDI',
+    'getMP3',
+    'getWAV',
     'getFlatScoreMetadata',
   ],
   playback: [
