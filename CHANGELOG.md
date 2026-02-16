@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-02-16: v2.9.0
+
+- Added methods `getMP3` and `getWAV` for audio export
+- Added event `exportProgress`
+
 ## 2026-02-06: v2.8.0
 
 - Added method `getPDF` for PDF export
