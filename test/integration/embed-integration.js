@@ -931,7 +931,7 @@ describe('Integration - Embed', () => {
   });
 
   describe('getNbMeasures #full', () => {
-    it('basic', async () => {
+    it('returns total number of measures', async () => {
       // Given
       const { embed } = createEmbedForScoreId(QUARTET_SCORE);
 
@@ -944,7 +944,7 @@ describe('Integration - Embed', () => {
   });
 
   describe('getMeasuresUuids #full', () => {
-    it('basic', async () => {
+    it('returns all measure UUIDs', async () => {
       // Given
       const { embed } = createEmbedForScoreId(QUARTET_SCORE);
 
@@ -957,7 +957,7 @@ describe('Integration - Embed', () => {
   });
 
   describe('getNbParts #full', () => {
-    it('basic', async () => {
+    it('returns total number of parts', async () => {
       const { embed } = createEmbedForScoreId(QUARTET_SCORE);
 
       // When
@@ -969,7 +969,7 @@ describe('Integration - Embed', () => {
   });
 
   describe('getPartsUuids #full', () => {
-    it('basic', async () => {
+    it('returns all part UUIDs', async () => {
       // Given
       const { embed } = createEmbedForScoreId(QUARTET_SCORE);
 
@@ -987,7 +987,7 @@ describe('Integration - Embed', () => {
   });
 
   describe('getMeasureVoicesUuids #full', () => {
-    it('basic', async () => {
+    it('returns voice UUIDs for a measure', async () => {
       // Given
       const { embed } = createEmbedForScoreId(QUARTET_SCORE);
 
@@ -1003,7 +1003,7 @@ describe('Integration - Embed', () => {
   });
 
   describe('getMeasureNbNotes #full', () => {
-    it('basic', async () => {
+    it('returns note count for a measure voice', async () => {
       // Given
       const { embed } = createEmbedForScoreId(QUARTET_SCORE);
 
@@ -1020,7 +1020,7 @@ describe('Integration - Embed', () => {
   });
 
   describe('getNoteData #full', () => {
-    it('basic', async () => {
+    it('returns note data by index', async () => {
       // Given
       const { embed } = createEmbedForScoreId(QUARTET_SCORE);
 
@@ -1053,7 +1053,7 @@ describe('Integration - Embed', () => {
   });
 
   describe('playbackPositionToNoteIdx #full', () => {
-    it('basic', async () => {
+    it('maps playback position to note index', async () => {
       // Given
       const { embed } = createEmbedForScoreId(QUARTET_SCORE);
 
