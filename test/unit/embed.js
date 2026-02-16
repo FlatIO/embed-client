@@ -228,4 +228,38 @@ describe('Unit - Embed tests', () => {
       container.removeChild(embed.element);
     });
   });
+
+  describe('getMP3 method', () => {
+    it('should have getMP3 method available', () => {
+      const container = document.getElementById('container');
+      const embed = new Flat.Embed(container, { score: '1234' });
+      assert.equal(typeof embed.getMP3, 'function');
+      container.removeChild(embed.element);
+    });
+
+    it('should return a Promise', () => {
+      const container = document.getElementById('container');
+      const embed = new Flat.Embed(container, { score: '1234' });
+      const promise = embed.getMP3();
+      assert.ok(promise instanceof Promise);
+      container.removeChild(embed.element);
+    });
+  });
+
+  describe('getWAV method', () => {
+    it('should have getWAV method available', () => {
+      const container = document.getElementById('container');
+      const embed = new Flat.Embed(container, { score: '1234' });
+      assert.equal(typeof embed.getWAV, 'function');
+      container.removeChild(embed.element);
+    });
+
+    it('should return a Promise', () => {
+      const container = document.getElementById('container');
+      const embed = new Flat.Embed(container, { score: '1234' });
+      const promise = embed.getWAV();
+      assert.ok(promise instanceof Promise);
+      container.removeChild(embed.element);
+    });
+  });
 });

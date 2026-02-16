@@ -14,6 +14,25 @@ const PRIVATE_LINK_SHARING_KEY =
  * #full: Tests that can run on full editor
  */
 
+/**
+ * Checks if data has valid MP3 magic bytes
+ * MP3 can start with ID3 tag (0x49 0x44 0x33) or MPEG frame sync (0xFF followed by frame header)
+ */
+function isValidMP3(data) {
+  if (!(data instanceof Uint8Array) || data.length < 3) return false;
+  const isID3 = data[0] === 0x49 && data[1] === 0x44 && data[2] === 0x33;
+  const isMPEG = data[0] === 0xff && (data[1] & 0xe0) === 0xe0;
+  return isID3 || isMPEG;
+}
+
+/**
+ * Checks if data has valid WAV magic bytes (RIFF header)
+ */
+function isValidWAV(data) {
+  if (!(data instanceof Uint8Array) || data.length < 4) return false;
+  return data[0] === 0x52 && data[1] === 0x49 && data[2] === 0x46 && data[3] === 0x46; // RIFF
+}
+
 describe('Integration - Embed', () => {
   // On failure, clean dom
   afterEach(() => {
@@ -504,6 +523,65 @@ describe('Integration - Embed', () => {
         assert.ok(pdf.length > 0);
         done();
       });
+    });
+  });
+
+  describe('MP3 export #full', () => {
+    it('should export in MP3', { timeout: 120000 }, done => {
+      const { embed } = createEmbedForScoreId(PUBLIC_SCORE);
+
+      embed
+        .getMP3()
+        .then(mp3 => {
+          assert.ok(mp3 instanceof Uint8Array);
+          assert.ok(mp3.length > 0);
+          assert.ok(isValidMP3(mp3), 'Valid MP3 header');
+          done();
+        })
+        .catch(error => {
+          done(error);
+        });
+    });
+  });
+
+  describe('WAV export #full', () => {
+    it('should export in WAV', { timeout: 120000 }, done => {
+      const { embed } = createEmbedForScoreId(PUBLIC_SCORE);
+
+      embed
+        .getWAV()
+        .then(wav => {
+          assert.ok(wav instanceof Uint8Array);
+          assert.ok(wav.length > 0);
+          assert.ok(isValidWAV(wav), 'Valid WAV header');
+          done();
+        })
+        .catch(error => {
+          done(error);
+        });
+    });
+  });
+
+  describe('Events - exportProgress #full', () => {
+    it('should receive exportProgress events during MP3 export', { timeout: 120000 }, done => {
+      const { embed } = createEmbedForScoreId(PUBLIC_SCORE);
+      let progressReceived = false;
+
+      embed.on('exportProgress', progress => {
+        assert.ok(typeof progress === 'object');
+        progressReceived = true;
+      });
+
+      embed
+        .getMP3()
+        .then(mp3 => {
+          assert.ok(mp3 instanceof Uint8Array);
+          assert.ok(progressReceived, 'Should have received exportProgress event');
+          done();
+        })
+        .catch(error => {
+          done(error);
+        });
     });
   });
 
