@@ -527,8 +527,7 @@ describe('Integration - Embed', () => {
   });
 
   describe('MP3 export #full', () => {
-    it('should export in MP3', function (done) {
-      this.timeout(120000); // Audio export can take up to 2 minutes
+    it('should export in MP3', { timeout: 120000 }, done => {
       const { embed } = createEmbedForScoreId(PUBLIC_SCORE);
 
       embed
@@ -546,8 +545,7 @@ describe('Integration - Embed', () => {
   });
 
   describe('WAV export #full', () => {
-    it('should export in WAV', function (done) {
-      this.timeout(120000); // Audio export can take up to 2 minutes
+    it('should export in WAV', { timeout: 120000 }, done => {
       const { embed } = createEmbedForScoreId(PUBLIC_SCORE);
 
       embed
@@ -565,8 +563,7 @@ describe('Integration - Embed', () => {
   });
 
   describe('Events - exportProgress #full', () => {
-    it('should receive exportProgress events during MP3 export', function (done) {
-      this.timeout(120000); // Audio export can take up to 2 minutes
+    it('should receive exportProgress events during MP3 export', { timeout: 120000 }, done => {
       const { embed } = createEmbedForScoreId(PUBLIC_SCORE);
       let progressReceived = false;
 
