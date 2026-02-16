@@ -1,13 +1,13 @@
-const APP_ID = window.__karma__.config.env.FLAT_EMBED_APP_ID || '58fa312bea9bbd061b0ea8f3';
-const BASE_URL = window.__karma__.config.env.FLAT_EMBED_BASE_URL || 'https://flat-embed.com';
+const APP_ID = window.__TEST_ENV__.FLAT_EMBED_APP_ID || '58fa312bea9bbd061b0ea8f3';
+const BASE_URL = window.__TEST_ENV__.FLAT_EMBED_BASE_URL || 'https://flat-embed.com';
 const PUBLIC_SCORE =
-  window.__karma__.config.env.FLAT_EMBED_PUBLIC_SCORE || '56ae21579a127715a02901a6';
+  window.__TEST_ENV__.FLAT_EMBED_PUBLIC_SCORE || '56ae21579a127715a02901a6';
 const QUARTET_SCORE =
-  window.__karma__.config.env.FLAT_EMBED_QUARTET_SCORE || '5e1348dd6d09386a2b178b58';
+  window.__TEST_ENV__.FLAT_EMBED_QUARTET_SCORE || '5e1348dd6d09386a2b178b58';
 const PRIVATE_LINK_SCORE =
-  window.__karma__.config.env.FLAT_EMBED_PRIVATE_LINK_SCORE || '5ce56f7c019fd41f5b17b72d';
+  window.__TEST_ENV__.FLAT_EMBED_PRIVATE_LINK_SCORE || '5ce56f7c019fd41f5b17b72d';
 const PRIVATE_LINK_SHARING_KEY =
-  window.__karma__.config.env.FLAT_EMBED_PRIVATE_LINK_SHARING_KEY ||
+  window.__TEST_ENV__.FLAT_EMBED_PRIVATE_LINK_SHARING_KEY ||
   '3f70cc5ecf5e4248055bbe7502a9514cfe619c53b4e248144e470bb5f08c5ecf880cf3eda5679c6b19f646a98ec0bd06d892ee1fd6896e20de0365ed0a42fc00';
 
 /**
@@ -24,7 +24,7 @@ describe('Integration - Embed', () => {
     }
   });
 
-  const USE_NEW_DISPLAY = window.__karma__.config.env.FLAT_EMBED_NEW_DISPLAY === 'true';
+  const USE_NEW_DISPLAY = window.__TEST_ENV__.FLAT_EMBED_NEW_DISPLAY === 'true';
   console.log('[embed-integration] USE_NEW_DISPLAY:', USE_NEW_DISPLAY);
 
   function createEmbedForScoreId(score, embedParams = {}) {
@@ -254,7 +254,7 @@ describe('Integration - Embed', () => {
         },
       });
 
-      fetch('/base/test/integration/fixtures/flat-house-of-the-rising-sun.musicxml')
+      fetch('/test/integration/fixtures/flat-house-of-the-rising-sun.musicxml')
         .then(response => {
           return response.text();
         })
@@ -292,7 +292,7 @@ describe('Integration - Embed', () => {
         },
       });
 
-      fetch('/base/test/integration/fixtures/flat-house-of-the-rising-sun.mxl')
+      fetch('/test/integration/fixtures/flat-house-of-the-rising-sun.mxl')
         .then(response => {
           return response.arrayBuffer();
         })
@@ -330,7 +330,7 @@ describe('Integration - Embed', () => {
         },
       });
 
-      fetch('/base/test/integration/fixtures/flat-house-of-the-rising-sun.mxl')
+      fetch('/test/integration/fixtures/flat-house-of-the-rising-sun.mxl')
         .then(response => {
           return response.arrayBuffer();
         })
@@ -520,7 +520,7 @@ describe('Integration - Embed', () => {
         },
       });
 
-      fetch('/base/test/integration/fixtures/test.mid')
+      fetch('/test/integration/fixtures/test.mid')
         .then(response => {
           return response.arrayBuffer();
         })

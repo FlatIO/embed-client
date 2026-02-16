@@ -42,14 +42,14 @@
   "scripts": {
     "clean": "rm build/*",
     "build": "tsc && vite build",
-    "test": "tsc && pnpm run biome:check && npm run test:karma:all-displays",
+    "test": "pnpm build && pnpm run biome:check && pnpm run test:vitest:all-displays",
     "biome:check": "biome check .",
     "biome:fix": "biome check --write .",
-    "test:karma": "karma start --single-run",
-    "test:karma:old-display": "karma start --single-run",
-    "test:karma:new-display": "FLAT_EMBED_NEW_DISPLAY=true karma start --single-run",
-    "test:karma:all-displays": "npm run test:karma:old-display && npm run test:karma:new-display",
-    "test:karma-watch": "karma start --single-run=false --auto-watch",
+    "test:vitest": "vitest --browser --run",
+    "test:vitest:old-display": "vitest --browser --run",
+    "test:vitest:new-display": "FLAT_EMBED_NEW_DISPLAY=true vitest --browser --run",
+    "test:vitest:all-displays": "pnpm run test:vitest:old-display && pnpm run test:vitest:new-display",
+    "test:vitest-watch": "vitest --browser",
     "prepare": "husky",
     "generate:docs": "pnpm build && npx tsx scripts/update-version-in-docs.ts && npx tsx scripts/generate-api-docs.ts"
   },
@@ -58,16 +58,15 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.2.7",
+    "@vitest/browser": "^4.0.18",
+    "@vitest/browser-playwright": "^4.0.18",
     "dotenv": "^17.2.0",
     "husky": "^9.1.7",
-    "karma": "6.4.4",
-    "karma-chrome-launcher": "3.2.0",
-    "karma-mocha": "2.0.1",
-    "karma-mocha-reporter": "^2.2.5",
     "lint-staged": "^16.2.5",
-    "mocha": "^11.7.1",
+    "playwright": "1.58.2",
     "typescript": "^5.8.3",
     "vite": "^7.1.11",
-    "vite-plugin-dts": "^4.5.4"
+    "vite-plugin-dts": "^4.5.4",
+    "vitest": "^4.0.18"
   }
 }

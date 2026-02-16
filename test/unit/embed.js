@@ -182,15 +182,18 @@ describe('Unit - Embed tests', () => {
       container.removeChild(embed.element);
     });
 
-    it('should reject when options is not an object', done => {
+    it('should reject when options is not an object', async () => {
       const container = document.getElementById('container');
       const embed = new Flat.Embed(container, { score: '1234' });
-      embed.getPDF('invalid').catch(err => {
+      try {
+        await embed.getPDF('invalid');
+        assert.fail('Expected getPDF to reject');
+      } catch (err) {
         assert.ok(err instanceof TypeError);
         assert.equal(err.message, 'Options must be an object');
+      } finally {
         container.removeChild(embed.element);
-        done();
-      });
+      }
     });
 
     it('should accept valid options object', () => {
