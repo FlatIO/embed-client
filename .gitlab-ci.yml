@@ -27,6 +27,9 @@ chrome_stable:
   tags: ['docker']
   image: mcr.microsoft.com/playwright:v1.58.2-noble
   script:
+    - corepack enable
+    - corepack prepare pnpm@10.17.1 --activate
+    - pnpm --version
     - node -v
     - pnpm test
 
