@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-03-03: v2.10.0
+
+- Added `editorInterface` parameter to `EmbedUrlParameters` type (`'desktop'` | `'mobile'`)
+
 ## 2026-02-16: v2.9.0
 
 - Added methods `getMP3` and `getWAV` for audio export
