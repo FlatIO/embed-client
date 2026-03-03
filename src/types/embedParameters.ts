@@ -144,6 +144,9 @@ export interface EmbedUrlParameters {
   /** Display or hide main controls (default = true) */
   controlsDisplay?: boolean;
 
+  /** Editor interface style (default = desktop) */
+  editorInterface?: 'desktop' | 'mobile';
+
   /** Controls position (default = bottom) */
   controlsPosition?: 'bottom' | 'top';
 
