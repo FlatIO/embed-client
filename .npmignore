@@ -22,3 +22,4 @@ karma.conf.js
 .gitignore
 .editorconfig
 rollup.config.js
+context7.json
