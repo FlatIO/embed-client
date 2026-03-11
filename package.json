@@ -42,13 +42,10 @@
   "scripts": {
     "clean": "rm build/*",
     "build": "tsc && vite build",
-    "test": "pnpm build && pnpm run biome:check && pnpm run test:vitest:all-displays",
+    "test": "pnpm build && pnpm run biome:check && pnpm run test:vitest",
     "biome:check": "biome check .",
     "biome:fix": "biome check --write .",
-    "test:vitest": "vitest --browser --run",
-    "test:vitest:old-display": "vitest --browser --run",
-    "test:vitest:new-display": "FLAT_EMBED_NEW_DISPLAY=true vitest --browser --run",
-    "test:vitest:all-displays": "pnpm run test:vitest:old-display && pnpm run test:vitest:new-display",
+    "test:vitest": "FLAT_EMBED_NEW_DISPLAY=true vitest --browser --run",
     "test:vitest-watch": "vitest --browser",
     "prepare": "husky",
     "generate:docs": "pnpm build && npx tsx scripts/update-version-in-docs.ts && npx tsx scripts/generate-api-docs.ts"
