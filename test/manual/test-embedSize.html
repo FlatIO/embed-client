@@ -89,11 +89,6 @@
       <button onclick="switchMode('page')" id="btn-page">Page</button>
       <button onclick="switchMode('track')" id="btn-track">Track</button>
     </div>
-    <div class="controls-group">
-      <label>Display:</label>
-      <button onclick="switchDisplay(false)" id="btn-old-display">Old</button>
-      <button onclick="switchDisplay(true)" id="btn-new-display">New</button>
-    </div>
   </div>
 
   <div class="mode-info" id="mode-info">
@@ -121,14 +116,11 @@
     // Get params from URL
     const urlParams = new URLSearchParams(window.location.search);
     const layout = urlParams.get('layout') || 'responsive';
-    const newDisplay = urlParams.get('newDisplay') === 'true';
-
     // Update mode info
-    modeInfo.textContent = `Layout: ${layout} | Display: ${newDisplay ? 'new' : 'old'}`;
+    modeInfo.textContent = `Layout: ${layout}`;
 
     // Highlight active buttons
     document.getElementById(`btn-${layout}`)?.classList.add('active');
-    document.getElementById(newDisplay ? 'btn-new-display' : 'btn-old-display')?.classList.add('active');
 
     function addLog(message) {
       const time = new Date().toLocaleTimeString();
@@ -152,23 +144,13 @@
       window.location.search = params.toString();
     };
 
-    window.switchDisplay = function(useNew) {
-      const params = new URLSearchParams(window.location.search);
-      params.set('newDisplay', useNew ? 'true' : 'false');
-      window.location.search = params.toString();
-    };
-
-    addLog(`Creating embed with layout=${layout}, newDisplay=${newDisplay}...`);
+    addLog(`Creating embed with layout=${layout}...`);
 
     const embedParams = {
       appId: '58f0ee6053674e68c81e5646',
       controlsFloating: false,
       layout: layout,
     };
-
-    if (newDisplay) {
-      embedParams['newDisplay'] = true;
-    }
 
     const embed = new Embed('embed-container', {
       score: '56ae21579a127715a02901a6',

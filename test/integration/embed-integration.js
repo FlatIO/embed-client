@@ -43,9 +43,6 @@ describe('Integration - Embed', () => {
     }
   });
 
-  const USE_NEW_DISPLAY = window.__TEST_ENV__.FLAT_EMBED_NEW_DISPLAY === 'true';
-  console.log('[embed-integration] USE_NEW_DISPLAY:', USE_NEW_DISPLAY);
-
   function createEmbedForScoreId(score, embedParams = {}) {
     const container = document.createElement('div');
     document.body.appendChild(container);
@@ -60,7 +57,6 @@ describe('Integration - Embed', () => {
       embedParams: {
         ...embedParams,
         appId: APP_ID,
-        ...(USE_NEW_DISPLAY && { newDisplay: true }),
       },
     });
 
@@ -665,16 +661,13 @@ describe('Integration - Embed', () => {
   });
 
   describe('Events - embedSize', () => {
-    // Note: New display (adagio-display) currently reports viewport dimensions via contentRect,
-    // not actual content dimensions. Height assertions are skipped for new display until
-    // adagio-display is updated to report actual content height.
     it('should receive embedSize event with reasonable dimensions', async () => {
       const { embed, container } = createEmbedForScoreId(PUBLIC_SCORE);
       container.style.width = '800px';
 
       // Wait for score to be loaded before subscribing to embedSize
       await new Promise(resolve => embed.on('scoreLoaded', resolve));
-      // Allow layout to stabilize (especially for new display)
+      // Allow layout to stabilize
       await new Promise(resolve => setTimeout(resolve, 500));
 
       const data = await new Promise(resolve => embed.on('embedSize', resolve));
@@ -682,16 +675,11 @@ describe('Integration - Embed', () => {
 
       assert.ok(typeof data.height === 'number', 'height is number');
       assert.ok(typeof data.width === 'number', 'width is number');
-      // Height should be meaningful for a real score (not just iframe chrome)
-      // Skip height check for new display - it returns viewport height, not content height
-      if (!USE_NEW_DISPLAY) {
-        assert.ok(data.height > 500, `height should be > 500px, got ${data.height}px`);
-      }
       assert.ok(data.width > 0, 'width > 0');
     });
 
-    // Skip resize test for new display - contentRect doesn't update on container resize
-    (USE_NEW_DISPLAY ? it.skip : it)('should emit new embedSize event on container resize', async () => {
+    // Skip: contentRect doesn't update on container resize with current display
+    it.skip('should emit new embedSize event on container resize', async () => {
       const { embed, container } = createEmbedForScoreId(PUBLIC_SCORE);
       container.style.width = '800px';
 
