@@ -45,7 +45,7 @@
     "test": "pnpm build && pnpm run biome:check && pnpm run test:vitest",
     "biome:check": "biome check .",
     "biome:fix": "biome check --write .",
-    "test:vitest": "FLAT_EMBED_NEW_DISPLAY=true vitest --browser --run",
+    "test:vitest": "vitest --browser --run",
     "test:vitest-watch": "vitest --browser",
     "prepare": "husky",
     "generate:docs": "pnpm build && npx tsx scripts/update-version-in-docs.ts && npx tsx scripts/generate-api-docs.ts"
