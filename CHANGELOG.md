@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-03-19: v2.11.0
+
+- Added method `loadABC` for ABC notation loading
+
 ## 2026-03-03: v2.10.0
 
 - Added `editorInterface` parameter to `EmbedUrlParameters` type (`'desktop'` | `'mobile'`)
