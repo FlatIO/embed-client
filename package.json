@@ -23,15 +23,23 @@
     "flat.io",
     "flat",
     "api",
+    "sdk",
     "sheetmusic",
     "sheet music",
+    "sheet music editor",
     "music score",
     "musicscore",
+    "music notation",
+    "music player",
     "music",
     "score",
     "tabs",
     "tablature",
-    "embed"
+    "embed",
+    "musicxml",
+    "midi",
+    "abc",
+    "abc notation"
   ],
   "files": [
     "dist"
