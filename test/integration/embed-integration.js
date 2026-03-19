@@ -505,6 +505,34 @@ describe('Integration - Embed', () => {
     });
   });
 
+  describe('ABC import', () => {
+    it('should load an ABC file in a blank embed', async () => {
+      var container = document.createElement('div');
+      document.body.appendChild(container);
+
+      var embed = new Flat.Embed(container, {
+        baseUrl: BASE_URL,
+        isCustomUrl: BASE_URL.includes('blank'),
+        embedParams: {
+          appId: APP_ID,
+        },
+      });
+
+      const response = await fetch('/test/integration/fixtures/the-legacy-jig.abc');
+      const abc = await response.text();
+      await embed.loadABC(abc);
+      const json = await embed.getJSON();
+      assert.ok(json['score-partwise']);
+      assert.deepEqual(json['score-partwise'].credit, [
+        {
+          'credit-type': 'title',
+          'credit-words': 'The Legacy Jig',
+        },
+      ]);
+      container.parentNode.removeChild(container);
+    });
+  });
+
   describe('Cursor position #full', () => {
     it('should get the cursor position (default: 0)', async () => {
       const { embed } = createEmbedForScoreId(PUBLIC_SCORE);
