@@ -285,6 +285,31 @@ class Embed {
   }
 
   /**
+   * Load an ABC notation score
+   *
+   * Loads a score from [ABC notation](https://en.wikipedia.org/wiki/ABC_notation), a text-based music notation format.
+   * The ABC string is converted to Flat's native format and rendered as sheet music.
+   *
+   * @param score - The ABC notation as a string
+   * @returns A promise that resolves when the score is successfully loaded
+   * @throws {TypeError} If the ABC notation is invalid or cannot be parsed
+   * @throws {Error} If the score cannot be loaded
+   *
+   * @example
+   * // Load from ABC string
+   * await embed.loadABC('X:1\nT:Example\nM:4/4\nK:C\nCDEF|');
+   *
+   * @example
+   * // Load from fetched ABC file
+   * const response = await fetch('tune.abc');
+   * const abc = await response.text();
+   * await embed.loadABC(abc);
+   */
+  loadABC(score: string): Promise<void> {
+    return this.call('loadABC', score) as Promise<void>;
+  }
+
+  /**
    * Get the score in Flat JSON format
    *
    * Exports the currently loaded score as Flat's native JSON format. This format
