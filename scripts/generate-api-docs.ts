@@ -141,12 +141,17 @@ function extractJSDoc(node: ts.Node): {
         // Continue with current tag
         if (
           currentTag === 'description' &&
-          cleaned.trim() &&
           !cleaned.includes('{object}') &&
           !cleaned.includes('{array}')
         ) {
+          // Empty line = paragraph break
+          if (!cleaned.trim()) {
+            if (descLines.length > 0) {
+              descLines.push('\n');
+            }
+          }
           // Preserve list items that start with "- " by adding them on new lines
-          if (cleaned.trim().match(/^-\s+/)) {
+          else if (cleaned.trim().match(/^-\s+/)) {
             // This is a list item - format it nicely
             let listItem = cleaned.trim();
 
@@ -205,7 +210,13 @@ function extractJSDoc(node: ts.Node): {
       let currentPart = '';
 
       for (const line of descLines) {
-        if (line.startsWith('\n')) {
+        if (line === '\n') {
+          // Paragraph break
+          if (currentPart) {
+            parts.push(currentPart);
+            currentPart = '';
+          }
+        } else if (line.startsWith('\n')) {
           // This is a list item, add current part and start new
           if (currentPart) {
             parts.push(currentPart);
@@ -241,7 +252,7 @@ function extractJSDoc(node: ts.Node): {
         parts.push(currentPart);
       }
 
-      description = parts.join('\n').trim();
+      description = parts.join('\n\n').trim();
     }
 
     return {
