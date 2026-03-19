@@ -263,6 +263,7 @@ const METHOD_CATEGORIES: Record<string, string[]> = {
     'loadFlatScore',
     'loadMusicXML',
     'loadMIDI',
+    'loadABC',
     'loadJSON',
     'getMusicXML',
     'getJSON',
