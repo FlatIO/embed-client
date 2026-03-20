@@ -427,8 +427,7 @@ describe('Integration - Embed', () => {
     });
   });
 
-  // TODO: Enable when the embed supports the getMP3 action
-  describe.skip('MP3 export #full', () => {
+  describe('MP3 export #full', () => {
     it('should export in MP3', { timeout: 120000 }, async () => {
       const { embed } = createEmbedForScoreId(PUBLIC_SCORE);
 
@@ -439,8 +438,7 @@ describe('Integration - Embed', () => {
     });
   });
 
-  // TODO: Enable when the embed supports the getWAV action
-  describe.skip('WAV export #full', () => {
+  describe('WAV export #full', () => {
     it('should export in WAV', { timeout: 120000 }, async () => {
       const { embed } = createEmbedForScoreId(PUBLIC_SCORE);
 
@@ -451,9 +449,7 @@ describe('Integration - Embed', () => {
     });
   });
 
-  // TODO: Enable when the embed supports audio export (getMP3/getWAV).
-  // exportProgress events are only emitted during long-running audio exports.
-  describe.skip('Events - exportProgress #full', () => {
+  describe('Events - exportProgress #full', () => {
     it('should receive exportProgress events during MP3 export', { timeout: 120000 }, async () => {
       const { embed } = createEmbedForScoreId(PUBLIC_SCORE);
       let progressReceived = false;
