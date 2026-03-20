@@ -427,7 +427,7 @@ describe('Integration - Embed', () => {
     });
   });
 
-  describe('MP3 export #full', () => {
+  describe('MP3 export', () => {
     it('should export in MP3', { timeout: 120000 }, async () => {
       const { embed } = createEmbedForScoreId(PUBLIC_SCORE);
 
@@ -438,7 +438,7 @@ describe('Integration - Embed', () => {
     });
   });
 
-  describe('WAV export #full', () => {
+  describe('WAV export', () => {
     it('should export in WAV', { timeout: 120000 }, async () => {
       const { embed } = createEmbedForScoreId(PUBLIC_SCORE);
 
@@ -449,7 +449,7 @@ describe('Integration - Embed', () => {
     });
   });
 
-  describe('Events - exportProgress #full', () => {
+  describe('Events - exportProgress', () => {
     it('should receive exportProgress events during MP3 export', { timeout: 120000 }, async () => {
       const { embed } = createEmbedForScoreId(PUBLIC_SCORE);
       let progressReceived = false;
