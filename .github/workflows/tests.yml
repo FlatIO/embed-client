@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js 22.x
         uses: actions/setup-node@v4
         with:
           node-version: 22.x
@@ -20,5 +20,5 @@ jobs:
           version: 10.17.1
       - run: pnpm install -d --frozen-lockfile
       - run: pnpm exec playwright install --with-deps chromium
-      - run: pnpm build
-      - run: pnpm test
+      - run: pnpm -r build
+      - run: pnpm -r test

@@ -1,0 +1,61 @@
+{
+  "name": "@flat/embed-vue",
+  "version": "0.1.0",
+  "description": "Vue 3 component for Flat's interactive sheet music embed",
+  "license": "Apache-2.0",
+  "author": "Flat Team <developers@flat.io>",
+  "type": "module",
+  "main": "./dist/flat-embed-vue.mjs",
+  "module": "./dist/flat-embed-vue.mjs",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/flat-embed-vue.mjs"
+      }
+    }
+  },
+  "types": "./dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FlatIO/embed-client.git",
+    "directory": "packages/embed-vue"
+  },
+  "keywords": [
+    "flat.io",
+    "flat",
+    "vue",
+    "vue3",
+    "component",
+    "sheet music",
+    "music notation",
+    "embed",
+    "musicxml"
+  ],
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "test": "vitest --browser --run"
+  },
+  "dependencies": {
+    "flat-embed": "workspace:*"
+  },
+  "peerDependencies": {
+    "vue": "^3.3.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.0",
+    "@vitest/browser": "^4.0.18",
+    "@vitest/browser-playwright": "^4.0.18",
+    "@vue/test-utils": "^2.4.6",
+    "dotenv": "^17.2.0",
+    "playwright": "1.58.2",
+    "typescript": "^5.8.3",
+    "vite": "^7.1.11",
+    "vite-plugin-dts": "^4.5.4",
+    "vitest": "^4.0.18",
+    "vue": "^3.5.0"
+  }
+}

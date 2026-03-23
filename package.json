@@ -1,77 +1,34 @@
 {
-  "name": "flat-embed",
-  "version": "2.11.0",
-  "description": "Interact and get events from Flat's Sheet Music Embed",
+  "name": "flat-embed-monorepo",
+  "private": true,
+  "description": "Flat Embed SDK monorepo",
   "license": "Apache-2.0",
   "author": "Flat Team <developers@flat.io>",
-  "main": "./dist/flat-embed.mjs",
-  "jsnext:main": "./dist/flat-embed.mjs",
-  "exports": {
-    ".": {
-      "import": {
-        "types": "./dist/embed.d.ts",
-        "default": "./dist/flat-embed.mjs"
-      }
-    }
-  },
-  "types": "./dist/embed.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/FlatIO/embed-client.git"
   },
-  "keywords": [
-    "flat.io",
-    "flat",
-    "api",
-    "sdk",
-    "sheetmusic",
-    "sheet music",
-    "sheet music editor",
-    "music score",
-    "musicscore",
-    "music notation",
-    "music player",
-    "music",
-    "score",
-    "tabs",
-    "tablature",
-    "embed",
-    "musicxml",
-    "midi",
-    "abc",
-    "abc notation"
-  ],
-  "files": [
-    "dist"
-  ],
   "engines": {
     "node": ">=22.0.0"
   },
   "scripts": {
-    "clean": "rm build/*",
-    "build": "tsc && vite build",
-    "test": "pnpm build && pnpm run biome:check && pnpm run test:vitest",
+    "build": "pnpm -r build",
+    "test": "pnpm -r test",
     "biome:check": "biome check .",
     "biome:fix": "biome check --write .",
-    "test:vitest": "vitest --browser --run",
-    "test:vitest-watch": "vitest --browser",
-    "prepare": "husky",
-    "generate:docs": "pnpm build && npx tsx scripts/update-version-in-docs.ts && npx tsx scripts/generate-api-docs.ts"
+    "changeset": "changeset",
+    "version": "changeset version",
+    "release": "pnpm -r build && changeset publish",
+    "prepare": "husky"
   },
   "lint-staged": {
     "**/*": "biome check --write --no-errors-on-unmatched --files-ignore-unknown=true"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.6",
-    "@vitest/browser": "^4.0.18",
-    "@vitest/browser-playwright": "^4.0.18",
-    "dotenv": "^17.2.0",
+    "@changesets/cli": "^2.30.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.5",
-    "playwright": "1.58.2",
-    "typescript": "^5.8.3",
-    "vite": "^7.1.11",
-    "vite-plugin-dts": "^4.5.4",
-    "vitest": "^4.0.18"
+    "typescript": "^5.8.3"
   }
 }

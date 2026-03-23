@@ -9,6 +9,15 @@ JavaScript/TypeScript SDK to interact and receive events from our [Sheet Music E
 
 If you have any feedback or questions regarding this product, [please feel free to contact our developers' support](mailto:developers@flat.io).
 
+## Packages
+
+This monorepo contains the following packages:
+
+| Package | Description | npm |
+|---------|-------------|-----|
+| [`flat-embed`](./packages/embed-client) | Core JavaScript/TypeScript SDK | [![npm](https://img.shields.io/npm/v/flat-embed.svg)](https://www.npmjs.com/package/flat-embed) |
+| [`@flat/embed-vue`](./packages/embed-vue) | Vue 3 component wrapper | [![npm](https://img.shields.io/npm/v/@flat/embed-vue.svg)](https://www.npmjs.com/package/@flat/embed-vue) |
+
 ## Installation
 
 You can install our ES/TypeScript Embed Client using [npm](https://www.npmjs.com/package/flat-embed), pnpm, or [yarn](https://yarnpkg.com/en/package/flat-embed):

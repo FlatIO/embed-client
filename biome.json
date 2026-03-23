@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.4.6/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.4.8/schema.json",
   "vcs": {
     "enabled": true,
     "clientKind": "git",
@@ -7,8 +7,9 @@
   },
   "files": {
     "includes": [
-      "src/**",
-      "scripts/**/*.ts",
+      "packages/*/src/**",
+      "packages/*/scripts/**/*.ts",
+      "examples/*/src/**",
       "*.js",
       "*.ts",
       "*.json",
@@ -55,7 +56,12 @@
   },
   "overrides": [
     {
-      "includes": ["src/**/*.ts", "src/**/*.tsx", "scripts/**/*.ts"],
+      "includes": [
+        "packages/*/src/**/*.ts",
+        "packages/*/src/**/*.tsx",
+        "packages/*/scripts/**/*.ts",
+        "examples/*/src/**/*.ts"
+      ],
       "linter": {
         "rules": {
           "correctness": {

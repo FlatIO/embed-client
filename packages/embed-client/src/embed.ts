@@ -1887,3 +1887,4 @@ class Embed {
 }
 
 export default Embed;
+export * from './types';
