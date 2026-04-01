@@ -56,7 +56,7 @@
     "test:vitest": "vitest --browser --run",
     "test:vitest-watch": "vitest --browser",
     "prepare": "husky",
-    "generate:docs": "pnpm build && npx tsx scripts/update-version-in-docs.ts && npx tsx scripts/generate-api-docs.ts"
+    "generate:docs": "pnpm build && npx tsx scripts/update-version-in-docs.ts && npx tsx scripts/generate-api-docs.ts && npx tsx scripts/generate-changelog-docs.ts"
   },
   "lint-staged": {
     "**/*": "biome check --write --no-errors-on-unmatched --files-ignore-unknown=true"
