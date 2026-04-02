@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-04-02: v2.12.0
+
+- Added method `getSVG` for SVG export
+
 ## 2026-03-19: v2.11.0
 
 - Added method `loadABC` for ABC notation loading
