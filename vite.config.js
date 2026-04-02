@@ -16,5 +16,5 @@ export default defineConfig({
     },
     target: 'es2015',
   },
-  plugins: [dts()],
+  plugins: [dts({ compilerOptions: { rootDir: './src' } })],
 });

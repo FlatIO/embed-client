@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-04-02: v2.12.1
+
+- Fixed TypeScript declaration output path broken by TypeScript 6 upgrade
+
 ## 2026-04-02: v2.12.0
 
 - Added method `getSVG` for SVG export
