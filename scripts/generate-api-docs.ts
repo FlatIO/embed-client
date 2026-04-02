@@ -280,6 +280,7 @@ const METHOD_CATEGORIES: Record<string, string[]> = {
     'getJSON',
     'getPNG',
     'getPDF',
+    'getSVG',
     'getMIDI',
     'getMP3',
     'getWAV',
