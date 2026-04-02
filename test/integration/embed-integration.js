@@ -427,6 +427,26 @@ describe('Integration - Embed', () => {
     });
   });
 
+  describe('SVG export #full', () => {
+    it('should export in SVG (no options)', async () => {
+      const { embed } = createEmbedForScoreId(PUBLIC_SCORE);
+
+      const svg = await embed.getSVG();
+      assert.equal(typeof svg, 'string');
+      assert.ok(svg.startsWith('<svg'), 'SVG should start with <svg');
+      assert.ok(svg.includes('</svg>'), 'SVG should contain closing </svg> tag');
+    });
+
+    it('should export in SVG (page layout)', async () => {
+      const { embed } = createEmbedForScoreId(PUBLIC_SCORE);
+
+      const svg = await embed.getSVG({ layout: 'page' });
+      assert.equal(typeof svg, 'string');
+      assert.ok(svg.startsWith('<svg'), 'SVG should start with <svg');
+      assert.ok(svg.includes('</svg>'), 'SVG should contain closing </svg> tag');
+    });
+  });
+
   describe('MP3 export', () => {
     it('should export in MP3', { timeout: 120000 }, async () => {
       const { embed } = createEmbedForScoreId(PUBLIC_SCORE);

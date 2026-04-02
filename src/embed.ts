@@ -578,6 +578,48 @@ class Embed {
   }
 
   /**
+   * Convert the displayed score to SVG
+   *
+   * Exports the currently loaded score as Scalable Vector Graphics (SVG).
+   * SVG is a vector format that can be scaled to any size without loss of quality,
+   * making it ideal for web display, printing, and embedding in documents.
+   *
+   * @param options - Export options:
+   *   - `layout`: Layout mode for the export. `'track'` renders all parts in a single system,
+   *     `'page'` renders the score with page breaks (default: `'track'`)
+   * @returns A promise that resolves with a string containing the SVG markup
+   * @throws {TypeError} If options parameter is not an object
+   * @throws {Error} If no score is loaded or conversion fails
+   *
+   * @example
+   * // Export score as SVG string
+   * const svgString = await embed.getSVG();
+   * document.getElementById('preview').innerHTML = svgString;
+   *
+   * @example
+   * // Export with page layout
+   * const svgString = await embed.getSVG({ layout: 'page' });
+   * const blob = new Blob([svgString], { type: 'image/svg+xml' });
+   * const url = URL.createObjectURL(blob);
+   */
+  getSVG(options?: {
+    /** Layout of exported SVG (default: 'track') */
+    layout?: 'track' | 'page';
+  }): Promise<string> {
+    return new Promise((resolve, reject) => {
+      options = options || {};
+      if (typeof options !== 'object') {
+        return reject(new TypeError('Options must be an object'));
+      }
+      this.call('getSVG', options)
+        .then(data => {
+          resolve(data as string);
+        })
+        .catch(reject);
+    });
+  }
+
+  /**
    * Get the metadata of the score (for scores hosted on Flat)
    *
    * Retrieves metadata for scores that are hosted on Flat, including title, composer,
