@@ -901,6 +901,16 @@ ${methods.map(method => generateMethodMarkdown(method)).join('\n')}
 `;
 }
 
+// Build a safe single-line Markdown table cell from a method description.
+// Descriptions are multi-paragraph (summary line, blank line, detailed prose),
+// so we keep only the first line and escape pipes — a literal newline or an
+// unescaped `|` inside a table cell breaks the table layout.
+function toTableCellDescription(description?: string): string {
+  if (!description) return '-';
+  const summary = description.split('\n')[0].trim();
+  return summary.replace(/\|/g, '\\|') || '-';
+}
+
 function generateIndexPage(allMethods: MethodInfo[]): string {
   const methodsByCategory = new Map<string, MethodInfo[]>();
 
@@ -916,7 +926,7 @@ function generateIndexPage(allMethods: MethodInfo[]): string {
   const methodsTable = allMethods
     .sort((a, b) => a.name.localeCompare(b.name))
     .map(m => {
-      const desc = m.description?.split('.')[0] || '-';
+      const desc = toTableCellDescription(m.description);
       return `| [\`${m.name}()\`](./${m.category}.md#${m.name.toLowerCase()}) | ${desc} |`;
     })
     .join('\n');
@@ -943,7 +953,7 @@ ${Array.from(methodsByCategory.entries())
     const info = CATEGORY_INFO[category] || { title: category, description: 'Methods' };
     const categoryMethodsTable = methods
       .map(m => {
-        const desc = m.description?.split('.')[0] || '';
+        const desc = toTableCellDescription(m.description);
         return `| [\`${m.name}()\`](./${category}.md#${m.name.toLowerCase()}) | ${desc} |`;
       })
       .join('\n');
