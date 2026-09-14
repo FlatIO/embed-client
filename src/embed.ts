@@ -287,7 +287,7 @@ class Embed {
   /**
    * Load an ABC notation score
    *
-   * Loads a score from [ABC notation](https://en.wikipedia.org/wiki/ABC_notation), a text-based music notation format.
+   * Loads a score from ABC notation, a text-based music notation format.
    * The ABC string is converted to Flat's native format and rendered as sheet music.
    *
    * @param score - The ABC notation as a string
@@ -636,7 +636,7 @@ class Embed {
    * console.log(`Title: ${metadata.title}`);
    * console.log(`Created by: ${metadata.user.username}`);
    *
-   * @see {@link https://flat.io/developers/api/reference/#operation/getScore}
+   * @see Flat API reference, `getScore` operation (flat.io/developers/api/reference)
    */
   getFlatScoreMetadata(): Promise<ScoreDetails> {
     return this.call('getFlatScoreMetadata') as Promise<ScoreDetails>;
@@ -1128,7 +1128,7 @@ class Embed {
    * await embed.setTrack({
    *   id: 'backing-track-1',
    *   type: 'audio',
-   *   url: 'https://example.com/backing-track.mp3',
+   *   url: backingTrackUrl, // absolute URL of your audio file
    *   synchronizationPoints: [
    *     { type: 'measure', measure: 0, time: 0 },
    *     { type: 'measure', measure: 16, time: 32.5 }

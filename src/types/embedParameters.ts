@@ -32,7 +32,7 @@ export type FlatLocales =
 /**
  * Optional configuration and customization options
  *
- * See https://flat.io/developers/docs/embed/url-parameters for more details
+ * See flat.io/developers/docs/embed/url-parameters for more details
  */
 export interface EmbedUrlParameters {
   /** Your application identifier (aka API key) */
@@ -44,7 +44,7 @@ export interface EmbedUrlParameters {
    * 2 modes are available:
    * - `view`: Viewer mode (default)
    * - `edit`: Editor mode, allows the user to edit the score with an emphemeral embedded editor.
-   *   Learn more: https://flat.io/developers/docs/embed/javascript-editor
+   *   Learn more: flat.io/developers/docs/embed/javascript-editor
    **/
   mode?: 'view' | 'edit';
 
@@ -58,7 +58,7 @@ export interface EmbedUrlParameters {
    *
    * If not provided, Flat Embed will use the visitor IP address to identify unique users.
    *
-   * Learn more at https://flat.io/developers/docs/embed/usage-billing
+   * Learn more at flat.io/developers/docs/embed/usage-billing
    **/
   userId?: string;
 
@@ -110,7 +110,7 @@ export interface EmbedUrlParameters {
   /**
    * Apply a saved layout template from your account
    *
-   * Learn more about engraving layout: https://flat.io/developers/docs/embed/url-parameters#saved-engraving-layout-layoutid
+   * Learn more about engraving layout: flat.io/developers/docs/embed/url-parameters#saved-engraving-layout-layoutid
    **/
   layoutId?: string;
 
@@ -198,7 +198,7 @@ export interface EmbedUrlParameters {
   /**
    * Editor Toolset (default = none)
    *
-   * Learn more about toolsets: https://flat.io/developers/docs/embed/url-parameters#editor-toolset
+   * Learn more about toolsets: flat.io/developers/docs/embed/url-parameters#editor-toolset
    **/
   toolsetId?: string;
 
@@ -230,7 +230,7 @@ export interface EmbedParameters {
 
   /**
    * Optional configuration and customization options
-   * See https://flat.io/developers/docs/embed/url-parameters for more details
+   * See flat.io/developers/docs/embed/url-parameters for more details
    */
   embedParams?: EmbedUrlParameters;
 }
