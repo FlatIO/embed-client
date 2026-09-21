@@ -1,5 +1,12 @@
 # Changelog
 
+<!--
+  Source of the Embed SDK release notes. The public page is
+  https://flat.io/developers/changelog/?platform=embed (rendered from the changelog store):
+  each version below is also an entry there (`platforms: [embed]`,
+  `links.releases: [{embed, <version>}]`), created by the public-changelog skill after a release.
+-->
+
 ## 2026-04-02: v2.12.1
 
 - Fixed TypeScript declaration output path broken by TypeScript 6 upgrade
