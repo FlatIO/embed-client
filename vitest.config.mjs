@@ -18,7 +18,7 @@ export default defineConfig({
   test: {
     setupFiles: ['test/setup.js'],
     include: ['test/unit/*.js', 'test/integration/*.js'],
-    exclude: ['test/manual/**', 'test/integration/fixtures/**', 'test/integration/lib/**'],
+    exclude: ['test/manual/**', 'test/integration/fixtures/**'],
     globals: true,
     testTimeout: 30000,
     hookTimeout: 30000,

@@ -1,4 +1,4 @@
-import { defineConfig, transformWithEsbuild } from 'vite';
+import { defineConfig, minify } from 'vite';
 import dts from 'vite-plugin-dts';
 
 /**
@@ -11,9 +11,10 @@ function stripComments() {
     name: 'strip-comments',
     async renderChunk(code, _chunk, options) {
       if (options.format !== 'es') return null;
-      const result = await transformWithEsbuild(code, 'flat-embed.mjs', {
-        minifyWhitespace: true,
-        legalComments: 'none',
+      const result = await minify('flat-embed.mjs', code, {
+        compress: false,
+        mangle: false,
+        codegen: { removeWhitespace: true },
         sourcemap: true,
       });
       return { code: result.code, map: result.map };
@@ -30,14 +31,13 @@ export default defineConfig({
       name: 'Flat.Embed',
     },
     sourcemap: true,
-    minify: 'esbuild',
-    rollupOptions: {
+    rolldownOptions: {
       external: [/^node:.*/],
       output: {
         sourcemapExcludeSources: true,
       },
     },
-    target: 'es2015',
+    target: 'es2022',
   },
   plugins: [dts({ compilerOptions: { rootDir: './src' } }), stripComments()],
 });

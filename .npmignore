@@ -14,12 +14,9 @@ src/
 test/
 
 # Build tools config
-vite.config.js
+vite.config.mjs
+vitest.config.mjs
 tsconfig.json
-karma.conf.js
-.eslintrc.js
-.prettierrc
 .gitignore
 .editorconfig
-rollup.config.js
 context7.json

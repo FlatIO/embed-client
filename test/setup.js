@@ -10,5 +10,4 @@ const loadScript = src =>
 
 window.__TEST_ENV__ = __TEST_ENV__;
 
-await loadScript('/test/integration/lib/assert.js');
 await loadScript('/dist/flat-embed.umd.js');
