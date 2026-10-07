@@ -45,7 +45,7 @@
     "dist"
   ],
   "engines": {
-    "node": ">=22.0.0"
+    "node": ">=24.0.0"
   },
   "scripts": {
     "clean": "rm build/*",
@@ -62,16 +62,17 @@
     "**/*": "biome check --write --no-errors-on-unmatched --files-ignore-unknown=true"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.4.6",
-    "@vitest/browser": "^4.0.18",
-    "@vitest/browser-playwright": "^4.0.18",
-    "dotenv": "^17.2.0",
+    "@biomejs/biome": "^2.5.15",
+    "@typescript/typescript6": "^6.0.2",
+    "@vitest/browser": "^5.0.3",
+    "@vitest/browser-playwright": "^5.0.3",
+    "dotenv": "^18.0.5",
     "husky": "^9.1.7",
-    "lint-staged": "^16.2.5",
-    "playwright": "1.61.1",
-    "typescript": "^6.0.2",
-    "vite": "^7.1.11",
-    "vite-plugin-dts": "^4.5.4",
-    "vitest": "^4.0.18"
+    "lint-staged": "^17.6.0",
+    "playwright": "1.63.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.3",
+    "vite-plugin-dts": "^5.1.2",
+    "vitest": "^5.0.3"
   }
 }

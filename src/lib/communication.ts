@@ -9,7 +9,7 @@ import type { EmbedMessageReceived } from '../types';
  * @param parameters The parameters to pass to the method
  */
 export function postMessage(embed: Embed, method: string, parameters?: unknown): void {
-  if (!embed.element.contentWindow || !embed.element.contentWindow.postMessage) {
+  if (!embed.element.contentWindow?.postMessage) {
     throw new Error('No `contentWindow` or `contentWindow.postMessage` available on the element');
   }
 
