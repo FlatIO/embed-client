@@ -971,7 +971,7 @@ describe('Integration - Embed', () => {
         lyrics: [],
         nbDots: 0,
         nbGraces: 0,
-        ornaments: [],
+        ornaments: {},
         technical: [],
         tupletType: null,
         wedgeType: null,
